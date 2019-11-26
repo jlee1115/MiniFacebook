@@ -1,11 +1,13 @@
 import React from "react";
-import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./views/Login";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">HELLo</header>
-    </div>
+    <BrowserRouter>
+      <Route path="/" component={Login} />
+    </BrowserRouter>
   );
 }
 
