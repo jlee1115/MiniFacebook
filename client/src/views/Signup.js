@@ -1,14 +1,20 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: ""
+      fname: "",
+      lname: "",
+      affiliation: "",
+      email: "",
+      birthday: null
     };
   }
   handleSubmit(e) {
+    let baseurl = "http://localhost:8000";
     e.preventDefault();
   }
   render() {
@@ -45,7 +51,13 @@ export default class Signup extends Component {
             placeholder="Email"
           />
           <p>Birthday</p>
-          <input class="form-control" type="date" name="" id="" placeholder="Birthday" />
+          <input
+            class="form-control"
+            type="date"
+            name="birthday"
+            id=""
+            placeholder="Birthday"
+          />
           <br />
           <button class="btn btn-primary" type="submit" value="Signup">
             Signup

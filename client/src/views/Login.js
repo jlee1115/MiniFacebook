@@ -22,6 +22,10 @@ export default class Login extends Component {
   handleSubmit(e) {
     let baseurl = "http://localhost:8000";
     e.preventDefault();
+    if (this.state.ID === "" || this.state.password === "") {
+      alert("Need a userID and password");
+      return;
+    }
     const user = {
       userID: this.state.userID,
       password: this.state.password
