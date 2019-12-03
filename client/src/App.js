@@ -1,17 +1,17 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
-import Header from "./components/Header";
+import Home from "./views/Home";
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Switch>
-        <Route path="/" exact component={Login} />
+        {/* <Route path="/" exact component={Login} />
         <Route path="/signup" exact component={Signup} />
+        <Route path="/signup-details" exact component={Signup2} /> */}
+        <Route path="/" exact component={Home} />
       </Switch>
     </BrowserRouter>
   );
