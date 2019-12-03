@@ -50,6 +50,8 @@ const signup = function(req, res) {
           //handle error putting shit in
         } else {
           //successfully put shit in
+          req.session.userEmail = user.email;
+          req.session.fname = fname;
         }
       });
     }

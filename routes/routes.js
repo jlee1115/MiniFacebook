@@ -8,9 +8,14 @@ router.post("/login", function(req, res) {
   res.send("yay from routes");
 });
 router.post("/signup", userdb.signup);
-// router.post("/signup", function (req, res) {
-//   userdb.signup()
-//   console.log("in post signup");
-// });
+
+//gets the user if any is logged in
+router.get("/session", function(req, res) {
+  if (req.session.userEmail) {
+    res.send({ name: req.session.fname });
+  } else {
+    res.send(null);
+  }
+});
 
 module.exports = router;
