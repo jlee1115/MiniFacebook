@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import s from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Redirect } from "react-router";
 
 const InputField = s.input`
   margin-top: 10px
@@ -13,7 +14,9 @@ export default class Login extends Component {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      errMessage: null,
+      redirect: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -32,13 +35,24 @@ export default class Login extends Component {
     };
     axios.post(`${baseurl}/login`, { user: user }).then(resp => {
       //awesome!! this sends back data
-      console.log("post in login" + resp.data);
+      console.log(resp.data);
+      if (resp.data.error) {
+        //some error occurred
+        alert(resp.data.error);
+        return;
+      } else {
+        console.log("YAY!");
+        this.setState({ redirect: true });
+      }
     });
   }
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/profile" />;
+    }
     return (
       <div>
         {/* <h6>Login </h6> */}

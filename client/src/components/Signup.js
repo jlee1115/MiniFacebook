@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Signup2 from "../components/Signup2";
 
@@ -15,7 +14,8 @@ export default class Signup extends Component {
       birthday: null,
       password: null,
       changePage: false,
-      errMessage: null
+      errMessage: null,
+      interests: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,12 +32,12 @@ export default class Signup extends Component {
       !this.state.affiliation ||
       !this.state.email ||
       !this.state.password ||
-      !this.state.birthday
+      !this.state.birthday ||
+      !this.state.password
     ) {
       this.setState({ errMessage: "All fields must be filled" });
       return;
     }
-    this.setState({ changePage: true });
 
     const user = {
       fname: this.state.fname,
@@ -45,15 +45,21 @@ export default class Signup extends Component {
       affiliation: this.state.affiliation,
       email: this.state.email,
       birthday: this.state.birthday,
-      interests: []
+      interests: this.state.interests.split(",").map(i => i.trim()),
+      password: this.state.password
     };
     axios.post(`${baseurl}/signup`, { user: user }).then(resp => {
+      console.log("R", resp.data);
+      if (resp.data.error) {
+        this.setState({ errMessage: resp.data.error });
+      } else {
+        this.setState({ changePage: true });
+      }
       //awesome!! this sends back data
       console.log("post in signup" + resp.data);
     });
   }
   render() {
-    // console.log("HELLO");
     if (this.state.changePage) {
       return <Signup2 />;
     }
@@ -98,6 +104,13 @@ export default class Signup extends Component {
             type="password"
             name="password"
             placeholder="password"
+            onChange={this.handleChange}
+          />
+          <input
+            className="form-control"
+            type="text"
+            name="interests"
+            placeholder="Interests, separated by commas"
             onChange={this.handleChange}
           />
           <p>Birthday</p>

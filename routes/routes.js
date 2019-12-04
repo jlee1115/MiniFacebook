@@ -3,19 +3,18 @@ const express = require("express");
 const userdb = require("../models/user");
 const router = express.Router();
 
-router.post("/login", function(req, res) {
-  console.log("in post");
-  res.send("yay from routes");
-});
+router.post("/login", userdb.checkLogin);
 router.post("/signup", userdb.signup);
 
 //gets the user if any is logged in
 router.get("/session", function(req, res) {
   if (req.session.userEmail) {
-    res.send({ name: req.session.fname });
+    res.send({ name: req.session.fname, email: req.session.userEmail });
   } else {
-    res.send(null);
+    res.send({ name: null });
   }
 });
-
+router.post("/logout", function(req, res) {
+  req.session = null;
+});
 module.exports = router;
