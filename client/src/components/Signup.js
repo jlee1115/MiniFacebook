@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Signup2 from "../components/Signup2";
+import { Redirect } from "react-router";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -61,14 +61,14 @@ export default class Signup extends Component {
   }
   render() {
     if (this.state.changePage) {
-      return <Signup2 />;
+      return <Redirect to="profile" />;
     }
     return (
       <div className="container">
         <h3>Signup</h3>
         <form onSubmit={this.handleSubmit}>
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             name="fname"
             id=""
@@ -76,7 +76,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
           />
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             name="lname"
             id=""
@@ -84,7 +84,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
           />
           <input
-            class="form-control"
+            className="form-control"
             type="text"
             name="affiliation"
             id=""
@@ -92,7 +92,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
           />
           <input
-            class="form-control"
+            className="form-control"
             type="email"
             name="email"
             id=""
@@ -100,7 +100,7 @@ export default class Signup extends Component {
             onChange={this.handleChange}
           />
           <input
-            class="form-control"
+            className="form-control"
             type="password"
             name="password"
             placeholder="password"
@@ -115,7 +115,7 @@ export default class Signup extends Component {
           />
           <p>Birthday</p>
           <input
-            class="form-control"
+            className="form-control"
             type="date"
             name="birthday"
             id=""
@@ -124,7 +124,7 @@ export default class Signup extends Component {
           />
 
           <br />
-          <button class="btn btn-primary" type="submit" value="Signup">
+          <button className="btn btn-primary" type="submit" value="Signup">
             Signup
           </button>
         </form>

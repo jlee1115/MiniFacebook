@@ -1,20 +1,14 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
-import s from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
-
-const InputField = s.input`
-  margin-top: 10px
-`;
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: null,
+      password: null,
       errMessage: null,
       redirect: false
     };
@@ -41,7 +35,7 @@ export default class Login extends Component {
         alert(resp.data.error);
         return;
       } else {
-        console.log("YAY!");
+        // console.log("YAY!");
         this.setState({ redirect: true });
       }
     });
@@ -51,7 +45,10 @@ export default class Login extends Component {
   }
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/profile" />;
+      return (
+        // <Redirect to="/profile"/>
+        <Redirect to={{ pathname: "/profile", state: { email: this.state.email } }} />
+      );
     }
     return (
       <div>

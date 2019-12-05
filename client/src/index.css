@@ -13,3 +13,7 @@ header {
   height: 100px;
   background-color: aqua;
 }
+.postBox {
+  width: 75%;
+  height: 80px;
+}

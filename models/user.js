@@ -4,10 +4,36 @@ const SHA3 = require("crypto-js/sha3");
 const session = require("express-session");
 users.init(function(err, data) {});
 
+const get_session = function(req, res) {
+  console.log("in get");
+  console.log(req.session);
+  // let userID = req.session.userEmail;
+  let userID = "jlee@upenn";
+  if (userID) {
+    // res.setHeader("Content-Type", "text/plain");
+    // res.setHeader("Content-Length", body.length);
+    users.get(userID, function(err, data) {
+      if (err) {
+        return res.send({ error: err.message });
+      } else if (!data) {
+        return res.send({ error: "Something went wrong" });
+      } else {
+        console.log("GET SESSION GET");
+        let dataObj = JSON.parse(data[0].value);
+        //this comes out fine
+        // console.log("GET SESSION", dataObj);
+        return res.send({ user: dataObj });
+      }
+    });
+    // res.send({ email: req.session.userEmail });
+  } else {
+    console.log("NOOOOOOOO");
+    return res.send({ email: null });
+  }
+};
 const check_login = function(req, res) {
   let email = req.body.user.email;
   let password = req.body.user.password;
-  console.log("PW", password);
   users.get(email, function(err, data) {
     //user not found: err exists
     if (err) {
@@ -25,8 +51,12 @@ const check_login = function(req, res) {
       if (hashed !== dataPW) {
         return res.send({ error: "Wrong Password" });
       }
-      req.session.userEmail = email;
-      req.session.fname = "placeholder lol";
+      req.session.cookie.userEmail = email;
+      req.session.cookie.fname = "placeholder lol";
+      //   req.session.userEmail = email;
+      //   req.session.fname = "placeholder lol";
+      console.log("user");
+      console.log(req.session);
       //sends no error
       return res.send({ error: null });
     }
@@ -63,11 +93,11 @@ const signup = function(req, res) {
         if (err2) {
           //handle error putting shit in
           return res.send({ error: err2 });
-          console.log(err2);
         } else {
           //successfully put shit in, update the session
           req.session.userEmail = user.email;
           req.session.fname = fname;
+          req.session.save();
           return res.send({ error: null });
         }
       });
@@ -75,8 +105,13 @@ const signup = function(req, res) {
   });
   //create the new user here.
 };
+
+const store_session = function(req, res) {
+  //stores the session
+};
 const userdb = {
   checkLogin: check_login,
-  signup: signup
+  signup: signup,
+  getSession: get_session
 };
 module.exports = userdb;
