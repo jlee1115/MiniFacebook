@@ -1,6 +1,6 @@
 const keyvaluestore = require("./keyvaluestore");
 const posts = new keyvaluestore("posts");
-users.init(function(err, data) {});
+posts.init(function(err, data) {});
 
 const addPost = function(req, res) {
   let post = req.body.post;
