@@ -21,10 +21,18 @@ export default class Login extends Component {
   handleSubmit(e) {
     let baseurl = "http://localhost:8000";
     e.preventDefault();
-    if (this.state.userID === "" || this.state.password === "") {
+    if (
+      !this.state.email ||
+      this.state.email === "" ||
+      !this.state.password ||
+      this.state.password === ""
+    ) {
       alert("Need a userID and password");
       return;
     }
+    this.setState({
+      userID: this.state.email.replace("@", "")
+    });
     const user = {
       userID: this.state.email.replace("@", ""),
       password: this.state.password
@@ -49,7 +57,12 @@ export default class Login extends Component {
     if (this.state.redirect) {
       return (
         // <Redirect to="/profile"/>
-        <Redirect to={{ pathname: "/profile", state: { userID: this.state.userID } }} />
+        <Redirect
+          to={{
+            pathname: `/profile/${this.state.userID}`,
+            state: { userID: this.state.userID }
+          }}
+        />
       );
     }
     return (

@@ -22,21 +22,33 @@ export default class CreatePost extends Component {
     this.setState({ date: new Date() });
     let post = {
       date: new Date(),
-      content: this.state.content
+      content: this.state.content,
+      toUser: this.props.userTo.email.replace("@", ""),
+      fromUser: this.props.userFrom.email.replace("@", "")
     };
-    axios.post(`${baseurl}/login`, { post: post }).then(resp => {
+    console.log("POST!", post);
+    //makes the post
+    axios.post(`${baseurl}/addPost`, { post: post }).then(resp => {
       //response
+      if (resp.data.error) {
+        //something went wrong
+      } else {
+        this.setState({ content: "" });
+      }
+      console.log(resp);
     });
   }
   render() {
     return (
       <div style={createPost}>
         What's on your mind? Create a post
-        <form action="/makePost" method="post">
+        <form onSubmit={this.submitPost}>
           <textarea
+            ref="postBox"
             className="postBox"
             placeholder="I'm hungry..."
             onChange={this.handleChange}
+            value={this.state.content}
           />
           <div>
             <button class="btn btn-secondary btn-sm" type="submit" value="Login">

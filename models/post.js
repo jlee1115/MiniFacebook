@@ -4,30 +4,65 @@ posts.init(function(err, data) {});
 
 const addPost = function(req, res) {
   let post = req.body.post;
-  let toUser = post.to;
+  let date = post.date;
+  let fromUser = post.fromUser;
+  let toUser = post.toUser;
+  let content = post.content;
+  let newPost = JSON.stringify({
+    content,
+    date,
+    fromUser,
+    toUser
+  });
   //do something
+  posts.put(toUser, newPost, function(err, data) {
+    if (err) {
+      //respond to error
+      return res.send({ error: err.message });
+    } else {
+      return res.send({ error: null });
+    }
+  });
 };
 const getPosts = function(req, res) {
   posts.scanKeys(function(err, data) {
     if (err) {
-      res.send({ err: err.message });
+      return res.send({ err: err.message });
     } else {
       let items = [];
-      for (const itemList of data) {
-        for (let i = 0; i < itemList.length; i++) {
-          let item = itemList[i];
-          let val = JSON.parse(item.value);
-          let key = item.key;
-          //   let obj = Object.assign({})
-        }
+      for (const item of data) {
+        console.log(item);
+        let val = JSON.parse(item.value);
+        items.push(val);
       }
+      return res.send({ err: null, items: items });
+    }
+  });
+};
+const getUserPosts = function(req, res) {
+  let user = req.query.user;
+  posts.get(user, function(err, data) {
+    //do something.
+    if (err) {
+      return res.send({ err: err.message });
+    } else if (!data) {
+      return res.send({ posts: [] });
+    } else {
+      console.log("DATA", data.length);
+      let dataResult = [];
+      for (let i = 0; i < data.length; i++) {
+        dataResult.push(JSON.parse(data[i].value));
+      }
+      //   dataObjs = data.map(item => JSON.parse(item));
+      dataResult.reverse();
+      return res.send({ posts: dataResult });
     }
   });
 };
 
 const postdb = {
-  //stuff here
   addPost: addPost,
-  getPosts: getPosts
+  getPosts: getPosts,
+  getUserPosts: getUserPosts
 };
 module.exports = postdb;

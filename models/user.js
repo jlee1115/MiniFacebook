@@ -9,6 +9,7 @@ const get_session = function(req, res) {
   console.log(req.session.id);
   console.log(req.session);
   let userID = req.session.userID;
+
   //   let userID = "jleeupenn";
   if (userID) {
     users.get(userID, function(err, data) {
@@ -27,8 +28,21 @@ const get_session = function(req, res) {
     // res.send({ email: req.session.userEmail });
   } else {
     console.log("NOOOOOOOO");
-    return res.send({ email: null });
+    return res.send({ user: null });
   }
+};
+const get_user_page = function(req, res) {
+  let userID = req.params.userID;
+  users.get(userID, function(err, data) {
+    if (err) {
+      return res.send({ error: err.message });
+    } else if (!data) {
+      return res.send({ error: "User profile cannot be displayed" });
+    } else {
+      let dataObj = JSON.parse(data[0].value);
+      return res.send({ user: dataObj });
+    }
+  });
 };
 const check_login = function(req, res) {
   let userID = req.body.user.userID;
@@ -77,7 +91,7 @@ const signup = function(req, res) {
   let userID = email.replace("@", "");
   console.log("email", String(user.email));
 
-  users.exists(user.email, function(err, data) {
+  users.exists(userID, function(err, data) {
     //already exists a user with that email
     if (data === true) {
       //err message
@@ -114,6 +128,7 @@ const store_session = function(req, res) {
 const userdb = {
   checkLogin: check_login,
   signup: signup,
-  getSession: get_session
+  getSession: get_session,
+  getUserPage: get_user_page
 };
 module.exports = userdb;

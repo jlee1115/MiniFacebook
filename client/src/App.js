@@ -18,7 +18,8 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile" exact component={ProfilePage} />
+        <Route path="/profile/:userID" exact component={ProfilePage} />
         {/* <Route
           path="/profile"
           exact
