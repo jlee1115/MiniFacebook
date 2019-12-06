@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
+axios.defaults.withCredentials = true;
 
 export default class Signup extends Component {
   constructor(props) {

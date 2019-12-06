@@ -4,12 +4,16 @@ import Login from "./Login";
 import LogoutButton from "./LogoutButton";
 
 export default class Header extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    console.log("PROPS", this.props);
     return (
       <nav style={header}>
         <div> Welcome {this.props.name ? this.props.name : ""}!</div>
         <div style={headerText}>SadBook</div>
-        {this.props.name ? <LogoutButton /> : <Login style={login} />}
+        {this.props.user ? <LogoutButton /> : <Login style={login} />}
       </nav>
     );
   }

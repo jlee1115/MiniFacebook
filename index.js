@@ -6,12 +6,20 @@ const app = express();
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const userdb = require("./models/user");
 
 app.use(logger("dev"));
 // app.use(bodyParser.json());
 app.use(bodyParser());
 // app.use(express.logger("default"));
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials: true // enable set cookie
+  })
+);
 // app.use((req, res, next) => {
 //   res.set({
 //     "Access-Control-Allow-Origin": "*",

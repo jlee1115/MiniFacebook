@@ -2,15 +2,17 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
+axios.defaults.withCredentials = true;
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: null,
+      userID: null,
       password: null,
       errMessage: null,
-      redirect: false
+      redirect: false,
+      email: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -19,12 +21,12 @@ export default class Login extends Component {
   handleSubmit(e) {
     let baseurl = "http://localhost:8000";
     e.preventDefault();
-    if (this.state.ID === "" || this.state.password === "") {
-      alert("Need a email and password");
+    if (this.state.userID === "" || this.state.password === "") {
+      alert("Need a userID and password");
       return;
     }
     const user = {
-      email: this.state.email,
+      userID: this.state.email.replace("@", ""),
       password: this.state.password
     };
     axios.post(`${baseurl}/login`, { user: user }).then(resp => {
@@ -47,7 +49,7 @@ export default class Login extends Component {
     if (this.state.redirect) {
       return (
         // <Redirect to="/profile"/>
-        <Redirect to={{ pathname: "/profile", state: { email: this.state.email } }} />
+        <Redirect to={{ pathname: "/profile", state: { userID: this.state.userID } }} />
       );
     }
     return (
@@ -59,7 +61,7 @@ export default class Login extends Component {
             type="text"
             name="email"
             id="email"
-            placeholder="email"
+            placeholder="Email"
             onChange={this.handleChange}
           />
           <input

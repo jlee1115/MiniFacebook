@@ -17,3 +17,8 @@ header {
   width: 75%;
   height: 80px;
 }
+.logoutBtn:hover {
+  color: gray;
+  background-color: #bfd5d5;
+  cursor: pointer;
+}

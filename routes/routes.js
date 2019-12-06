@@ -6,9 +6,9 @@ const router = express.Router();
 router.post("/login", userdb.checkLogin);
 router.post("/signup", userdb.signup);
 router.get("/session", userdb.getSession);
-
 //gets the user if any is logged in
 // router.get("/session", function(req, res) {
+//   console.log("SESSION");
 //   console.log(req.session);
 //   if (req.session.userEmail) {
 //     res.send({ name: req.session.fname, email: req.session.userEmail });
@@ -17,6 +17,10 @@ router.get("/session", userdb.getSession);
 //   }
 // });
 router.post("/logout", function(req, res) {
-  req.session = null;
+  req.session.userID = null;
+  res.send({ error: false });
 });
+const routes = {
+  //insert roots
+};
 module.exports = router;

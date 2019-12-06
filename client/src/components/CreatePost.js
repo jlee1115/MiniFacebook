@@ -36,7 +36,7 @@ export default class CreatePost extends Component {
           <textarea
             className="postBox"
             placeholder="I'm hungry..."
-            onchange={this.handleChange}
+            onChange={this.handleChange}
           />
           <div>
             <button class="btn btn-secondary btn-sm" type="submit" value="Login">

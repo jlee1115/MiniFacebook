@@ -6,12 +6,11 @@ users.init(function(err, data) {});
 
 const get_session = function(req, res) {
   console.log("in get");
+  console.log(req.session.id);
   console.log(req.session);
-  // let userID = req.session.userEmail;
-  let userID = "jleeupenn";
+  let userID = req.session.userID;
+  //   let userID = "jleeupenn";
   if (userID) {
-    // res.setHeader("Content-Type", "text/plain");
-    // res.setHeader("Content-Length", body.length);
     users.get(userID, function(err, data) {
       if (err) {
         return res.send({ error: err.message });
@@ -32,9 +31,9 @@ const get_session = function(req, res) {
   }
 };
 const check_login = function(req, res) {
-  let email = req.body.user.email;
+  let userID = req.body.user.userID;
   let password = req.body.user.password;
-  users.get(email, function(err, data) {
+  users.get(userID, function(err, data) {
     //user not found: err exists
     if (err) {
       console.log(err);
@@ -46,19 +45,20 @@ const check_login = function(req, res) {
       let dataPW = JSON.parse(dataObj).password;
 
       let hashed = SHA3(password).toString();
-      console.log("datapw", dataPW);
-      console.log("hashed", hashed);
       if (hashed !== dataPW) {
-        return res.send({ error: "Wrong Password" });
+        res.send({ error: "Wrong Password" });
+        return;
       }
-      req.session.userEmail = email;
+      console.log("ID", req.session.id);
+      req.session.userID = userID;
       //   req.session.fname = "placeholder lol";
       //   req.session.userEmail = email;
       //   req.session.fname = "placeholder lol";
       console.log("user");
       console.log(req.session);
       //sends no error
-      return res.send({ error: null });
+      res.send({ error: null });
+      return;
     }
   });
 };
@@ -74,7 +74,7 @@ const signup = function(req, res) {
 
   let birthday = user.birthday;
   let affil = user.affiliation;
-  let userID = email.split("@")[0] + email.split("@")[1];
+  let userID = email.replace("@", "");
   console.log("email", String(user.email));
 
   users.exists(user.email, function(err, data) {
@@ -99,9 +99,7 @@ const signup = function(req, res) {
           return res.send({ error: err2 });
         } else {
           //successfully put shit in, update the session
-          req.session.userEmail = user.email;
-          req.session.fname = fname;
-          req.session.save();
+          req.session.userID = userID;
           return res.send({ error: null });
         }
       });

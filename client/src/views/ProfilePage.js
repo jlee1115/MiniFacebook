@@ -4,6 +4,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import CreatPost from "../components/CreatePost";
 import UserProfile from "../components/UserProfile";
+axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
   constructor(props) {
@@ -16,19 +17,19 @@ export default class ProfilePage extends Component {
     };
   }
   componentDidMount() {
-    if (!this.props.location.state) {
-      this.setState({ redirectHome: true });
-    }
-    let email = this.props.location.state.email;
-    console.log("PROPS", email);
-    //if no user passed in, then sucks
-    if (!email) {
-      console.log("h");
-      this.setState({ redirectHome: true });
-    }
+    // if (!this.props.location.state) {
+    //   this.setState({ redirectHome: true });
+    // }
+    // let email = this.props.location.state.email;
+    // console.log("PROPS", email);
+    // //if no user passed in, then sucks
+    // if (!email) {
+    //   console.log("h");
+    //   this.setState({ redirectHome: true });
+    // }
 
     let baseurl = "http://localhost:8000";
-    axios.get(`${baseurl}/session`, { params: { email: email } }).then(resp => {
+    axios.get(`${baseurl}/session`, { params: { email: null } }).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true });
         return;
@@ -63,7 +64,7 @@ export default class ProfilePage extends Component {
     console.log(this.props.location.state.email);
     return (
       <div style={container}>
-        <Header email={this.state.email} />
+        <Header user={this.state.user} />
         <div style={innerContainer}>
           {/* {console.log(this.state.user)} */}
           {/* <div>{this.state.user.fname + " " + this.state.user.lname}</div>
