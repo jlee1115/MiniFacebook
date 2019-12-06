@@ -8,7 +8,7 @@ const get_session = function(req, res) {
   console.log("in get");
   console.log(req.session);
   // let userID = req.session.userEmail;
-  let userID = "jlee@upenn";
+  let userID = "jleeupenn";
   if (userID) {
     // res.setHeader("Content-Type", "text/plain");
     // res.setHeader("Content-Length", body.length);
@@ -51,8 +51,8 @@ const check_login = function(req, res) {
       if (hashed !== dataPW) {
         return res.send({ error: "Wrong Password" });
       }
-      req.session.cookie.userEmail = email;
-      req.session.cookie.fname = "placeholder lol";
+      req.session.userEmail = email;
+      //   req.session.fname = "placeholder lol";
       //   req.session.userEmail = email;
       //   req.session.fname = "placeholder lol";
       console.log("user");
@@ -68,10 +68,13 @@ const signup = function(req, res) {
   let fname = user.fname;
   let lname = user.lname;
   let password = user.password;
-  //so something is weird with the password hash
+  //do something is weird with the password hash
   let hashed = SHA3(password).toString();
+  let email = String(user.email);
+
   let birthday = user.birthday;
   let affil = user.affiliation;
+  let userID = email.split("@")[0] + email.split("@")[1];
   console.log("email", String(user.email));
 
   users.exists(user.email, function(err, data) {
@@ -86,9 +89,10 @@ const signup = function(req, res) {
         birthday: birthday,
         password: hashed,
         affiliation: affil,
-        interests: user.interests
+        interests: user.interests,
+        email: email
       });
-      users.put(String(user.email), newUser, function(err2, data2) {
+      users.put(userID, newUser, function(err2, data2) {
         //if error adding user
         if (err2) {
           //handle error putting shit in

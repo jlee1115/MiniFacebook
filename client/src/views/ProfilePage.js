@@ -16,6 +16,9 @@ export default class ProfilePage extends Component {
     };
   }
   componentDidMount() {
+    if (!this.props.location.state) {
+      this.setState({ redirectHome: true });
+    }
     let email = this.props.location.state.email;
     console.log("PROPS", email);
     //if no user passed in, then sucks

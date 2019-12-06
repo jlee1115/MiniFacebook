@@ -11,7 +11,7 @@ app.use(logger("dev"));
 // app.use(bodyParser.json());
 app.use(bodyParser());
 // app.use(express.logger("default"));
-// app.use(cors());
+app.use(cors());
 // app.use((req, res, next) => {
 //   res.set({
 //     "Access-Control-Allow-Origin": "*",

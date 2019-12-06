@@ -61,7 +61,14 @@ export default class Signup extends Component {
   }
   render() {
     if (this.state.changePage) {
-      return <Redirect to="profile" />;
+      return (
+        <Redirect
+          to={{
+            pathname: "/profile",
+            state: { email: this.state.email.replace("@", "") }
+          }}
+        />
+      );
     }
     return (
       <div className="container">
