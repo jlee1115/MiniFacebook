@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
+import FileUpload from "../components/FileUpload";
 axios.defaults.withCredentials = true;
 
 export default class Signup extends Component {
@@ -74,6 +75,7 @@ export default class Signup extends Component {
     }
     return (
       <div className="container">
+        <FileUpload />
         <h3>Signup</h3>
         <form onSubmit={this.handleSubmit}>
           <input

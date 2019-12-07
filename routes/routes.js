@@ -17,9 +17,10 @@ router.post("/logout", function(req, res) {
   res.send({ error: false });
 });
 router.get("/getUser", userdb.getUserPage);
+router.post("/uploadPicProfile", userdb.uploadProfPic);
 
 //POST functions
 router.get("/userPosts", postdb.getUserPosts);
 router.post("/addPost", postdb.addPost);
-router.post("/allPosts", postdb.getPosts);
+router.get("/allPosts", postdb.getPosts);
 module.exports = router;

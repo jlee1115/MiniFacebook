@@ -12,7 +12,7 @@ export default class PostDisplay extends Component {
     let { posts } = this.props;
     console.log(posts);
     return (
-      <div>
+      <div style={allPosts}>
         {posts.map(p => (
           <Post post={p} />
         ))}
@@ -20,3 +20,6 @@ export default class PostDisplay extends Component {
     );
   }
 }
+const allPosts = {
+  marginTop: "20px"
+};

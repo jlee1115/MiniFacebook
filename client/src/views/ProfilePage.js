@@ -28,7 +28,7 @@ export default class ProfilePage extends Component {
     //get the user logged in
     axios.get(`${baseurl}/session`).then(resp => {
       if (resp.data.error || !resp.data) {
-        this.setState({ redirectHome: true });
+        this.setState({ redirectHome: true, userLoggedIn: false });
         return;
       } else {
         console.log("PROFILE DID MOUNT", resp.data);
@@ -39,10 +39,10 @@ export default class ProfilePage extends Component {
         }
         console.log(user); //what do i do if this is null though
         // let fname = user.fname;
-        this.setState({ userLoggedIn: user });
+        this.setState({ userLoggedIn: user, userIDOfLoggedIn: resp.data.userID });
       }
     });
-    axios.get(`${baseurl}/session`, { params: { userID: userID } }).then(resp => {
+    axios.get(`${baseurl}/getUser`, { params: { userID: userID } }).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true });
         return;
@@ -61,12 +61,13 @@ export default class ProfilePage extends Component {
   }
 
   render() {
-    if (!this.state.userLoggedIn || !this.state.userOfPage) {
-      return <div>LOADING</div>;
-    }
     if (this.state.redirectHome) {
       return <Redirect to="/" />;
     }
+    if (!this.state.userLoggedIn || !this.state.userOfPage) {
+      return <div>LOADING</div>;
+    }
+
     return (
       <div style={container}>
         <Header user={this.state.userLoggedIn} />

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import uuid from "uuid-random";
 
 export default class CreatePost extends Component {
   constructor(props) {
@@ -8,10 +9,16 @@ export default class CreatePost extends Component {
       content: null,
       to: null,
       from: null,
-      date: null
+      date: null,
+      id: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.submitPost = this.submitPost.bind(this);
+  }
+  componentDidMount() {
+    let userTo = this.props.userTo;
+    let userFrom = this.props.userFrom;
+    this.setState({ to: userTo, from: userFrom });
   }
   handleChange(e) {
     this.setState({ content: e.target.value });
@@ -24,7 +31,8 @@ export default class CreatePost extends Component {
       date: new Date(),
       content: this.state.content,
       toUser: this.props.userTo.email.replace("@", ""),
-      fromUser: this.props.userFrom.email.replace("@", "")
+      fromUser: this.props.userFrom.email.replace("@", ""),
+      id: uuid()
     };
     console.log("POST!", post);
     //makes the post
@@ -39,9 +47,23 @@ export default class CreatePost extends Component {
     });
   }
   render() {
+    if (!this.state.to || !this.state.from) {
+      return <h4>Loading...</h4>;
+    }
+    console.log(this.state.to, this.state.from);
     return (
       <div style={createPost}>
-        What's on your mind? Create a post
+        {this.state.to.email.replace("@", "") ===
+        this.state.from.email.replace("@", "") ? (
+          <span>
+            <h4>What is on your mind? Create a post</h4>
+          </span>
+        ) : (
+          <span>
+            <h4>Post on {this.state.to.fname}'s timeline</h4>
+          </span>
+        )}
+
         <form onSubmit={this.submitPost}>
           <textarea
             ref="postBox"

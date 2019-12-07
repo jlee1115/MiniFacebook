@@ -11,9 +11,14 @@ export default class FeedPosts extends Component {
     this.state = {
       posts: null
     };
+    this.getPosts = this.getPosts.bind(this);
   }
   componentDidMount() {
     //make an api req
+    this.getPosts();
+    setInterval(this.getPosts, 3000);
+  }
+  getPosts() {
     console.log("Props", this.props);
     let user = this.props.userID;
     console.log(user);
@@ -24,8 +29,9 @@ export default class FeedPosts extends Component {
         console.log(resp.data);
       });
     } else {
-      axios.get(`${baseurl}/userPosts`).then(resp => {
+      axios.get(`${baseurl}/allPosts`).then(resp => {
         console.log(resp.data);
+        this.setState({ posts: resp.data.posts });
       });
     }
   }

@@ -22,7 +22,7 @@ const get_session = function(req, res) {
         let dataObj = JSON.parse(data[0].value);
         //this comes out fine
         // console.log("GET SESSION", dataObj);
-        return res.send({ user: dataObj });
+        return res.send({ user: dataObj, userID: userID });
       }
     });
     // res.send({ email: req.session.userEmail });
@@ -32,7 +32,7 @@ const get_session = function(req, res) {
   }
 };
 const get_user_page = function(req, res) {
-  let userID = req.params.userID;
+  let userID = req.query.userID;
   users.get(userID, function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -122,13 +122,14 @@ const signup = function(req, res) {
   //create the new user here.
 };
 
-const store_session = function(req, res) {
-  //stores the session
+const uploadProfPic = function(req, res) {
+  console.log("PROFILE", req.body);
 };
 const userdb = {
   checkLogin: check_login,
   signup: signup,
   getSession: get_session,
-  getUserPage: get_user_page
+  getUserPage: get_user_page,
+  uploadProfPic: uploadProfPic
 };
 module.exports = userdb;

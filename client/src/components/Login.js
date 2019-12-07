@@ -85,7 +85,7 @@ export default class Login extends Component {
             placeholder="Password"
             onChange={this.handleChange}
           />
-          <button class="btn btn-secondary btn-sm" type="submit" value="Login">
+          <button className="btn btn-secondary btn-sm" type="submit" value="Login">
             Log in
           </button>
         </form>

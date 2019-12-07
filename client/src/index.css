@@ -22,3 +22,18 @@ header {
   background-color: #bfd5d5;
   cursor: pointer;
 }
+p.postText {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 14px;
+}
+p.postDate {
+  font-size: 12px;
+}
+p.userInfo {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.pBtn:hover {
+  cursor: pointer;
+}

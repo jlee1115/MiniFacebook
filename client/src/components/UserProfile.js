@@ -19,15 +19,40 @@ export default class UserProfile extends Component {
       );
     }
     console.log("PROFI", this.state.user);
+    let { user } = this.state;
 
     return (
       <div style={main}>
         <div style={profInfo}>
-          User Profile
+          <h3>User Profile</h3>
           <div>
-            {this.state.user.fname} {this.state.user.lname}
+            <p className="userInfo" style={{ fontWeight: "bold" }}>
+              name
+            </p>
+            <p className="userInfo" style={{ fontWeight: 200 }}>
+              {this.state.user.fname} {this.state.user.lname}
+            </p>
           </div>
-          <div style={friends}>FRIENDS!</div>
+          <div>
+            <p className="userInfo" style={{ fontWeight: "bold" }}>
+              affiliation
+            </p>
+            <p className="userInfo" style={{ fontWeight: 200 }}>
+              {this.state.user.affiliation}
+            </p>
+          </div>
+          <div>
+            <p className="userInfo" style={{ fontWeight: "bold" }}>
+              interests
+            </p>
+            <p className="userInfo" style={{ fontWeight: 200 }}>
+              {user.interests.map(a => (
+                <p className="userInfo">{a}</p>
+              ))}
+            </p>
+          </div>
+
+          {/* <div style={friends}>FRIENDS!</div> */}
         </div>
       </div>
     );
