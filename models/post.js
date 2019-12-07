@@ -8,11 +8,13 @@ const addPost = function(req, res) {
   let fromUser = post.fromUser;
   let toUser = post.toUser;
   let content = post.content;
+  let id = post.id;
   let newPost = JSON.stringify({
     content,
     date,
     fromUser,
-    toUser
+    toUser,
+    id
   });
   //do something
   posts.put(toUser, newPost, function(err, data) {
@@ -35,6 +37,9 @@ const getPosts = function(req, res) {
         let val = JSON.parse(item.value);
         items.push(val);
       }
+      items.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
       return res.send({ err: null, items: items });
     }
   });
@@ -54,7 +59,9 @@ const getUserPosts = function(req, res) {
         dataResult.push(JSON.parse(data[i].value));
       }
       //   dataObjs = data.map(item => JSON.parse(item));
-      dataResult.reverse();
+      dataResult.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
       return res.send({ posts: dataResult });
     }
   });
