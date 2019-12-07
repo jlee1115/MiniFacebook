@@ -17,7 +17,7 @@ const addPost = function(req, res) {
     id
   });
   //do something
-  posts.put(toUser, newPost, function(err, data) {
+  posts.put(toUser.email.replace("@", ""), newPost, function(err, data) {
     if (err) {
       //respond to error
       return res.send({ error: err.message });

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import uuid from "uuid-random";
+axios.defaults.withCredentials = true;
 
 export default class CreatePost extends Component {
   constructor(props) {
@@ -30,8 +31,8 @@ export default class CreatePost extends Component {
     let post = {
       date: new Date(),
       content: this.state.content,
-      toUser: this.props.userTo.email.replace("@", ""),
-      fromUser: this.props.userFrom.email.replace("@", ""),
+      toUser: this.props.userTo,
+      fromUser: this.props.userFrom,
       id: uuid()
     };
     console.log("POST!", post);

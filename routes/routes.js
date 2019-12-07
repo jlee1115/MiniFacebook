@@ -2,6 +2,7 @@ const session = require("express-session");
 const express = require("express");
 const userdb = require("../models/user");
 const postdb = require("../models/post");
+const postCommentsdb = require("../models/postComments");
 const router = express.Router();
 
 //USER functions
@@ -23,4 +24,8 @@ router.post("/uploadPicProfile", userdb.uploadProfPic);
 router.get("/userPosts", postdb.getUserPosts);
 router.post("/addPost", postdb.addPost);
 router.get("/allPosts", postdb.getPosts);
+
+//POSTCOMMENTS functions
+// router.get("/postComments", postCommentsdb.getPostComments);
+
 module.exports = router;
