@@ -61,7 +61,7 @@ export default class Feed extends Component {
           </div>
           <div>
             <CreatePost userTo={this.state.user} userFrom={this.state.user} />
-            <PostDisplay posts={this.state.posts} />
+            <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} />
           </div>
           <div>insert friend recs here</div>
         </div>

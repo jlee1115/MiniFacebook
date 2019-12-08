@@ -1,23 +1,33 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
+import uuid from "uuid-random";
 import Comments from "./Comments";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import { BASEURL } from "../../src/constants";
+axios.defaults.withCredentials = true;
 
 export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: null,
+      comment: "",
       showCommentBox: false,
-      redirectTo: null
+      redirectTo: null,
+      comments: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.toggleCommentBox = this.toggleCommentBox.bind(this);
     this.handleClickNameFrom = this.handleClickNameFrom.bind(this);
     this.handleClickNameTo = this.handleClickNameTo.bind(this);
+    this.addComment = this.addComment.bind(this);
+    this.getComments = this.getComments.bind(this);
   }
-
+  componentDidMount() {
+    this.getComments();
+    setInterval(this.getComments, 3000);
+  }
   handleChange(e) {
     this.setState({ comment: e.target.value });
   }
@@ -32,6 +42,37 @@ export default class Post extends Component {
   }
   handleClickNameTo() {
     this.setState({ redirectTo: this.props.post.toUser });
+  }
+  getComments() {
+    //get the comments
+    let postID = this.props.post.id;
+    let userLoggedIn = this.props.userLoggedIn;
+    axios.get(`${BASEURL}/getPostComments`, { params: { postID } }).then(resp => {
+      if (resp.data.error) {
+        return;
+      }
+      this.setState({ comments: resp.data.comments });
+    });
+  }
+  addComment(e) {
+    e.preventDefault();
+    let postID = this.props.post.id;
+    let userLoggedIn = this.props.userLoggedIn;
+    let info = {
+      postID,
+      userLoggedIn,
+      content: this.state.comment,
+      id: uuid(),
+      date: new Date()
+    };
+    axios.post(`${BASEURL}/addComment`, info).then(resp => {
+      console.log("RESP", resp);
+      if (resp.error) {
+        //
+      } else {
+        this.setState({ comment: "" });
+      }
+    });
   }
   render() {
     // if (this.state.redirectTo) {
@@ -72,14 +113,17 @@ export default class Post extends Component {
         </p>
         {this.state.showCommentBox ? (
           <div>
-            <Comments id={post.id} />
+            <Comments id={post.id} items={this.state.comments} />
             <form style={commentBox} onSubmit={this.handleCommentSubmit}>
               <input
                 // className="postBox"
                 placeholder="Add a comment"
                 onChange={this.handleChange}
+                value={this.state.comment}
               ></input>
-              <button type="submit">Post</button>
+              <button type="submit" onClick={this.addComment}>
+                Post
+              </button>
             </form>
             <p className="pBtn" onClick={this.toggleCommentBox}>
               Hide comment box
@@ -87,7 +131,7 @@ export default class Post extends Component {
           </div>
         ) : (
           <button style={btnSm} onClick={this.toggleCommentBox}>
-            Add a comment
+            show comments
           </button>
         )}
       </div>

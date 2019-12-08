@@ -42,7 +42,7 @@ export default class FeedPosts extends Component {
     let posts = this.state.posts;
     console.log(posts);
     return (
-      <PostDisplay posts={posts} />
+      <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />
       //   <div>
       //     {posts.map(p => (
       //       <Post post={p} />

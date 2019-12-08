@@ -14,7 +14,7 @@ export default class PostDisplay extends Component {
     return (
       <div style={allPosts}>
         {posts.map(p => (
-          <Post post={p} />
+          <Post post={p} userLoggedIn={this.props.userLoggedIn} />
         ))}
       </div>
     );

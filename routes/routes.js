@@ -26,6 +26,7 @@ router.post("/addPost", postdb.addPost);
 router.get("/allPosts", postdb.getPosts);
 
 //POSTCOMMENTS functions
-// router.get("/postComments", postCommentsdb.getPostComments);
+router.get("/getPostComments", postCommentsdb.getPostComments);
+router.post("/addComment", postCommentsdb.addCommentToPost);
 
 module.exports = router;
