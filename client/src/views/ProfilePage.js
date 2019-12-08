@@ -83,7 +83,11 @@ export default class ProfilePage extends Component {
               userTo={this.state.userOfPage}
               userFrom={this.state.userLoggedIn}
             />
-            <FeedPosts user={this.state.userOfPage} userID={this.state.userIDOfPage} />
+            <FeedPosts
+              user={this.state.userOfPage}
+              userID={this.state.userIDOfPage}
+              userLoggedIn={this.state.userLoggedIn}
+            />
           </div>
         </div>
       </div>
