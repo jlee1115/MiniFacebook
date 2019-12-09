@@ -5,6 +5,7 @@ import Comments from "./Comments";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { BASEURL } from "../../src/constants";
+import LikeOption from "./LikeOption";
 axios.defaults.withCredentials = true;
 
 export default class Post extends Component {
@@ -14,7 +15,8 @@ export default class Post extends Component {
       comment: "",
       showCommentBox: false,
       redirectTo: null,
-      comments: null
+      comments: null,
+      liked: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
@@ -23,10 +25,12 @@ export default class Post extends Component {
     this.handleClickNameTo = this.handleClickNameTo.bind(this);
     this.addComment = this.addComment.bind(this);
     this.getComments = this.getComments.bind(this);
+    // this.checkIfLiked = this.checkIfLiked.bind(this);
   }
   componentDidMount() {
-    this.getComments();
-    setInterval(this.getComments, 3000);
+    // this.getComments();
+    // this.checkIfLiked();
+    // setInterval(this.getComments, 3000);
   }
   handleChange(e) {
     this.setState({ comment: e.target.value });
@@ -43,9 +47,8 @@ export default class Post extends Component {
   handleClickNameTo() {
     this.setState({ redirectTo: this.props.post.toUser });
   }
+
   getComments() {
-    // console.log("GETTING THE FUCKING COMMENTS");
-    // console.log(this.state.comments);
     //get the comments
     let postID = this.props.post.id;
     let userLoggedIn = this.props.userLoggedIn;
@@ -116,9 +119,14 @@ export default class Post extends Component {
             {post.content}
           </p>
         </div>
+        <LikeOption
+          userLoggedIn={this.props.userLoggedIn}
+          post={this.props.post}
+          liked={this.state.liked}
+        />
         {this.state.showCommentBox ? (
           <div>
-            <Comments id={post.id} items={this.state.comments} />
+            <Comments id={post.id} items={this.state.comments} post={post} />
             <form style={commentBox} onSubmit={this.handleCommentSubmit}>
               <input
                 // className="postBox"

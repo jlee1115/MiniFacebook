@@ -5,6 +5,7 @@ import UserProfile from "../components/UserProfile";
 import Header from "../components/Header";
 import PostDisplay from "../components/PostDisplay";
 import CreatePost from "../components/CreatePost";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -19,9 +20,8 @@ export default class Feed extends Component {
   }
   componentDidMount() {
     //get the user if any
-    let baseurl = "http://localhost:8000";
     //gets user
-    axios.get(`${baseurl}/session`).then(resp => {
+    axios.get(`${BASEURL}/session`).then(resp => {
       //   console.log(resp.data.user);
       //do something with the response
       let user = resp.data.user;
@@ -35,8 +35,7 @@ export default class Feed extends Component {
     setInterval(this.getPosts, 3000);
   }
   getPosts() {
-    let baseurl = "http://localhost:8000";
-    axios.get(`${baseurl}/allPosts`).then(resp => {
+    axios.get(`${BASEURL}/allPosts`).then(resp => {
       console.log(resp.data.items);
       if (resp.data.err) {
         this.setState({ redirectHome: true });

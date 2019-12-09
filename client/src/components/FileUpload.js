@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BASEURL } from "../constants";
 import axios from "axios";
 
 export default class FileUpload extends Component {
@@ -14,12 +15,14 @@ export default class FileUpload extends Component {
     this.setState({ selectedFile: file });
   }
   uploadHandler = () => {
-    let baseurl = "http://localhost:8000";
     const formData = new FormData();
+    //convert to json
     formData.append("file", this.state.selectedFile);
-    console.log("FORM DATA", formData);
+    // console.log("FORM DATA", formData);
     console.log("SELECTED", this.state.selectedFile);
-    axios.post(`${baseurl}/uploadPicProfile`, formData).then(resp => {
+    let profPic = JSON.stringify(this.state.selectedFile);
+    console.log("Profile", profPic);
+    axios.post(`${BASEURL}/uploadPicProfile`, this.state.selectedFile).then(resp => {
       console.log(resp);
     });
   };

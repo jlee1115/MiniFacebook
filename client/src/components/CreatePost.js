@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import uuid from "uuid-random";
+import { BASEURL } from "../../src/constants";
 axios.defaults.withCredentials = true;
 
 export default class CreatePost extends Component {
@@ -25,7 +26,6 @@ export default class CreatePost extends Component {
     this.setState({ content: e.target.value });
   }
   submitPost(e) {
-    let baseurl = "http://localhost:8000";
     e.preventDefault();
     this.setState({ date: new Date() });
     let post = {
@@ -37,7 +37,7 @@ export default class CreatePost extends Component {
     };
     // console.log("POST!", post);
     //makes the post
-    axios.post(`${baseurl}/addPost`, { post: post }).then(resp => {
+    axios.post(`${BASEURL}/addPost`, { post: post }).then(resp => {
       //response
       if (resp.data.error) {
         //something went wrong

@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import CreatePost from "../components/CreatePost";
 import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -24,9 +25,8 @@ export default class ProfilePage extends Component {
     //user ID of page
     console.log("USER", userID);
     this.setState({ userIDOfPage: userID });
-    let baseurl = "http://localhost:8000";
     //get the user logged in
-    axios.get(`${baseurl}/session`).then(resp => {
+    axios.get(`${BASEURL}/session`).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true, userLoggedIn: false });
         return;
@@ -42,7 +42,7 @@ export default class ProfilePage extends Component {
         this.setState({ userLoggedIn: user, userIDOfLoggedIn: resp.data.userID });
       }
     });
-    axios.get(`${baseurl}/getUser`, { params: { userID: userID } }).then(resp => {
+    axios.get(`${BASEURL}/getUser`, { params: { userID: userID } }).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true });
         return;

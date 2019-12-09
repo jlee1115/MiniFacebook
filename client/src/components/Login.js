@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class Login extends Component {
@@ -19,7 +20,6 @@ export default class Login extends Component {
   }
 
   handleSubmit(e) {
-    let baseurl = "http://localhost:8000";
     e.preventDefault();
     if (
       !this.state.email ||
@@ -37,7 +37,7 @@ export default class Login extends Component {
       userID: this.state.email.replace("@", ""),
       password: this.state.password
     };
-    axios.post(`${baseurl}/login`, { user: user }).then(resp => {
+    axios.post(`${BASEURL}/login`, { user: user }).then(resp => {
       //awesome!! this sends back data
       console.log(resp.data);
       if (resp.data.error) {

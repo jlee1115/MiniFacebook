@@ -3,6 +3,7 @@ const express = require("express");
 const userdb = require("../models/user");
 const postdb = require("../models/post");
 const postCommentsdb = require("../models/postComments");
+const postLikesdb = require("../models/postLikes");
 const router = express.Router();
 
 //USER functions
@@ -28,5 +29,10 @@ router.get("/allPosts", postdb.getPosts);
 //POSTCOMMENTS functions
 router.get("/getPostComments", postCommentsdb.getPostComments);
 router.post("/addComment", postCommentsdb.addCommentToPost);
+
+//POSTLIKES
+router.get("/checkIfLiked", postLikesdb.checkLike);
+router.post("/likePost", postLikesdb.addLike);
+router.get("/addLikesOfPost", postLikesdb.getLikes);
 
 module.exports = router;

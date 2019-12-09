@@ -10,12 +10,24 @@ export default class Comments extends Component {
     this.state = {
       comments: null
     };
+    this.getComments = this.getComments.bind(this);
   }
   componentDidMount() {
     let { id, items } = this.props;
-    console.log("rendering the fucking comments", items);
-    // console.log("ITEMS", items);
-    this.setState({ comments: items });
+    this.getComments();
+    setInterval(this.getComments, 3000);
+  }
+  getComments() {
+    //get the comments
+    let postID = this.props.post.id;
+    // let userLoggedIn = this.props.userLoggedIn;
+    axios.get(`${BASEURL}/getPostComments`, { params: { postID } }).then(resp => {
+      if (resp.data.error) {
+        console.log(resp.data.error);
+        return;
+      }
+      this.setState({ comments: resp.data.comments });
+    });
   }
   render() {
     if (!this.state.comments) {

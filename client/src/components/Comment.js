@@ -6,7 +6,9 @@ export default class Comment extends Component {
     return (
       <div style={commentStyle}>
         <p class="postText commentName">{`${comment.user.fname} ${comment.user.lname} `}</p>
-        <p className="commentDate postText">{new Date(comment.date).toUTCString()}</p>
+        <p style={{ fontSize: "8px" }} className="commentDate postText">
+          {new Date(comment.date).toUTCString()}
+        </p>
         <p class="postText commentContent">{comment.content}</p>
       </div>
     );
