@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import PostDisplay from "./PostDisplay";
 import Post from "./Post";
+import { BASEURL } from "../../src/constants";
 axios.defaults.withCredentials = true;
 
 //takes in posts
@@ -22,14 +23,13 @@ export default class FeedPosts extends Component {
     // console.log("Props", this.props);
     let user = this.props.userID;
     // console.log(user);
-    let baseurl = "http://localhost:8000";
     if (user) {
-      axios.get(`${baseurl}/userPosts`, { params: { user: user } }).then(resp => {
+      axios.get(`${BASEURL}/userPosts`, { params: { user: user } }).then(resp => {
         this.setState({ posts: resp.data.posts });
         // console.log(resp.data);
       });
     } else {
-      axios.get(`${baseurl}/allPosts`).then(resp => {
+      axios.get(`${BASEURL}/allPosts`).then(resp => {
         // console.log(resp.data);
         this.setState({ posts: resp.data.posts });
       });

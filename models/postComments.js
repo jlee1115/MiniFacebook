@@ -5,7 +5,7 @@ postComments.init(function(err, data) {});
 const getComments = function(req, res) {
   //get the comments by the id
   let id = req.query.postID;
-  console.log("IDDDDD", id);
+  //   console.log("IDDDDD", id);
   postComments.get(id, function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -29,12 +29,12 @@ const getComments = function(req, res) {
   //     //
   //   });
 
-  console.log(id);
+  //   console.log(id);
 };
 //takes in a user and a post id
 const addComment = function(req, res) {
   //do something
-  console.log(req.body);
+  //   console.log(req.body);
   let postID = req.body.postID;
   let user = req.body.userLoggedIn;
   let content = req.body.content;

@@ -53,7 +53,7 @@ const getUserPosts = function(req, res) {
     } else if (!data) {
       return res.send({ posts: [] });
     } else {
-      console.log("DATA", data.length);
+      //   console.log("DATA", data.length);
       let dataResult = [];
       for (let i = 0; i < data.length; i++) {
         dataResult.push(JSON.parse(data[i].value));

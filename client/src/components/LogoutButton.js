@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Redirect } from "react-router";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class LogoutButton extends Component {
@@ -12,9 +13,7 @@ export default class LogoutButton extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick(e) {
-    console.log("yay clicked");
-    let baseurl = "http://localhost:8000";
-    axios.post(`${baseurl}/logout`).then(resp => {
+    axios.post(`${BASEURL}/logout`).then(resp => {
       if (!resp.data.error) {
         this.setState({ success: true });
       }

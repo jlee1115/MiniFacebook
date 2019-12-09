@@ -5,9 +5,9 @@ const session = require("express-session");
 users.init(function(err, data) {});
 
 const get_session = function(req, res) {
-  console.log("in get");
-  console.log(req.session.id);
-  console.log(req.session);
+  //   console.log("in get");
+  //   console.log(req.session.id);
+  //   console.log(req.session);
   let userID = req.session.userID;
 
   //   let userID = "jleeupenn";
@@ -18,7 +18,7 @@ const get_session = function(req, res) {
       } else if (!data) {
         return res.send({ error: "Something went wrong" });
       } else {
-        console.log("GET SESSION GET");
+        // console.log("GET SESSION GET");
         let dataObj = JSON.parse(data[0].value);
         //this comes out fine
         // console.log("GET SESSION", dataObj);
@@ -63,13 +63,13 @@ const check_login = function(req, res) {
         res.send({ error: "Wrong Password" });
         return;
       }
-      console.log("ID", req.session.id);
+      //   console.log("ID", req.session.id);
       req.session.userID = userID;
       //   req.session.fname = "placeholder lol";
       //   req.session.userEmail = email;
       //   req.session.fname = "placeholder lol";
-      console.log("user");
-      console.log(req.session);
+      //   console.log("user");
+      //   console.log(req.session);
       //sends no error
       res.send({ error: null });
       return;
@@ -78,7 +78,7 @@ const check_login = function(req, res) {
 };
 const signup = function(req, res) {
   let user = req.body.user;
-  console.log(req.body.user);
+  //   console.log(req.body.user);
   let fname = user.fname;
   let lname = user.lname;
   let password = user.password;
@@ -89,7 +89,7 @@ const signup = function(req, res) {
   let birthday = user.birthday;
   let affil = user.affiliation;
   let userID = email.replace("@", "");
-  console.log("email", String(user.email));
+  //   console.log("email", String(user.email));
 
   users.exists(userID, function(err, data) {
     //already exists a user with that email

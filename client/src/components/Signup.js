@@ -3,6 +3,7 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
 import FileUpload from "../components/FileUpload";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class Signup extends Component {
@@ -26,7 +27,6 @@ export default class Signup extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
   handleSubmit(e) {
-    let baseurl = "http://localhost:8000";
     e.preventDefault();
     if (
       !this.state.fname ||
@@ -50,7 +50,7 @@ export default class Signup extends Component {
       interests: this.state.interests.split(",").map(i => i.trim()),
       password: this.state.password
     };
-    axios.post(`${baseurl}/signup`, { user: user }).then(resp => {
+    axios.post(`${BASEURL}/signup`, { user: user }).then(resp => {
       console.log("R", resp.data);
       if (resp.data.error) {
         this.setState({ errMessage: resp.data.error });
