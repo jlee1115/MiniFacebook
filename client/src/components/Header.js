@@ -26,7 +26,14 @@ export default class Header extends Component {
     }
     if (this.state.redirectToProfile) {
       let id = this.props.user.email.replace("@", "");
-      return <Redirect to={`/profile/${id}`} />;
+      return (
+        <Redirect
+          to={{
+            pathname: `/profile/${id}`,
+            state: { userID: id }
+          }}
+        />
+      );
     }
     console.log("PROPS", this.props);
     return (
@@ -35,14 +42,16 @@ export default class Header extends Component {
           {" "}
           Welcome{" "}
           {this.props.user ? (
-            <span onClick={this.goToProfile}>{this.props.user.fname} </span>
+            <span className="headerProfileLink" onClick={this.goToProfile}>
+              {this.props.user.fname}{" "}
+            </span>
           ) : (
             ""
           )}
           !
         </div>
         {this.props.user ? (
-          <div style={headerText} onClick={this.goToHome}>
+          <div className="headerHomeLink" style={headerText} onClick={this.goToHome}>
             SadBook
           </div>
         ) : (

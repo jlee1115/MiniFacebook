@@ -22,6 +22,15 @@ header {
   background-color: #bfd5d5;
   cursor: pointer;
 }
+/* Header styling start */
+.headerProfileLink:hover {
+  cursor: pointer;
+}
+.headerHomeLink:hover {
+  cursor: pointer;
+}
+/* Header styling end */
+/* Post styling */
 p.postText {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -46,6 +55,7 @@ p.userInfo {
 .pBtn:hover {
   cursor: pointer;
 }
+/* end of post styling */
 /* Comment */
 .commentName {
   font-size: 12px;
@@ -59,3 +69,4 @@ p.userInfo {
   font-size: 8px;
   font-weight: 200;
 }
+/* End of comment styling */

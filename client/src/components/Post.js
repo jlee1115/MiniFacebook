@@ -168,5 +168,6 @@ const btnSm = {
 const contentBox = {
   backgroundColor: "white",
   padding: "10px",
-  fontSize: "16px"
+  fontSize: "16px",
+  border: "1px solid black"
 };

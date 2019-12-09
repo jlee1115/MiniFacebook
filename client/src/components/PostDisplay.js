@@ -21,7 +21,5 @@ export default class PostDisplay extends Component {
   }
 }
 const allPosts = {
-  marginTop: "20px",
-
-  padding: "15px"
+  marginTop: "20px"
 };
