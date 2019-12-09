@@ -21,6 +21,13 @@ export default class Comments extends Component {
     if (!this.state.comments) {
       return <h6>Loading....</h6>;
     }
+    if (!this.state.comments.length) {
+      return (
+        <div style={allComments}>
+          <p>No comments available for this post</p>
+        </div>
+      );
+    }
     return (
       <div style={commentsBlock}>
         <h5>Comments</h5>

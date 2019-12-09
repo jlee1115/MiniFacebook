@@ -91,7 +91,7 @@ export default class Post extends Component {
     // }
     let post = this.props.post;
     return (
-      <div>
+      <div style={individualPost}>
         <div style={postStyle}>
           {post.fromUser.email.replace("@", "") === post.toUser.email.replace("@", "") ? (
             <p className="postText postName">
@@ -131,7 +131,7 @@ export default class Post extends Component {
               </button>
             </form>
             <p className="pBtn" onClick={this.toggleCommentBox}>
-              Hide comment box
+              Hide comments
             </p>
           </div>
         ) : (
@@ -143,10 +143,17 @@ export default class Post extends Component {
     );
   }
 }
+const individualPost = {
+  margin: "10px",
+  backgroundColor: "#b5c6cf",
+  padding: "15px"
+};
 const postStyle = {
   backgroundColor: "white",
   padding: "10px",
-  marginTop: "10px"
+  margin: "10px 0px",
+  borderRadius: "15px"
+
   //   borderRadius: "20px"
 };
 const commentBox = {
