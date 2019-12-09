@@ -44,11 +44,14 @@ export default class Post extends Component {
     this.setState({ redirectTo: this.props.post.toUser });
   }
   getComments() {
+    // console.log("GETTING THE FUCKING COMMENTS");
+    // console.log(this.state.comments);
     //get the comments
     let postID = this.props.post.id;
     let userLoggedIn = this.props.userLoggedIn;
     axios.get(`${BASEURL}/getPostComments`, { params: { postID } }).then(resp => {
       if (resp.data.error) {
+        console.log(resp.data.error);
         return;
       }
       this.setState({ comments: resp.data.comments });
@@ -88,29 +91,31 @@ export default class Post extends Component {
     // }
     let post = this.props.post;
     return (
-      <div style={postStyle}>
-        {post.fromUser.email.replace("@", "") === post.toUser.email.replace("@", "") ? (
-          <p className="postText">
-            {" "}
-            <span onClick={this.handleClickNameFrom}>
-              {post.fromUser.fname} {post.fromUser.lname}
-            </span>
+      <div>
+        <div style={postStyle}>
+          {post.fromUser.email.replace("@", "") === post.toUser.email.replace("@", "") ? (
+            <p className="postText postName">
+              {" "}
+              <span onClick={this.handleClickNameFrom}>
+                {post.fromUser.fname} {post.fromUser.lname}
+              </span>
+            </p>
+          ) : (
+            <p className="postText postName">
+              <span onClick={this.handleClickNameFrom}>
+                {post.fromUser.fname + " " + post.fromUser.lname}
+              </span>{" "}
+              to{" "}
+              <span onClick={this.handleClickNameTo}>
+                {post.toUser.fname + " " + post.toUser.lname}
+              </span>
+            </p>
+          )}
+          <p className="postText postDate">{new Date(post.date).toUTCString()}</p>
+          <p style={contentBox} className="postContent">
+            {post.content}
           </p>
-        ) : (
-          <p className="postText">
-            <span onClick={this.handleClickNameFrom}>
-              {post.fromUser.fname + " " + post.fromUser.lname}
-            </span>{" "}
-            to{" "}
-            <span onClick={this.handleClickNameTo}>
-              {post.toUser.fname + " " + post.toUser.lname}
-            </span>
-          </p>
-        )}
-        <p className="postText postDate">{new Date(post.date).toUTCString()}</p>
-        <p style={contentBox} className="postContent">
-          {post.content}
-        </p>
+        </div>
         {this.state.showCommentBox ? (
           <div>
             <Comments id={post.id} items={this.state.comments} />
@@ -139,9 +144,10 @@ export default class Post extends Component {
   }
 }
 const postStyle = {
-  backgroundColor: "#b5c6cf",
+  backgroundColor: "white",
   padding: "10px",
   marginTop: "10px"
+  //   borderRadius: "20px"
 };
 const commentBox = {
   margin: "0px",
@@ -154,5 +160,6 @@ const btnSm = {
 };
 const contentBox = {
   backgroundColor: "white",
-  padding: "10px"
+  padding: "10px",
+  fontSize: "16px"
 };

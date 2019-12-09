@@ -19,18 +19,18 @@ export default class FeedPosts extends Component {
     setInterval(this.getPosts, 3000);
   }
   getPosts() {
-    console.log("Props", this.props);
+    // console.log("Props", this.props);
     let user = this.props.userID;
-    console.log(user);
+    // console.log(user);
     let baseurl = "http://localhost:8000";
     if (user) {
       axios.get(`${baseurl}/userPosts`, { params: { user: user } }).then(resp => {
         this.setState({ posts: resp.data.posts });
-        console.log(resp.data);
+        // console.log(resp.data);
       });
     } else {
       axios.get(`${baseurl}/allPosts`).then(resp => {
-        console.log(resp.data);
+        // console.log(resp.data);
         this.setState({ posts: resp.data.posts });
       });
     }
@@ -40,7 +40,7 @@ export default class FeedPosts extends Component {
       return <h3>Loading...</h3>;
     }
     let posts = this.state.posts;
-    console.log(posts);
+    // console.log(posts);
     return (
       <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />
       //   <div>
