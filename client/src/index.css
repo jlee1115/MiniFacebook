@@ -25,10 +25,19 @@ header {
 p.postText {
   margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 14px;
+  font-size: 16px;
+}
+.postName {
+  font-size: 16px;
+  font-weight: bold;
 }
 p.postDate {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 300;
+}
+.postContent {
+  font-weight: 400;
+  font-size: 14px;
 }
 p.userInfo {
   margin-top: 0px;
@@ -36,4 +45,17 @@ p.userInfo {
 }
 .pBtn:hover {
   cursor: pointer;
+}
+/* Comment */
+.commentName {
+  font-size: 12px;
+  font-weight: bold;
+}
+.commentContent {
+  font-size: 12px;
+  font-weight: 400;
+}
+.commentDate {
+  font-size: 8px;
+  font-weight: 200;
 }

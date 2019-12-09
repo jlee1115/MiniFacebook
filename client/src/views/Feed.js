@@ -22,7 +22,7 @@ export default class Feed extends Component {
     let baseurl = "http://localhost:8000";
     //gets user
     axios.get(`${baseurl}/session`).then(resp => {
-      console.log(resp.data.user);
+      //   console.log(resp.data.user);
       //do something with the response
       let user = resp.data.user;
       if (!user) {
