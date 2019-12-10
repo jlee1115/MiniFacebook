@@ -16,8 +16,10 @@ export default class ProfilePage extends Component {
       userIDOfLoggedIn: null,
       userLoggedIn: null,
       userIDOfPage: null,
-      userOfPage: null
+      userOfPage: null,
+      redirectFeed: false
     };
+    this.handleHomeClick = this.handleHomeClick.bind(this);
   }
   componentDidMount() {
     let { userID } = this.props.match.params;
@@ -59,6 +61,9 @@ export default class ProfilePage extends Component {
       }
     });
   }
+  handleHomeClick() {
+    this.setState({ redirectFeed: true });
+  }
 
   render() {
     if (this.state.redirectHome) {
@@ -67,10 +72,17 @@ export default class ProfilePage extends Component {
     if (!this.state.userLoggedIn || !this.state.userOfPage) {
       return <div>LOADING</div>;
     }
+    if (this.state.redirectFeed) {
+      return <Redirect to="/feed" />;
+    }
 
     return (
       <div style={container}>
-        <Header user={this.state.userLoggedIn} />
+        <Header
+          user={this.state.userLoggedIn}
+          redirect={this.handleHomeClick}
+          isProf={true}
+        />
         <div style={innerContainer}>
           {/* {console.log(this.state.user)} */}
           {/* <div>{this.state.user.fname + " " + this.state.user.lname}</div>

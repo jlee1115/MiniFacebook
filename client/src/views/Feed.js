@@ -11,14 +11,18 @@ axios.defaults.withCredentials = true;
 export default class Feed extends Component {
   constructor(props) {
     super(props);
+    let _isMounted = false;
     this.state = {
       user: null,
       redirectHome: false,
-      posts: null
+      posts: null,
+      redirectProfile: false
     };
     this.getPosts = this.getPosts.bind(this);
+    this.handleProfileClick = this.handleProfileClick.bind(this);
   }
   componentDidMount() {
+    this._isMounted = true;
     //get the user if any
     //gets user
     axios.get(`${BASEURL}/session`).then(resp => {
@@ -44,6 +48,12 @@ export default class Feed extends Component {
       }
     });
   }
+  handleProfileClick() {
+    this.setState({ redirectProfile: true });
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   render() {
     if (this.state.redirectHome) {
       return <Redirect to="/" />;
@@ -51,9 +61,23 @@ export default class Feed extends Component {
     if (!this.state.user || !this.state.posts) {
       return <h3>Loading...</h3>;
     }
+    if (this.state.redirectProfile) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/profile/${this.state.user.email.replace("@", "")}`
+            // state: { userID: id }
+          }}
+        />
+      );
+    }
     return (
       <div>
-        <Header user={this.state.user} />
+        <Header
+          user={this.state.user}
+          isProf={false}
+          redirect={this.handleProfileClick}
+        />
         <div style={innerContainer}>
           <div>
             <UserProfile user={this.state.user} />

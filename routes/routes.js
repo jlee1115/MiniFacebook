@@ -34,5 +34,6 @@ router.post("/addComment", postCommentsdb.addCommentToPost);
 router.get("/checkIfLiked", postLikesdb.checkLike);
 router.post("/likePost", postLikesdb.addLike);
 router.get("/addLikesOfPost", postLikesdb.getLikes);
+router.post("/unlikePost", postLikesdb.unlike);
 
 module.exports = router;

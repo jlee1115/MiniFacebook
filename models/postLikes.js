@@ -11,7 +11,7 @@ const getLikes = function(req, res) {
     } else if (!data) {
       return res.send({ likes: [] });
     } else {
-      console.log(data);
+      //   console.log(data);
       let likes = [];
       for (const like of data) {
         let val = JSON.parse(like.value);
@@ -47,8 +47,8 @@ const checkLike = function(req, res) {
     } else {
       for (const like of data) {
         let val = JSON.parse(like.value);
-        console.log("LIKE VAL", val);
-        console.log(val.email, user.email);
+        // console.log("LIKE VAL", val);
+        // console.log(val.email, user.email);
         if (val.email === user.email) {
           return res.send({ liked: true });
         }
@@ -57,10 +57,43 @@ const checkLike = function(req, res) {
     }
   });
 };
-
+const unlike = function(req, res) {
+  let postID = req.body.postID;
+  let user = req.body.user;
+  let inx = -1;
+  postLikes.get(postID, function(err, data) {
+    if (err) {
+      return res.send({ err: err.message });
+    } else if (!data) {
+      return res.send({ err: "Cannot unlike because you never liked" });
+    } else {
+      for (const item of data) {
+        console.log("ITE", item); //this is 0... why?
+        let currInx = item.inx;
+        let currVal = JSON.parse(item.value);
+        console.log(currInx);
+        if (currVal.email === user.email) {
+          inx = currInx;
+        }
+      }
+      if (inx === -1) {
+        res.send({ err: "Cannot unlike" });
+      } else {
+        postLikes.remove(postID, inx, function(err2, data2) {
+          if (err2) {
+            return res.send({ err: err.message });
+          } else {
+            return res.send({ err: null });
+          }
+        });
+      }
+    }
+  });
+};
 const postLikedb = {
   addLike,
   getLikes,
-  checkLike
+  checkLike,
+  unlike
 };
 module.exports = postLikedb;
