@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import uuid from "uuid-random";
 import { BASEURL } from "../../src/constants";
+import { checkContent } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class CreatePost extends Component {
@@ -27,6 +28,12 @@ export default class CreatePost extends Component {
   }
   submitPost(e) {
     e.preventDefault();
+    //makes sure it's sad
+    console.log(checkContent(this.state.content));
+    if (checkContent(this.state.content).score > 0) {
+      alert("This is too positive. Try again");
+      return;
+    }
     this.setState({ date: new Date() });
     let post = {
       date: new Date(),

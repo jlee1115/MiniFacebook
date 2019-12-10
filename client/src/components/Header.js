@@ -42,18 +42,36 @@ export default class Header extends Component {
           {" "}
           Welcome{" "}
           {this.props.user ? (
-            <span className="headerProfileLink" onClick={this.goToProfile}>
-              {this.props.user.fname}{" "}
-            </span>
+            this.props.isProf ? (
+              <span>{this.props.user.fname} </span>
+            ) : (
+              <span className="headerProfileLink" onClick={this.props.redirect}>
+                {this.props.user.fname}{" "}
+              </span>
+            )
           ) : (
             ""
           )}
           !
         </div>
         {this.props.user ? (
-          <div className="headerHomeLink" style={headerText} onClick={this.goToHome}>
-            SadBook
-          </div>
+          this.props.isProf ? (
+            <div
+              className="headerHomeLink"
+              style={headerText}
+              onClick={this.props.redirect}
+            >
+              SadBook
+            </div>
+          ) : (
+            <div
+              // className="headerHomeLink"
+              style={headerText}
+              // onClick={this.props.redirect}
+            >
+              SadBook
+            </div>
+          )
         ) : (
           <div style={headerText}>SadBook</div>
         )}
