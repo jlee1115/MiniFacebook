@@ -27,25 +27,35 @@ const addPost = function(req, res) {
   });
 };
 const getPosts = function(req, res) {
+  let page = req.query.page;
+  let start = page * 10;
+
   posts.scanKeys(function(err, data) {
     if (err) {
       return res.send({ err: err.message });
     } else {
+      let end = start + 10 > data.length ? data.length : start + 10;
       let items = [];
-      for (const item of data) {
-        console.log(item);
-        let val = JSON.parse(item.value);
-        items.push(val);
+      for (let i = 0; i < data.length; i++) {
+        items.push(JSON.parse(data[i].value));
       }
+      //   for (let i = start; i < end; i++) {
+      //     items.push(JSON.parse(data[i].value));
+      //   }
+
       items.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });
+      let hasMore = end < data.length;
+
       return res.send({ err: null, items: items });
+      //   return res.send({ err: null, items: items.slice(start, end), hasMore: hasMore });
     }
   });
 };
 const getUserPosts = function(req, res) {
   let user = req.query.user;
+  let page = req.query.page;
   posts.get(user, function(err, data) {
     //do something.
     if (err) {

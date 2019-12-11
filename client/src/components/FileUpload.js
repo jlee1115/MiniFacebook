@@ -15,16 +15,21 @@ export default class FileUpload extends Component {
     this.setState({ selectedFile: file });
   }
   uploadHandler = () => {
-    const formData = new FormData();
     //convert to json
-    formData.append("file", this.state.selectedFile);
-    // console.log("FORM DATA", formData);
-    console.log("SELECTED", this.state.selectedFile);
-    let profPic = JSON.stringify(this.state.selectedFile);
-    console.log("Profile", profPic);
-    axios.post(`${BASEURL}/uploadPicProfile`, this.state.selectedFile).then(resp => {
-      console.log(resp);
-    });
+    if (this.state.selectedFile) {
+      const formData = new FormData();
+      formData.append("file", this.state.selectedFile, this.state.selectedFile.name);
+      console.log("FORM DATA", formData);
+      //   console.log("SELECTED", this.state.selectedFile, typeof this.state.selectedFile);
+      let profPic = JSON.stringify(this.state.selectedFile);
+      for (var key of formData.entries()) {
+        console.log(key[0] + ", " + key[1]);
+      }
+      console.log("Profile", profPic);
+      axios.post(`${BASEURL}/uploadPicProfile`, formData).then(resp => {
+        console.log(resp);
+      });
+    }
   };
   render() {
     return (
