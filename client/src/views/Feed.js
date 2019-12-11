@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import PostDisplay from "../components/PostDisplay";
 import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
+import FeedPosts from "../components/FeedPosts";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -84,7 +85,8 @@ export default class Feed extends Component {
           </div>
           <div>
             <CreatePost userTo={this.state.user} userFrom={this.state.user} />
-            <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} />
+            <FeedPosts userLoggedIn={this.state.user} />
+            {/* <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} /> */}
           </div>
           <div>insert friend recs here</div>
         </div>

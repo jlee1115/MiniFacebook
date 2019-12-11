@@ -23,6 +23,7 @@
     "logger": "0.0.1",
     "morgan": "^1.9.1",
     "react-bulma-components": "^3.1.3",
+    "react-infinite-scroller": "^1.2.4",
     "react-router-dom": "^5.1.2",
     "sentiment": "^5.0.2"
   },

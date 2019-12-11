@@ -32,20 +32,21 @@ const getPosts = function(req, res) {
       return res.send({ err: err.message });
     } else {
       let items = [];
-      for (const item of data) {
-        console.log(item);
-        let val = JSON.parse(item.value);
-        items.push(val);
+      for (let i = 0; i < data.length; i++) {
+        items.push(JSON.parse(data[i].value));
       }
+
       items.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });
       return res.send({ err: null, items: items });
+      //   return res.send({ err: null, items: items.slice(start, end), hasMore: hasMore });
     }
   });
 };
 const getUserPosts = function(req, res) {
   let user = req.query.user;
+  let page = req.query.page;
   posts.get(user, function(err, data) {
     //do something.
     if (err) {

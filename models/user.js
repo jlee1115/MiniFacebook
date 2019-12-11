@@ -122,9 +122,7 @@ const signup = function(req, res) {
   //create the new user here.
 };
 
-const uploadProfPic = function(req, res) {
-  console.log("PROFILE", req.body);
-};
+const uploadProfPic = function(req, res) {};
 const userdb = {
   checkLogin: check_login,
   signup: signup,

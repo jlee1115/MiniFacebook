@@ -4,6 +4,7 @@ const userdb = require("../models/user");
 const postdb = require("../models/post");
 const postCommentsdb = require("../models/postComments");
 const postLikesdb = require("../models/postLikes");
+const userPicsdb = require("../models/userPics");
 const router = express.Router();
 
 //USER functions
@@ -19,7 +20,7 @@ router.post("/logout", function(req, res) {
   res.send({ error: false });
 });
 router.get("/getUser", userdb.getUserPage);
-router.post("/uploadPicProfile", userdb.uploadProfPic);
+router.post("/uploadPicProfile", userPicsdb.uploadProfPic);
 
 //POST functions
 router.get("/userPosts", postdb.getUserPosts);
