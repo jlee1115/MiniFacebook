@@ -2,7 +2,7 @@ import React, { Component, useRef } from "react";
 import axios from "axios";
 import PostDisplay from "./PostDisplay";
 import Post from "./Post";
-import { BASEURL } from "../../src/constants";
+import { BASEURL, DEFAULTNUMPOSTS } from "../../src/constants";
 import InfiniteScroll from "react-infinite-scroller";
 axios.defaults.withCredentials = true;
 
@@ -10,12 +10,11 @@ axios.defaults.withCredentials = true;
 export default class FeedPosts extends Component {
   constructor(props) {
     super(props);
-    // this.observer = React.createRef();
     this.state = {
       posts: null,
-      pageNumber: 0,
       loading: false,
-      hasMore: true
+      hasMore: true,
+      numItems: DEFAULTNUMPOSTS
     };
     this.getPosts = this.getPosts.bind(this);
     this.loadMore = this.loadMore.bind(this);
@@ -29,35 +28,39 @@ export default class FeedPosts extends Component {
   }
   getPosts() {
     // console.log("Props", this.props);
-    let { pageNumber } = this.state;
+
     let user = this.props.userID;
     // console.log(user);
     if (user) {
-      axios
-        .get(`${BASEURL}/userPosts`, { params: { user: user, page: pageNumber } })
-        .then(resp => {
-          this.setState({ posts: resp.data.posts });
-          // this.setState({posts: [...this.state.posts, ...resp.data.posts]})
-          // this.setState({hasMore: false})
-          // console.log(resp.data);
-        });
-    } else {
-      axios.get(`${BASEURL}/allPosts`, { params: { page: pageNumber } }).then(resp => {
+      axios.get(`${BASEURL}/userPosts`, { params: { user: user } }).then(resp => {
+        this.setState({ posts: resp.data.posts });
+        // this.setState({posts: [...this.state.posts, ...resp.data.posts]})
+        // this.setState({hasMore: false})
         // console.log(resp.data);
-        this.setState({ posts: resp.data.items, hasMore: resp.data.hasMore });
+      });
+    } else {
+      axios.get(`${BASEURL}/allPosts`).then(resp => {
+        // console.log(resp.data);
+        this.setState({ posts: resp.data.items });
       });
     }
   }
   loadMore() {
-    if (this.state.hasMore) {
+    if (this.state.posts.length <= this.state.numItems) {
+      this.setState({ hasMore: false });
+    } else if (this.state.hasMore) {
       setTimeout(() => {
-        this.setState({ pageNumber: this.state.pageNumber + 1 }, 2000);
-      });
+        this.setState({ numItems: this.state.numItems + DEFAULTNUMPOSTS });
+      }, 2000);
     }
   }
+
   showItems() {
     let items = [];
-    for (let i = 0; i < this.state.posts.length; i++) {
+    let { posts, numItems } = this.state;
+    let upperBound = posts.length < numItems ? posts.length : numItems;
+    for (let i = 0; i < upperBound; i++) {
+      // console.log("POST", this.state.posts[i]);
       items.push(
         <Post post={this.state.posts[i]} userLoggedIn={this.props.userLoggedIn} />
       );
@@ -70,6 +73,21 @@ export default class FeedPosts extends Component {
     }
     let posts = this.state.posts;
     // console.log(posts);
-    return <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />;
+    // return <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />;
+    return (
+      <div>
+        <InfiniteScroll
+          loadMore={this.loadMore.bind(this)}
+          hasMore={this.state.hasMore}
+          loader={
+            <div className="loader" key={0}>
+              Loading...
+            </div>
+          }
+        >
+          {this.showItems()}{" "}
+        </InfiniteScroll>{" "}
+      </div>
+    );
   }
 }
