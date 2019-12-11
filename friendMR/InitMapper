@@ -9,6 +9,8 @@ public class InitMapper extends Mapper<LongWritable, Text, Text, Text> {
 		String[] friendship = v.split(",");
 		String person1  = friendship[0];
 		String person2 = friendship[1];
+
+		context.write(new Text(person1), new Text(person2));
 		
 	}
 	
