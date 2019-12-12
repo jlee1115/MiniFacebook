@@ -39,13 +39,14 @@ export default class Login extends Component {
     };
     axios.post(`${BASEURL}/login`, { user: user }).then(resp => {
       //awesome!! this sends back data
+      console.log("hello?");
       console.log(resp.data);
       if (resp.data.error) {
         //some error occurred
         alert(resp.data.error);
         return;
       } else {
-        // console.log("YAY!");
+        console.log("YAY!");
         this.setState({ redirect: true });
       }
     });
