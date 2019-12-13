@@ -35,17 +35,17 @@ export default class LikeOption extends Component {
       })
       .then(resp => {
         //do something
-        console.log(resp);
+        // console.log(resp);
         if (!resp.data.err) {
           let likedOrNot = resp.data.liked;
-          console.log(resp.data);
+          // console.log(resp.data);
           this.setState({ liked: likedOrNot });
           //   console.log(resp.data);
         }
       });
   }
   addLike() {
-    console.log("ADDING LIKE");
+    // console.log("ADDING LIKE");
     // let obj = {
     //   user: this.props.userLoggedIn,
     //   postID: this.props.post.id
@@ -56,7 +56,7 @@ export default class LikeOption extends Component {
         postID: this.props.post.id
       })
       .then(resp => {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (!resp.data.err) {
           this.setState({ liked: !this.state.liked });
         }
@@ -74,7 +74,7 @@ export default class LikeOption extends Component {
         if (!resp.data.err) {
         }
         this.setState({ allLikes: resp.data.likes });
-        console.log("GET ALL LIKES", resp.data);
+        // console.log("GET ALL LIKES", resp.data);
       });
   }
   removeLike() {
@@ -84,7 +84,7 @@ export default class LikeOption extends Component {
         postID: this.props.post.id
       })
       .then(resp => {
-        console.log(resp.data);
+        // console.log(resp.data);
         if (!resp.data.err) {
           this.setState({ liked: false });
         }
