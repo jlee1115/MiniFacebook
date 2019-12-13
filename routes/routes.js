@@ -7,6 +7,9 @@ const postLikesdb = require("../models/postLikes");
 const userPicsdb = require("../models/userPics");
 const router = express.Router();
 
+//MIDDLEWARE
+// router.use(userdb.manageSession);
+
 //USER functions
 //logins in
 router.post("/login", userdb.checkLogin);
@@ -15,10 +18,7 @@ router.post("/signup", userdb.signup);
 //gets the logged in user
 router.get("/session", userdb.getSession);
 //logs the user out
-router.post("/logout", function(req, res) {
-  req.session.userID = null;
-  res.send({ error: false });
-});
+router.post("/logout", userdb.logout);
 router.get("/getUser", userdb.getUserPage);
 router.post("/uploadPicProfile", userPicsdb.uploadProfPic);
 

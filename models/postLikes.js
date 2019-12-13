@@ -81,7 +81,7 @@ const unlike = function(req, res) {
       } else {
         postLikes.remove(postID, inx, function(err2, data2) {
           if (err2) {
-            return res.send({ err: err.message });
+            return res.send({ err: err2.message });
           } else {
             return res.send({ err: null });
           }
