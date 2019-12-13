@@ -7,6 +7,7 @@ import PostDisplay from "../components/PostDisplay";
 import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
+import ActiveUsers from "../components/ActiveUsers";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -88,7 +89,8 @@ export default class Feed extends Component {
             <FeedPosts userLoggedIn={this.state.user} />
             {/* <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} /> */}
           </div>
-          <div>insert friend recs here</div>
+          <ActiveUsers />
+          {/* <div>insert friend recs here</div> */}
         </div>
       </div>
     );
@@ -96,6 +98,6 @@ export default class Feed extends Component {
 }
 const innerContainer = {
   display: "grid",
-  gridTemplateColumns: "1fr 4fr 1fr",
+  gridTemplateColumns: "1fr 4fr 2fr",
   margin: "20px"
 };

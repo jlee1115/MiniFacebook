@@ -173,7 +173,24 @@ const logout = function(req, res) {
 const getAllUsersOnServer = function(req, res) {
   usersOnServer.scanKeys(function(err, data) {
     //do something
+    if (err) {
+      return res.send({ error: err.message });
+    } else if (!data) {
+      return res.send({ users: [] });
+    } else {
+      let items = [];
+      for (const item in data) {
+        items.push(JSON.parse(item.value));
+      }
+      return res.send({ users: items });
+    }
   });
+};
+const manageSession = function(req, res, next) {
+  if (!req.session.userID) {
+    //clear session?
+  }
+  next();
 };
 
 const uploadProfPic = function(req, res) {};
@@ -183,6 +200,7 @@ const userdb = {
   getSession: get_session,
   getUserPage: get_user_page,
   uploadProfPic: uploadProfPic,
-  logout
+  logout,
+  manageSession
 };
 module.exports = userdb;

@@ -7,6 +7,9 @@ const postLikesdb = require("../models/postLikes");
 const userPicsdb = require("../models/userPics");
 const router = express.Router();
 
+//MIDDLEWARE
+// router.use(userdb.manageSession);
+
 //USER functions
 //logins in
 router.post("/login", userdb.checkLogin);
