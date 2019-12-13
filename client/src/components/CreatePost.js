@@ -42,7 +42,6 @@ export default class CreatePost extends Component {
       fromUser: this.props.userFrom,
       id: uuid()
     };
-    // console.log("POST!", post);
     //makes the post
     axios.post(`${BASEURL}/addPost`, { post: post }).then(resp => {
       //response
@@ -58,7 +57,6 @@ export default class CreatePost extends Component {
     if (!this.state.to || !this.state.from) {
       return <h4>Loading...</h4>;
     }
-    // console.log(this.state.to, this.state.from);
     return (
       <div style={createPost}>
         {this.state.to.email.replace("@", "") ===

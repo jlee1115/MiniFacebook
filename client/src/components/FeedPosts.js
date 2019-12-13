@@ -27,20 +27,13 @@ export default class FeedPosts extends Component {
     setInterval(this.getPosts, 3000);
   }
   getPosts() {
-    // console.log("Props", this.props);
-
     let user = this.props.userID;
-    // console.log(user);
     if (user) {
       axios.get(`${BASEURL}/userPosts`, { params: { user: user } }).then(resp => {
         this.setState({ posts: resp.data.posts });
-        // this.setState({posts: [...this.state.posts, ...resp.data.posts]})
-        // this.setState({hasMore: false})
-        // console.log(resp.data);
       });
     } else {
       axios.get(`${BASEURL}/allPosts`).then(resp => {
-        // console.log(resp.data);
         this.setState({ posts: resp.data.items });
       });
     }
