@@ -73,21 +73,26 @@ const check_login = function(req, res) {
 
       //add it to the server
       // putOnServer(req.session.userID.replace("@", ""), userFetched);
-      usersOnServer.put(
-        req.session.userID.replace("@", ""),
-        JSON.stringify(userFetched),
-        function(err, data) {
-          //do something
-          if (err) {
-            return res.send({ error: "cannot add to server" });
-            console.log(err);
-          } else {
-            //this is just 1
-            return res.send({ error: null });
-            console.log("DAAAAATAAAA", data);
-          }
+      usersOnServer.exists(req.session.userID.replace("@", ""), function(err, data) {
+        console.log(data);
+        if (!err && data !== true) {
+          usersOnServer.put(
+            req.session.userID.replace("@", ""),
+            JSON.stringify(userFetched),
+            function(err, data) {
+              //do something
+              if (err) {
+                return res.send({ error: "cannot add to server" });
+                // console.log(err);
+              } else {
+                //this is just 1
+                return res.send({ error: null });
+                // console.log("DAAAAATAAAA", data);
+              }
+            }
+          );
         }
-      );
+      });
     }
   });
 };
@@ -136,11 +141,21 @@ const signup = function(req, res) {
         //if error adding user
         if (err2) {
           //handle error putting shit in
-          return res.send({ error: err2 });
+          return res.send({ error: err2.message });
         } else {
           //successfully put shit in, update the session
           req.session.userID = userID;
-          return res.send({ error: null });
+
+          usersOnServer.put(userID, newUser, function(err3, data3) {
+            //do something
+            if (err3) {
+              return res.send({ error: err3.message });
+            } else {
+              //this is just 1
+              return res.send({ error: null });
+            }
+          });
+          // return res.send({ error: null });
         }
       });
     }
@@ -179,8 +194,8 @@ const getAllUsersOnServer = function(req, res) {
       return res.send({ users: [] });
     } else {
       let items = [];
-      for (const item in data) {
-        items.push(JSON.parse(item.value));
+      for (let i = 0; i < data.length; i++) {
+        items.push(JSON.parse(data[i].value));
       }
       return res.send({ users: items });
     }
@@ -201,6 +216,7 @@ const userdb = {
   getUserPage: get_user_page,
   uploadProfPic: uploadProfPic,
   logout,
-  manageSession
+  manageSession,
+  getAllUsersOnServer
 };
 module.exports = userdb;

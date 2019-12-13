@@ -37,4 +37,6 @@ router.post("/likePost", postLikesdb.addLike);
 router.get("/addLikesOfPost", postLikesdb.getLikes);
 router.post("/unlikePost", postLikesdb.unlike);
 
+router.get("/usersOnServer", userdb.getAllUsersOnServer);
+
 module.exports = router;
