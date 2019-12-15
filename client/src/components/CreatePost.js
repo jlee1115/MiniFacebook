@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 import uuid from "uuid-random";
+import { BASEURL } from "../../src/constants";
+import { checkContent } from "../constants";
+axios.defaults.withCredentials = true;
 
 export default class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: null,
+      content: "",
       to: null,
       from: null,
       date: null,
@@ -24,33 +27,36 @@ export default class CreatePost extends Component {
     this.setState({ content: e.target.value });
   }
   submitPost(e) {
-    let baseurl = "http://localhost:8000";
     e.preventDefault();
+    //makes sure it's sad
+    console.log(checkContent(this.state.content));
+    if (checkContent(this.state.content).score > 0) {
+      alert("This is too positive. Try again");
+      return;
+    }
     this.setState({ date: new Date() });
     let post = {
       date: new Date(),
       content: this.state.content,
-      toUser: this.props.userTo.email.replace("@", ""),
-      fromUser: this.props.userFrom.email.replace("@", ""),
+      toUser: this.props.userTo,
+      fromUser: this.props.userFrom,
       id: uuid()
     };
-    console.log("POST!", post);
     //makes the post
-    axios.post(`${baseurl}/addPost`, { post: post }).then(resp => {
+    axios.post(`${BASEURL}/addPost`, { post: post }).then(resp => {
       //response
       if (resp.data.error) {
         //something went wrong
       } else {
         this.setState({ content: "" });
       }
-      console.log(resp);
+      //   console.log(resp);
     });
   }
   render() {
     if (!this.state.to || !this.state.from) {
       return <h4>Loading...</h4>;
     }
-    console.log(this.state.to, this.state.from);
     return (
       <div style={createPost}>
         {this.state.to.email.replace("@", "") ===

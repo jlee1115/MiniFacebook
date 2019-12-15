@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import CreatePost from "../components/CreatePost";
 import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
+import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -15,8 +16,10 @@ export default class ProfilePage extends Component {
       userIDOfLoggedIn: null,
       userLoggedIn: null,
       userIDOfPage: null,
-      userOfPage: null
+      userOfPage: null,
+      redirectFeed: false
     };
+    this.handleHomeClick = this.handleHomeClick.bind(this);
   }
   componentDidMount() {
     let { userID } = this.props.match.params;
@@ -24,9 +27,8 @@ export default class ProfilePage extends Component {
     //user ID of page
     console.log("USER", userID);
     this.setState({ userIDOfPage: userID });
-    let baseurl = "http://localhost:8000";
     //get the user logged in
-    axios.get(`${baseurl}/session`).then(resp => {
+    axios.get(`${BASEURL}/session`).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true, userLoggedIn: false });
         return;
@@ -42,7 +44,7 @@ export default class ProfilePage extends Component {
         this.setState({ userLoggedIn: user, userIDOfLoggedIn: resp.data.userID });
       }
     });
-    axios.get(`${baseurl}/getUser`, { params: { userID: userID } }).then(resp => {
+    axios.get(`${BASEURL}/getUser`, { params: { userID: userID } }).then(resp => {
       if (resp.data.error || !resp.data) {
         this.setState({ redirectHome: true });
         return;
@@ -59,6 +61,9 @@ export default class ProfilePage extends Component {
       }
     });
   }
+  handleHomeClick() {
+    this.setState({ redirectFeed: true });
+  }
 
   render() {
     if (this.state.redirectHome) {
@@ -67,10 +72,17 @@ export default class ProfilePage extends Component {
     if (!this.state.userLoggedIn || !this.state.userOfPage) {
       return <div>LOADING</div>;
     }
+    if (this.state.redirectFeed) {
+      return <Redirect to="/feed" />;
+    }
 
     return (
       <div style={container}>
-        <Header user={this.state.userLoggedIn} />
+        <Header
+          user={this.state.userLoggedIn}
+          redirect={this.handleHomeClick}
+          isProf={true}
+        />
         <div style={innerContainer}>
           {/* {console.log(this.state.user)} */}
           {/* <div>{this.state.user.fname + " " + this.state.user.lname}</div>
@@ -83,7 +95,11 @@ export default class ProfilePage extends Component {
               userTo={this.state.userOfPage}
               userFrom={this.state.userLoggedIn}
             />
-            <FeedPosts user={this.state.userOfPage} userID={this.state.userIDOfPage} />
+            <FeedPosts
+              user={this.state.userOfPage}
+              userID={this.state.userIDOfPage}
+              userLoggedIn={this.state.userLoggedIn}
+            />
           </div>
         </div>
       </div>

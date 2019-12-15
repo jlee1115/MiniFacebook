@@ -10,11 +10,10 @@ export default class PostDisplay extends Component {
   }
   render() {
     let { posts } = this.props;
-    console.log(posts);
     return (
       <div style={allPosts}>
         {posts.map(p => (
-          <Post post={p} />
+          <Post post={p} userLoggedIn={this.props.userLoggedIn} />
         ))}
       </div>
     );

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { BASEURL } from "../constants";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default class FileUpload extends Component {
   constructor(props) {
@@ -8,21 +10,38 @@ export default class FileUpload extends Component {
       selectedFile: null
     };
     this.fileChangedHandler = this.fileChangedHandler.bind(this);
+    this.uploadHandler = this.uploadHandler.bind(this);
   }
   fileChangedHandler(e) {
     const file = e.target.files[0];
     this.setState({ selectedFile: file });
   }
-  uploadHandler = () => {
-    let baseurl = "http://localhost:8000";
-    const formData = new FormData();
-    formData.append("file", this.state.selectedFile);
-    console.log("FORM DATA", formData);
-    console.log("SELECTED", this.state.selectedFile);
-    axios.post(`${baseurl}/uploadPicProfile`, formData).then(resp => {
-      console.log(resp);
-    });
-  };
+  uploadHandler(e) {
+    e.preventDefault();
+    //convert to json
+    if (this.state.selectedFile) {
+      const formData = new FormData();
+      console.log(this.state.selectedFile);
+      formData.append("image", this.state.selectedFile);
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data"
+        }
+      };
+      console.log("FORM DATA", formData);
+      //   console.log("SELECTED", this.state.selectedFile, typeof this.state.selectedFile);
+      let profPic = JSON.stringify(this.state.selectedFile);
+      for (var key of formData.entries()) {
+        console.log(key[0] + ", " + key[1]);
+      }
+      console.log("Profile", profPic);
+      axios.post(`${BASEURL}/uploadPicProfile`, formData, config).then(resp => {
+        console.log(resp);
+      });
+    } else {
+      alert("Please choose a picture!");
+    }
+  }
   render() {
     return (
       <div>

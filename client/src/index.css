@@ -22,13 +22,35 @@ header {
   background-color: #bfd5d5;
   cursor: pointer;
 }
+/* Header styling start */
+.headerProfileLink:hover {
+  cursor: pointer;
+  background-color: #9ca4b2;
+  padding: 3px;
+}
+.headerHomeLink:hover {
+  cursor: pointer;
+  background-color: #9ca4b2;
+  padding: 5px;
+}
+/* Header styling end */
+/* Post styling */
 p.postText {
   margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 14px;
+  font-size: 16px;
+}
+.postName {
+  font-size: 16px;
+  font-weight: bold;
 }
 p.postDate {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 300;
+}
+.postContent {
+  font-weight: 400;
+  font-size: 14px;
 }
 p.userInfo {
   margin-top: 0px;
@@ -36,4 +58,29 @@ p.userInfo {
 }
 .pBtn:hover {
   cursor: pointer;
+}
+/* end of post styling */
+/* Comment */
+.commentName {
+  font-size: 12px;
+  font-weight: bold;
+}
+.commentContent {
+  font-size: 12px;
+  font-weight: 400;
+}
+.commentDate {
+  font-size: 8px;
+  font-weight: 200;
+}
+/* End of comment styling */
+.modalMain {
+  position: fixed;
+  background: #bfd5d5;
+  width: 20%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
 }
