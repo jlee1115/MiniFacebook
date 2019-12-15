@@ -26,7 +26,8 @@ export default class ActiveUsers extends Component {
       );
     }
     return (
-      <div>
+      <div className="userDisplay">
+        Active users
         {this.state.users.map(u => {
           return <ActiveUser user={u} />;
         })}

@@ -18,7 +18,6 @@ export default class UserProfile extends Component {
         </div>
       );
     }
-    console.log("PROFI", this.state.user);
     let { user } = this.state;
 
     return (

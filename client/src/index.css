@@ -84,3 +84,8 @@ p.userInfo {
   transform: translate(-50%, -50%);
   padding: 20px;
 }
+/* Displaying random shit */
+.userDisplay {
+  padding: 10px;
+  margin: 10px;
+}
