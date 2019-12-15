@@ -11,7 +11,6 @@ const getLikes = function(req, res) {
     } else if (!data) {
       return res.send({ likes: [] });
     } else {
-      //   console.log(data);
       let likes = [];
       for (const like of data) {
         let val = JSON.parse(like.value);
@@ -35,9 +34,7 @@ const addLike = function(req, res) {
 };
 const checkLike = function(req, res) {
   let user = JSON.parse(req.query.user);
-  //   console.log("USERRRR", user);
   let postID = req.query.postID;
-  //   console.log("USER", user);
   postLikes.get(postID, function(err, data) {
     if (err) {
       //

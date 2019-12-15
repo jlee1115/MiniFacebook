@@ -18,10 +18,8 @@ const get_session = function(req, res) {
       } else if (!data) {
         return res.send({ error: "Something went wrong" });
       } else {
-        // console.log("GET SESSION GET");
         let dataObj = JSON.parse(data[0].value);
         //this comes out fine
-        // console.log("GET SESSION", dataObj);
         return res.send({ user: dataObj, userID: userID });
       }
     });
@@ -78,8 +76,8 @@ const check_login = function(req, res) {
         dataExists
       ) {
         console.log(dataExists);
-        if (dataExists !== true) {
-          console.log("WHY DOES THISSSSS", data);
+        if (!errExists && !dataExists) {
+          console.log("WHY DOES THISSSSS", dataExists);
           usersOnServer.put(
             req.session.userID.replace("@", ""),
             JSON.stringify(userFetched),
@@ -95,6 +93,8 @@ const check_login = function(req, res) {
               }
             }
           );
+        } else {
+          return res.send({ error: null });
         }
       });
     }
