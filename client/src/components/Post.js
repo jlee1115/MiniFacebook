@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router";
 import uuid from "uuid-random";
 import Comments from "./Comments";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -51,7 +50,6 @@ export default class Post extends Component {
   getComments() {
     //get the comments
     let postID = this.props.post.id;
-    let userLoggedIn = this.props.userLoggedIn;
     axios.get(`${BASEURL}/getPostComments`, { params: { postID } }).then(resp => {
       if (resp.data.error) {
         console.log(resp.data.error);

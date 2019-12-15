@@ -9,7 +9,7 @@ export default class CreatePost extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: null,
+      content: "",
       to: null,
       from: null,
       date: null,

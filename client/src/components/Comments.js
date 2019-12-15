@@ -13,7 +13,6 @@ export default class Comments extends Component {
     this.getComments = this.getComments.bind(this);
   }
   componentDidMount() {
-    let { id, items } = this.props;
     this.getComments();
     setInterval(this.getComments, 3000);
   }

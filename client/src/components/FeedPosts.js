@@ -1,6 +1,5 @@
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import PostDisplay from "./PostDisplay";
 import Post from "./Post";
 import { BASEURL, DEFAULTNUMPOSTS } from "../../src/constants";
 import InfiniteScroll from "react-infinite-scroller";
@@ -64,8 +63,6 @@ export default class FeedPosts extends Component {
     if (!this.state.posts) {
       return <h3>Loading...</h3>;
     }
-    let posts = this.state.posts;
-    // console.log(posts);
     // return <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />;
     return (
       <div>

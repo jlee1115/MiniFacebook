@@ -73,15 +73,19 @@ const check_login = function(req, res) {
 
       //add it to the server
       // putOnServer(req.session.userID.replace("@", ""), userFetched);
-      usersOnServer.exists(req.session.userID.replace("@", ""), function(err, data) {
-        console.log(data);
-        if (!err && data !== true) {
+      usersOnServer.exists(req.session.userID.replace("@", ""), function(
+        errExists,
+        dataExists
+      ) {
+        console.log(dataExists);
+        if (dataExists !== true) {
+          console.log("WHY DOES THISSSSS", data);
           usersOnServer.put(
             req.session.userID.replace("@", ""),
             JSON.stringify(userFetched),
-            function(err, data) {
+            function(err2, data2) {
               //do something
-              if (err) {
+              if (err2) {
                 return res.send({ error: "cannot add to server" });
                 // console.log(err);
               } else {
@@ -120,7 +124,6 @@ const signup = function(req, res) {
   let birthday = user.birthday;
   let affil = user.affiliation;
   let userID = email.replace("@", "");
-  //   console.log("email", String(user.email));
 
   users.exists(userID, function(err, data) {
     //already exists a user with that email

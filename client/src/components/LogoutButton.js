@@ -14,6 +14,7 @@ export default class LogoutButton extends Component {
   }
   handleClick(e) {
     axios.post(`${BASEURL}/logout`).then(resp => {
+      console.log("LOGOUT", resp);
       if (!resp.data.error) {
         this.setState({ success: true });
       } else {
