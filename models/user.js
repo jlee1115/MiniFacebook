@@ -75,9 +75,7 @@ const check_login = function(req, res) {
         errExists,
         dataExists
       ) {
-        console.log(dataExists);
         if (!errExists && !dataExists) {
-          console.log("WHY DOES THISSSSS", dataExists);
           usersOnServer.put(
             req.session.userID.replace("@", ""),
             JSON.stringify(userFetched),
