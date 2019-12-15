@@ -64,13 +64,7 @@ export default class Header extends Component {
               SadBook
             </div>
           ) : (
-            <div
-              // className="headerHomeLink"
-              style={headerText}
-              // onClick={this.props.redirect}
-            >
-              SadBook
-            </div>
+            <div style={headerText}>SadBook</div>
           )
         ) : (
           <div style={headerText}>SadBook</div>

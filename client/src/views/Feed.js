@@ -28,7 +28,6 @@ export default class Feed extends Component {
     //get the user if any
     //gets user
     axios.get(`${BASEURL}/session`).then(resp => {
-      //   console.log(resp.data.user);
       //do something with the response
       let user = resp.data.user;
       if (!user) {
@@ -42,7 +41,6 @@ export default class Feed extends Component {
   }
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
-      console.log(resp.data.items);
       if (resp.data.err) {
         this.setState({ redirectHome: true });
       } else {

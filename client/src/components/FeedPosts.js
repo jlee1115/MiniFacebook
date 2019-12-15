@@ -1,6 +1,5 @@
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import PostDisplay from "./PostDisplay";
 import Post from "./Post";
 import { BASEURL, DEFAULTNUMPOSTS } from "../../src/constants";
 import InfiniteScroll from "react-infinite-scroller";
@@ -27,20 +26,13 @@ export default class FeedPosts extends Component {
     setInterval(this.getPosts, 3000);
   }
   getPosts() {
-    // console.log("Props", this.props);
-
     let user = this.props.userID;
-    // console.log(user);
     if (user) {
       axios.get(`${BASEURL}/userPosts`, { params: { user: user } }).then(resp => {
         this.setState({ posts: resp.data.posts });
-        // this.setState({posts: [...this.state.posts, ...resp.data.posts]})
-        // this.setState({hasMore: false})
-        // console.log(resp.data);
       });
     } else {
       axios.get(`${BASEURL}/allPosts`).then(resp => {
-        // console.log(resp.data);
         this.setState({ posts: resp.data.items });
       });
     }
@@ -71,8 +63,6 @@ export default class FeedPosts extends Component {
     if (!this.state.posts) {
       return <h3>Loading...</h3>;
     }
-    let posts = this.state.posts;
-    // console.log(posts);
     // return <PostDisplay posts={posts} userLoggedIn={this.props.userLoggedIn} />;
     return (
       <div>

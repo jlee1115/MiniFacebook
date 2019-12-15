@@ -37,6 +37,7 @@ export default class Login extends Component {
       userID: this.state.email.replace("@", ""),
       password: this.state.password
     };
+    console.log("HELLO LOGIN");
     axios.post(`${BASEURL}/login`, { user: user }).then(resp => {
       //awesome!! this sends back data
       console.log("hello?");
@@ -46,7 +47,6 @@ export default class Login extends Component {
         alert(resp.data.error);
         return;
       } else {
-        console.log("YAY!");
         this.setState({ redirect: true });
       }
     });

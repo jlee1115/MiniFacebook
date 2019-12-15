@@ -11,7 +11,6 @@ const getLikes = function(req, res) {
     } else if (!data) {
       return res.send({ likes: [] });
     } else {
-      //   console.log(data);
       let likes = [];
       for (const like of data) {
         let val = JSON.parse(like.value);
@@ -22,7 +21,6 @@ const getLikes = function(req, res) {
   });
 };
 const addLike = function(req, res) {
-  console.log("ADD backend likes");
   let user = req.body.user;
   let postID = req.body.postID;
   postLikes.put(postID, JSON.stringify(user), function(err, data) {
@@ -36,9 +34,7 @@ const addLike = function(req, res) {
 };
 const checkLike = function(req, res) {
   let user = JSON.parse(req.query.user);
-  //   console.log("USERRRR", user);
   let postID = req.query.postID;
-  //   console.log("USER", user);
   postLikes.get(postID, function(err, data) {
     if (err) {
       //
@@ -47,8 +43,6 @@ const checkLike = function(req, res) {
     } else {
       for (const like of data) {
         let val = JSON.parse(like.value);
-        // console.log("LIKE VAL", val);
-        // console.log(val.email, user.email);
         if (val.email === user.email) {
           return res.send({ liked: true });
         }
@@ -68,10 +62,8 @@ const unlike = function(req, res) {
       return res.send({ err: "Cannot unlike because you never liked" });
     } else {
       for (const item of data) {
-        console.log("ITE", item); //this is 0... why?
         let currInx = item.inx;
         let currVal = JSON.parse(item.value);
-        console.log(currInx);
         if (currVal.email === user.email) {
           inx = currInx;
         }

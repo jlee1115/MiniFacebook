@@ -13,14 +13,12 @@ export default class Comments extends Component {
     this.getComments = this.getComments.bind(this);
   }
   componentDidMount() {
-    let { id, items } = this.props;
     this.getComments();
     setInterval(this.getComments, 3000);
   }
   getComments() {
     //get the comments
     let postID = this.props.post.id;
-    // let userLoggedIn = this.props.userLoggedIn;
     axios.get(`${BASEURL}/getPostComments`, { params: { postID } }).then(resp => {
       if (resp.data.error) {
         console.log(resp.data.error);
