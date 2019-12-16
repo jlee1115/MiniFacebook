@@ -26,7 +26,7 @@ const get_session = function(req, res) {
     // res.send({ email: req.session.userEmail });
   } else {
     console.log("NOOOOOOOO");
-    return res.send({ user: null });
+    return res.send({ user: null, redirect: true });
   }
 };
 const get_user_page = function(req, res) {
@@ -165,6 +165,9 @@ const signup = function(req, res) {
 };
 const logout = function(req, res) {
   let inx = -1;
+  if (!req.session.userID) {
+    return res.send({ redirect: true });
+  }
   usersOnServer.get(req.session.userID, function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -202,6 +205,28 @@ const getAllUsersOnServer = function(req, res) {
     }
   });
 };
+const getUsersWithSameAff = function(req, res) {
+  let aff = req.query.aff;
+  users.scanKeys(function(err, data) {
+    if (err) {
+      return res.send({ error: err.message });
+    } else if (!data) {
+      return res.send({ users: [] });
+    } else {
+      let items = [];
+
+      for (let i = 0; i < data.length; i++) {
+        let val = JSON.parse(data[i].value);
+        // items.push(val.affiliation);
+        console.log(val.affiliation);
+        if (aff.toLowerCase() === val.affiliation.toLowerCase()) {
+          items.push(val);
+        }
+      }
+      return res.send({ users: items });
+    }
+  });
+};
 const manageSession = function(req, res, next) {
   if (!req.session.userID) {
     //clear session?
@@ -218,6 +243,7 @@ const userdb = {
   uploadProfPic: uploadProfPic,
   logout,
   manageSession,
-  getAllUsersOnServer
+  getAllUsersOnServer,
+  getUsersWithSameAff
 };
 module.exports = userdb;

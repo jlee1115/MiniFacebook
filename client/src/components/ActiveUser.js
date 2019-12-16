@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
+import axios from "axios";
+import AddFriend from "./AddFriend";
+axios.defaults.withCredentials = true;
 
 export default class ActiveUser extends Component {
   constructor(props) {
@@ -13,6 +16,7 @@ export default class ActiveUser extends Component {
     e.preventDefault();
     this.setState({ redirectTo: this.props.user.email.replace("@", "") });
   }
+
   render() {
     if (this.state.redirectTo) {
       return (
@@ -31,6 +35,8 @@ export default class ActiveUser extends Component {
           {user.fname} {user.lname}
         </p>
         <button onClick={this.handleClick}>view profile</button>
+        <AddFriend userTo={user} />
+        {/* <button onClick={this.handleFriendClick}>add friend</button> */}
       </div>
     );
   }

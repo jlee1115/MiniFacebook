@@ -6,6 +6,7 @@ import CreatePost from "../components/CreatePost";
 import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
 import { BASEURL } from "../constants";
+import AddFriend from "../components/AddFriend";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -89,6 +90,12 @@ export default class ProfilePage extends Component {
           <div>{this.state.user.affiliation}</div> */}
           <div>
             <UserProfile user={this.state.userOfPage} />
+            {this.state.userIDOfLoggedIn ===
+            this.state.userOfPage.email.replace("@", "") ? (
+              <p>me</p>
+            ) : (
+              <AddFriend userTo={this.state.userOfPage} />
+            )}
           </div>
           <div>
             <CreatePost
