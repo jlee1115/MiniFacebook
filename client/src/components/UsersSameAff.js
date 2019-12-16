@@ -18,8 +18,6 @@ export default class UsersSameAff extends Component {
         params: { aff: this.props.userLoggedIn.affiliation }
       })
       .then(resp => {
-        console.log(this.props.userLoggedIn.affiliation);
-        console.log("DATA from SAME AFF", resp.data);
         this.setState({ users: resp.data.users });
       });
   }

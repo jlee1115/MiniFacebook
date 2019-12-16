@@ -9,6 +9,7 @@ import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
 import ActiveUsers from "../components/ActiveUsers";
 import UsersSameAff from "../components/UsersSameAff";
+import FriendRequests from "../components/FriendRequests";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -31,7 +32,7 @@ export default class Feed extends Component {
     axios.get(`${BASEURL}/session`).then(resp => {
       //do something with the response
       let user = resp.data.user;
-      if (!user) {
+      if (!user || resp.data.redirect) {
         this.setState({ redirectHome: true });
       } else {
         this.setState({ user: user });
@@ -90,6 +91,7 @@ export default class Feed extends Component {
             {/* <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} /> */}
           </div>
           <div>
+            <FriendRequests userLoggedIn={this.state.user} />
             <UsersSameAff userLoggedIn={this.state.user} />
           </div>
 

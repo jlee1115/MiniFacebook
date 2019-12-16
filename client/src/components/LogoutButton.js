@@ -9,13 +9,13 @@ export default class LogoutButton extends Component {
     super(props);
     this.state = {
       success: false
+      // redirect: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick(e) {
     axios.post(`${BASEURL}/logout`).then(resp => {
-      console.log("LOGOUT", resp);
-      if (!resp.data.error) {
+      if (!resp.data.error || resp.data.redirect) {
         this.setState({ success: true });
       } else {
         alert(resp.data.error);

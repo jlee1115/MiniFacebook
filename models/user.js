@@ -26,7 +26,7 @@ const get_session = function(req, res) {
     // res.send({ email: req.session.userEmail });
   } else {
     console.log("NOOOOOOOO");
-    return res.send({ user: null });
+    return res.send({ user: null, redirect: true });
   }
 };
 const get_user_page = function(req, res) {
@@ -165,6 +165,9 @@ const signup = function(req, res) {
 };
 const logout = function(req, res) {
   let inx = -1;
+  if (!req.session.userID) {
+    return res.send({ redirect: true });
+  }
   usersOnServer.get(req.session.userID, function(err, data) {
     if (err) {
       return res.send({ error: err.message });

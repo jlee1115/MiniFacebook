@@ -6,6 +6,7 @@ const postCommentsdb = require("../models/postComments");
 const postLikesdb = require("../models/postLikes");
 const userPicsdb = require("../models/userPics");
 const router = express.Router();
+const friendsdb = require("../models/friend");
 
 //MIDDLEWARE
 // router.use(userdb.manageSession);
@@ -37,7 +38,14 @@ router.post("/likePost", postLikesdb.addLike);
 router.get("/addLikesOfPost", postLikesdb.getLikes);
 router.post("/unlikePost", postLikesdb.unlike);
 
+//Users of different sorts
 router.get("/usersOnServer", userdb.getAllUsersOnServer);
 router.get("/usersWithAff", userdb.getUsersWithSameAff);
 
+//Friends
+router.get("/allFriends", friendsdb.getFriends);
+router.post("/sendReq", friendsdb.sendReq);
+router.get("/getReqs", friendsdb.getReqs);
+router.get("/checkIfFriend", friendsdb.isFriend);
+router.post("/respondToReq", friendsdb.respondToReq);
 module.exports = router;
