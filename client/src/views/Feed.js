@@ -8,6 +8,7 @@ import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
 import ActiveUsers from "../components/ActiveUsers";
+import Search from "../components/Search";
 import UsersSameAff from "../components/UsersSameAff";
 import FriendRequests from "../components/FriendRequests";
 axios.defaults.withCredentials = true;
@@ -83,7 +84,9 @@ export default class Feed extends Component {
         <div style={innerContainer}>
           <div>
             <UserProfile user={this.state.user} />
-            <ActiveUsers />
+            {/* Active users is really friends sorry i changed it really late */}
+            {/* <ActiveUsers /> */}
+            <Search />
           </div>
           <div>
             <CreatePost userTo={this.state.user} userFrom={this.state.user} />
