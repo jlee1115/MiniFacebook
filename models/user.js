@@ -227,13 +227,30 @@ const getUsersWithSameAff = function(req, res) {
     }
   });
 };
-const manageSession = function(req, res, next) {
-  if (!req.session.userID) {
-    //clear session?
-  }
-  next();
+const userSearchSuggestions = function(req, res) {
+  //do the user search
+  let input = req.params.input;
+  users.scanKeys(function(err, data) {
+    if (err) {
+      return res.send({ error: err.message });
+    } else if (!data) {
+      return res.send({ users: [] });
+    } else {
+      let users = [];
+      for (let i = 0; i < data.length; i++) {
+        let val = JSON.parse(data[i].value);
+        let fname = val.fname;
+        let lname = val.lname;
+        let email = val.email;
+        if (fname.includes(input) || lname.includes(input) || email.includes(input)) {
+          users.push(val);
+        }
+      }
+      return res.send({ users: users });
+      // return res.send({ input: input });
+    }
+  });
 };
-
 const uploadProfPic = function(req, res) {};
 const userdb = {
   checkLogin: check_login,
@@ -242,8 +259,8 @@ const userdb = {
   getUserPage: get_user_page,
   uploadProfPic: uploadProfPic,
   logout,
-  manageSession,
   getAllUsersOnServer,
-  getUsersWithSameAff
+  getUsersWithSameAff,
+  userSearchSuggestions
 };
 module.exports = userdb;

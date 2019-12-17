@@ -52,7 +52,6 @@ export default class ProfilePage extends Component {
       } else {
         let user = resp.data.user;
         if (!user) {
-          //why does this not redirect fml
           this.setState({ redirectHome: true });
           return;
         }

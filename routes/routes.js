@@ -48,4 +48,8 @@ router.post("/sendReq", friendsdb.sendReq);
 router.get("/getReqs", friendsdb.getReqs);
 router.get("/checkIfFriend", friendsdb.isFriend);
 router.post("/respondToReq", friendsdb.respondToReq);
+
+//misc functionality
+router.get("/searchUsers/:input", userdb.userSearchSuggestions);
+
 module.exports = router;

@@ -97,13 +97,13 @@ const getFriends = function(req, res) {
     if (err) {
       return res.send({ error: err.message });
     } else if (!data) {
-      return res.send({ friends: [] });
+      return res.send({ users: [] });
     } else {
       let items = [];
       for (let i = 0; i < data.length; i++) {
         items.push(JSON.parse(data[i].value));
       }
-      return res.send({ friends: items });
+      return res.send({ users: items });
     }
   });
 };
