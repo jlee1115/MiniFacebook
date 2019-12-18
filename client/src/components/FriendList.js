@@ -21,7 +21,7 @@ export default class ActiveUsers extends Component {
   getFriends() {
     axios.get(`${BASEURL}/allFriends`).then(resp => {
       if (!resp.data.error) {
-        console.log("o m");
+        // console.log("o m");
         this.setState({ users: resp.data.users });
       }
     });

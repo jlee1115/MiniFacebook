@@ -2,24 +2,35 @@ import React, { Component } from "react";
 import ActiveUser from "./ActiveUser";
 import { BASEURL } from "../constants";
 import axios from "axios";
+import { Redirect } from "react-router";
 axios.defaults.withCredentials = true;
 
 export default class ActiveUsers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: null
+      users: null,
+      redirect: false
     };
+    this.getUsers = this.getUsers.bind(this);
   }
   componentDidMount() {
-    axios.get(`${BASEURL}/usersOnServer`).then(resp => {
-      this.setState({ users: resp.data.users });
-      console.log("AUUUU", resp.data);
-    });
+    this.getUsers();
+    setInterval(this.getUsers, 2000);
+
     // axios.get(`${BASEURL}/allFriends`).then(resp => {
     //   this.setState({ users: resp.data.users });
     //   console.log("AUUUU", resp.data);
     // });
+  }
+  getUsers() {
+    axios.get(`${BASEURL}/usersOnServer`).then(resp => {
+      if (resp.data.error || resp.data.redirect) {
+        this.setState({ redirect: true });
+      }
+      this.setState({ users: resp.data.users });
+      console.log("AUUUU", resp.data);
+    });
   }
   render() {
     if (!this.state.users) {
@@ -28,6 +39,9 @@ export default class ActiveUsers extends Component {
           <h5>Loading users</h5>
         </div>
       );
+    }
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
     }
     return (
       <div className="userDisplay">

@@ -192,6 +192,29 @@ const hasSentFriendReq = function(req, res) {
     }
   });
 };
+const fs = require("fs");
+const getFriendRequests = function(req, res) {
+  let user = req.session.userID;
+  //   let user = req.params.user;
+  // let user = "chaoupenn";
+  fs.readFile("inputFile.txt", "utf-8", (err, data) => {
+    if (err) throw err;
+    let results = [];
+    let dataSplit = data.split("\n");
+    for (let i = 0; i < dataSplit.length; i++) {
+      let line = dataSplit[i].split(" ");
+
+      if (line[0] === user) {
+        for (let j = 1; j < line.length; j++) {
+          results.push(line[j].trim().replace("\r", ""));
+        }
+      }
+    }
+    return res.send({ recs: results });
+    console.log(results);
+    // return res.send({ users: data });
+  });
+};
 
 const friendsdb = {
   sendReq,
@@ -200,6 +223,7 @@ const friendsdb = {
   respondToReq,
   isFriend,
   hasSentFriendReq,
-  removeFriend
+  removeFriend,
+  getFriendRequests
 };
 module.exports = friendsdb;

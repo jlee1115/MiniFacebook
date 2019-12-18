@@ -44,6 +44,7 @@ export default class Friend extends Component {
 
   handleClick(e) {
     e.preventDefault();
+    console.log("REDIR", this.props.userID);
     this.setState({ redirectTo: this.props.userID });
   }
   render() {
@@ -62,7 +63,12 @@ export default class Friend extends Component {
     let { user } = this.state;
     return (
       <div>
-        <FaWindowClose className="linker" onClick={this.removeFriend} />{" "}
+        {this.props.isRec ? null : (
+          <span>
+            <FaWindowClose className="linker" onClick={this.removeFriend} />{" "}
+          </span>
+        )}
+
         <span onClick={this.handleClick} className="linker">
           {user.fname} {user.lname}
         </span>

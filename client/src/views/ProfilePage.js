@@ -7,7 +7,7 @@ import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
 import { BASEURL } from "../constants";
 import AddFriend from "../components/AddFriend";
-import ActiveUsers from "../components/ActiveUsers";
+import FriendRecs from "../components/FriendRecs";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -31,7 +31,7 @@ export default class ProfilePage extends Component {
     this.setState({ userIDOfPage: userID });
     //get the user logged in
     axios.get(`${BASEURL}/session`).then(resp => {
-      if (resp.data.error || !resp.data) {
+      if (resp.data.error || !resp.data || resp.data.redirect) {
         this.setState({ redirectHome: true, userLoggedIn: false });
         return;
       } else {
@@ -92,8 +92,9 @@ export default class ProfilePage extends Component {
             <UserProfile user={this.state.userOfPage} />
             {this.state.userIDOfLoggedIn ===
             this.state.userOfPage.email.replace("@", "") ? (
-              <p>me</p>
+              <FriendRecs />
             ) : (
+              // <p>me</p>
               <AddFriend userTo={this.state.userOfPage} />
             )}
           </div>

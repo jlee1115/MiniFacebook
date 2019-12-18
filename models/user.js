@@ -205,6 +205,7 @@ const getAllUsersOnServer = function(req, res) {
       let items = [];
       for (let i = 0; i < data.length; i++) {
         let key = data[i].key;
+        console.log(key);
         if (req.session.friends[key]) {
           items.push(JSON.parse(data[i].value));
         }

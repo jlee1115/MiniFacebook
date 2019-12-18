@@ -7,6 +7,7 @@ const postLikesdb = require("../models/postLikes");
 const userPicsdb = require("../models/userPics");
 const router = express.Router();
 const friendsdb = require("../models/friend");
+const getRecs = require("../getRecs");
 
 //MIDDLEWARE
 // router.use(userdb.manageSession);
@@ -53,4 +54,5 @@ router.post("/respondToReq", friendsdb.respondToReq);
 router.get("/searchUsers/:input", userdb.userSearchSuggestions);
 router.get("/friendReqSent", friendsdb.hasSentFriendReq);
 router.post("/removeFriend", friendsdb.removeFriend);
+router.get("/friendReqs", friendsdb.getFriendRequests);
 module.exports = router;
