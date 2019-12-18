@@ -8,6 +8,7 @@ const userPicsdb = require("../models/userPics");
 const router = express.Router();
 const friendsdb = require("../models/friend");
 const getRecs = require("../getRecs");
+const friendVis = require("../models/friendVis")
 
 //MIDDLEWARE
 // router.use(userdb.manageSession);
