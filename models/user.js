@@ -122,6 +122,8 @@ const check_login = function(req, res) {
 //   });
 // };
 const signup = function(req, res) {
+  req.session.userID = null;
+  req.session.friends = {};
   let user = req.body.user;
   //   console.log(req.body.user);
   let fname = user.fname;
