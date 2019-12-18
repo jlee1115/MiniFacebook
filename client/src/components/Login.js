@@ -37,11 +37,8 @@ export default class Login extends Component {
       userID: this.state.email.replace("@", ""),
       password: this.state.password
     };
-    console.log("HELLO LOGIN");
+
     axios.post(`${BASEURL}/login`, { user: user }).then(resp => {
-      //awesome!! this sends back data
-      console.log("hello?");
-      console.log(resp.data);
       if (resp.data.error) {
         //some error occurred
         alert(resp.data.error);

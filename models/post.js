@@ -27,20 +27,26 @@ const addPost = function(req, res) {
   });
 };
 const getPosts = function(req, res) {
+  if (!req.session.userID) {
+    return res.send({ redirect: true });
+  }
   posts.scanKeys(function(err, data) {
     if (err) {
       return res.send({ err: err.message });
     } else {
       let items = [];
       for (let i = 0; i < data.length; i++) {
-        items.push(JSON.parse(data[i].value));
+        let poster = data[i].key;
+        //THIS GETS POSTS BY FRIENDS ONLY
+        if (req.session.friends[poster] || poster === req.session.userID) {
+          items.push(JSON.parse(data[i].value));
+        }
       }
 
       items.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });
       return res.send({ err: null, items: items });
-      //   return res.send({ err: null, items: items.slice(start, end), hasMore: hasMore });
     }
   });
 };
@@ -48,7 +54,6 @@ const getUserPosts = function(req, res) {
   let user = req.query.user;
   let page = req.query.page;
   posts.get(user, function(err, data) {
-    //do something.
     if (err) {
       return res.send({ err: err.message });
     } else if (!data) {
@@ -58,7 +63,6 @@ const getUserPosts = function(req, res) {
       for (let i = 0; i < data.length; i++) {
         dataResult.push(JSON.parse(data[i].value));
       }
-      //   dataObjs = data.map(item => JSON.parse(item));
       dataResult.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });

@@ -28,14 +28,12 @@ export default class FileUpload extends Component {
           "content-type": "multipart/form-data"
         }
       };
-      console.log("FORM DATA", formData);
-      //   console.log("SELECTED", this.state.selectedFile, typeof this.state.selectedFile);
       let profPic = JSON.stringify(this.state.selectedFile);
-      for (var key of formData.entries()) {
+      for (const key of formData.entries()) {
         console.log(key[0] + ", " + key[1]);
       }
       console.log("Profile", profPic);
-      axios.post(`${BASEURL}/uploadPicProfile`, formData, config).then(resp => {
+      axios.post(`${BASEURL}/uploadPicProfile`, this.state.selectedFile).then(resp => {
         console.log(resp);
       });
     } else {
@@ -46,7 +44,7 @@ export default class FileUpload extends Component {
     return (
       <div>
         <form onSubmit={this.uploadHandler}>
-          <input type="file" onChange={this.fileChangedHandler}></input>
+          <input name="image" type="file" onChange={this.fileChangedHandler}></input>
           <button className="btn btn-secondary btn-sm" type="submit" value="Upload">
             Upload
           </button>

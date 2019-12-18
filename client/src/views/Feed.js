@@ -3,11 +3,15 @@ import axios from "axios";
 import { Redirect } from "react-router";
 import UserProfile from "../components/UserProfile";
 import Header from "../components/Header";
-import PostDisplay from "../components/PostDisplay";
+import FriendRecs from "../components/FriendRecs";
 import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
 import ActiveUsers from "../components/ActiveUsers";
+import Search from "../components/Search";
+import UsersSameAff from "../components/UsersSameAff";
+import FriendRequests from "../components/FriendRequests";
+import FriendList from "../components/FriendList";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -30,7 +34,7 @@ export default class Feed extends Component {
     axios.get(`${BASEURL}/session`).then(resp => {
       //do something with the response
       let user = resp.data.user;
-      if (!user) {
+      if (!user || resp.data.redirect) {
         this.setState({ redirectHome: true });
       } else {
         this.setState({ user: user });
@@ -42,6 +46,8 @@ export default class Feed extends Component {
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
       if (resp.data.err) {
+        this.setState({ redirectHome: true });
+      } else if (resp.data.redirect) {
         this.setState({ redirectHome: true });
       } else {
         this.setState({ posts: resp.data.items });
@@ -81,13 +87,25 @@ export default class Feed extends Component {
         <div style={innerContainer}>
           <div>
             <UserProfile user={this.state.user} />
+            {/* Active users is really friends sorry i changed it really late */}
+            {/* <ActiveUsers /> */}
+            <Search />
           </div>
           <div>
             <CreatePost userTo={this.state.user} userFrom={this.state.user} />
             <FeedPosts userLoggedIn={this.state.user} />
             {/* <PostDisplay posts={this.state.posts} userLoggedIn={this.state.user} /> */}
           </div>
-          <ActiveUsers />
+          <div>
+            <FriendRequests userLoggedIn={this.state.user} />
+            <UsersSameAff userLoggedIn={this.state.user} />
+            <FriendRecs />
+          </div>
+          <div>
+            <FriendList />
+            <ActiveUsers />
+          </div>
+
           {/* <div>insert friend recs here</div> */}
         </div>
       </div>
@@ -96,6 +114,6 @@ export default class Feed extends Component {
 }
 const innerContainer = {
   display: "grid",
-  gridTemplateColumns: "1fr 4fr 2fr",
+  gridTemplateColumns: "1fr 2fr 1fr 1fr",
   margin: "20px"
 };

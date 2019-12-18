@@ -6,6 +6,8 @@ import CreatePost from "../components/CreatePost";
 import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
 import { BASEURL } from "../constants";
+import AddFriend from "../components/AddFriend";
+import FriendRecs from "../components/FriendRecs";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -29,7 +31,7 @@ export default class ProfilePage extends Component {
     this.setState({ userIDOfPage: userID });
     //get the user logged in
     axios.get(`${BASEURL}/session`).then(resp => {
-      if (resp.data.error || !resp.data) {
+      if (resp.data.error || !resp.data || resp.data.redirect) {
         this.setState({ redirectHome: true, userLoggedIn: false });
         return;
       } else {
@@ -51,7 +53,6 @@ export default class ProfilePage extends Component {
       } else {
         let user = resp.data.user;
         if (!user) {
-          //why does this not redirect fml
           this.setState({ redirectHome: true });
           return;
         }
@@ -89,6 +90,12 @@ export default class ProfilePage extends Component {
           <div>{this.state.user.affiliation}</div> */}
           <div>
             <UserProfile user={this.state.userOfPage} />
+            {this.state.userIDOfLoggedIn ===
+            this.state.userOfPage.email.replace("@", "") ? // <FriendRecs />
+            null : (
+              // <p>me</p>
+              <AddFriend userTo={this.state.userOfPage} />
+            )}
           </div>
           <div>
             <CreatePost
@@ -101,6 +108,9 @@ export default class ProfilePage extends Component {
               userLoggedIn={this.state.userLoggedIn}
             />
           </div>
+          {/* <div>
+            <ActiveUsers />
+          </div> */}
         </div>
       </div>
     );

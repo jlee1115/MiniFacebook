@@ -35,7 +35,6 @@ export default class Header extends Component {
         />
       );
     }
-    console.log("PROPS", this.props);
     return (
       <nav style={header}>
         <div>

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Redirect } from "react-router";
 import FileUpload from "../components/FileUpload";
 import { BASEURL } from "../constants";
+import Search from "./Search";
 axios.defaults.withCredentials = true;
 
 export default class Signup extends Component {
@@ -51,14 +52,11 @@ export default class Signup extends Component {
       password: this.state.password
     };
     axios.post(`${BASEURL}/signup`, { user: user }).then(resp => {
-      console.log("R", resp.data);
       if (resp.data.error) {
         this.setState({ errMessage: resp.data.error });
       } else {
         this.setState({ changePage: true });
       }
-      //awesome!! this sends back data
-      console.log("post in signup" + resp.data);
     });
   }
   render() {
@@ -75,7 +73,8 @@ export default class Signup extends Component {
     }
     return (
       <div className="container">
-        <FileUpload />
+        {/* <FileUpload /> */}
+
         <h3>Signup</h3>
         <form onSubmit={this.handleSubmit}>
           <input

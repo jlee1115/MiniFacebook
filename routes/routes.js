@@ -6,6 +6,8 @@ const postCommentsdb = require("../models/postComments");
 const postLikesdb = require("../models/postLikes");
 const userPicsdb = require("../models/userPics");
 const router = express.Router();
+const friendsdb = require("../models/friend");
+const getRecs = require("../getRecs");
 
 //MIDDLEWARE
 // router.use(userdb.manageSession);
@@ -20,7 +22,7 @@ router.get("/session", userdb.getSession);
 //logs the user out
 router.post("/logout", userdb.logout);
 router.get("/getUser", userdb.getUserPage);
-router.post("/uploadPicProfile", userPicsdb.uploadProfPic);
+router.post("/uploadPicProfile", userPicsdb.upload);
 
 //POST functions
 router.get("/userPosts", postdb.getUserPosts);
@@ -37,6 +39,20 @@ router.post("/likePost", postLikesdb.addLike);
 router.get("/addLikesOfPost", postLikesdb.getLikes);
 router.post("/unlikePost", postLikesdb.unlike);
 
+//Users of different sorts
 router.get("/usersOnServer", userdb.getAllUsersOnServer);
+router.get("/usersWithAff", userdb.getUsersWithSameAff);
 
+//Friends
+router.get("/allFriends", friendsdb.getFriends);
+router.post("/sendReq", friendsdb.sendReq);
+router.get("/getReqs", friendsdb.getReqs);
+router.get("/checkIfFriend", friendsdb.isFriend);
+router.post("/respondToReq", friendsdb.respondToReq);
+
+//misc functionality
+router.get("/searchUsers/:input", userdb.userSearchSuggestions);
+router.get("/friendReqSent", friendsdb.hasSentFriendReq);
+router.post("/removeFriend", friendsdb.removeFriend);
+router.get("/friendReqs", friendsdb.getFriendRequests);
 module.exports = router;
