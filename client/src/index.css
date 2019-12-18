@@ -89,3 +89,12 @@ p.userInfo {
   padding: 10px;
   margin: 10px;
 }
+.mutedTxt {
+  font-weight: 300;
+  color: gray;
+  font-style: italic;
+}
+.linker:hover {
+  cursor: pointer;
+  font-weight: bold;
+}

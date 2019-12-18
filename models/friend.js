@@ -81,9 +81,6 @@ const respondToReq = function(req, res) {
             }
           }
         });
-        if (accept) {
-          //add it to friends
-        }
       }
     }
   });
@@ -101,7 +98,7 @@ const getFriends = function(req, res) {
     } else {
       let items = [];
       for (let i = 0; i < data.length; i++) {
-        items.push(JSON.parse(data[i].value));
+        items.push(data[i].value);
       }
       return res.send({ users: items });
     }
@@ -125,12 +122,43 @@ const isFriend = function(req, res) {
     }
   });
 };
+const hasSentFriendReq = function(req, res) {
+  let userID = req.session.userID;
+  let otherUser = req.query.user;
+  friendReqs.get(userID, function(err, data) {
+    if (err) {
+      return res.send({ error: err.message });
+    } else if (data) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].value === otherUser) {
+          return res.send({ reqSentTo: true });
+        }
+      }
+    } else {
+      friendReqs.get(otherUser, function(err2, data2) {
+        if (err2) {
+          return res.send({ error: err.message });
+        } else if (data2) {
+          for (let i = 0; i < data2.length; i++) {
+            if (data2[i].value === userID) {
+              //I sent req to other user
+              return res.send({ reqSentFrom: true });
+            }
+          }
+        } else {
+          return res.send({ error: null });
+        }
+      });
+    }
+  });
+};
 
 const friendsdb = {
   sendReq,
   getReqs,
   getFriends,
   respondToReq,
-  isFriend
+  isFriend,
+  hasSentFriendReq
 };
 module.exports = friendsdb;

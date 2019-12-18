@@ -27,6 +27,9 @@ const addPost = function(req, res) {
   });
 };
 const getPosts = function(req, res) {
+  if (!req.session.userID) {
+    return res.send({ redirect: true });
+  }
   posts.scanKeys(function(err, data) {
     if (err) {
       return res.send({ err: err.message });
@@ -40,7 +43,6 @@ const getPosts = function(req, res) {
         return new Date(b.date) - new Date(a.date);
       });
       return res.send({ err: null, items: items });
-      //   return res.send({ err: null, items: items.slice(start, end), hasMore: hasMore });
     }
   });
 };
@@ -48,7 +50,6 @@ const getUserPosts = function(req, res) {
   let user = req.query.user;
   let page = req.query.page;
   posts.get(user, function(err, data) {
-    //do something.
     if (err) {
       return res.send({ err: err.message });
     } else if (!data) {

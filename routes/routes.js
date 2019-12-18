@@ -51,5 +51,5 @@ router.post("/respondToReq", friendsdb.respondToReq);
 
 //misc functionality
 router.get("/searchUsers/:input", userdb.userSearchSuggestions);
-
+router.get("/friendReqSent", friendsdb.hasSentFriendReq);
 module.exports = router;

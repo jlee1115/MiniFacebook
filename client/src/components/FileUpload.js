@@ -28,10 +28,8 @@ export default class FileUpload extends Component {
           "content-type": "multipart/form-data"
         }
       };
-      console.log("FORM DATA", formData);
-      //   console.log("SELECTED", this.state.selectedFile, typeof this.state.selectedFile);
       let profPic = JSON.stringify(this.state.selectedFile);
-      for (var key of formData.entries()) {
+      for (const key of formData.entries()) {
         console.log(key[0] + ", " + key[1]);
       }
       console.log("Profile", profPic);

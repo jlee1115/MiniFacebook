@@ -11,6 +11,7 @@ import ActiveUsers from "../components/ActiveUsers";
 import Search from "../components/Search";
 import UsersSameAff from "../components/UsersSameAff";
 import FriendRequests from "../components/FriendRequests";
+import FriendList from "../components/FriendList";
 axios.defaults.withCredentials = true;
 
 export default class Feed extends Component {
@@ -45,6 +46,8 @@ export default class Feed extends Component {
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
       if (resp.data.err) {
+        this.setState({ redirectHome: true });
+      } else if (resp.data.redirect) {
         this.setState({ redirectHome: true });
       } else {
         this.setState({ posts: resp.data.items });
@@ -97,6 +100,10 @@ export default class Feed extends Component {
             <FriendRequests userLoggedIn={this.state.user} />
             <UsersSameAff userLoggedIn={this.state.user} />
           </div>
+          <div>
+            <FriendList />
+            <ActiveUsers />
+          </div>
 
           {/* <div>insert friend recs here</div> */}
         </div>
@@ -106,6 +113,6 @@ export default class Feed extends Component {
 }
 const innerContainer = {
   display: "grid",
-  gridTemplateColumns: "2fr 4fr 2fr",
+  gridTemplateColumns: "1fr 2fr 1fr 1fr",
   margin: "20px"
 };

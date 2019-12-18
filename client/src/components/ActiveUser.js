@@ -23,21 +23,28 @@ export default class ActiveUser extends Component {
         <Redirect
           to={{
             pathname: `/profile/${this.state.redirectTo}`
-            // state: { userID: this.state.redirectTo }
           }}
         />
       );
     }
     let { user } = this.props;
     return (
-      <div>
-        <p>
+      <div style={person}>
+        <p style={userBlockName}>
           {user.fname} {user.lname}
         </p>
         <button onClick={this.handleClick}>view profile</button>
-        <AddFriend userTo={user} />
-        {/* <button onClick={this.handleFriendClick}>add friend</button> */}
+        {this.props.isFriend ? null : <AddFriend userTo={user} />}
       </div>
     );
   }
 }
+const userBlockName = {
+  margin: "0",
+  fontWeight: "500"
+};
+const person = {
+  backgroundColor: "#b5c6cf",
+  padding: "10px",
+  margin: "10px"
+};

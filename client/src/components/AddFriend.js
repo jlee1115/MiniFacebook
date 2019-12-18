@@ -10,13 +10,46 @@ export default class AddFriend extends Component {
     this.state = {
       redirect: false,
       isFriend: false,
-      added: false
+      added: false,
+      addedMe: false,
+      meAddedThem: false
     };
+    this.getInfo = this.getInfo.bind(this);
     this.handleFriendClick = this.handleFriendClick.bind(this);
   }
   componentDidMount() {
+    this.getInfo();
+    setInterval(this.getInfo(), 2000);
+    // let { userTo } = this.props;
+    // axios
+    //   .get(`${BASEURL}/checkIfFriend`, {
+    //     params: { user: userTo.email.replace("@", "") }
+    //   })
+    //   .then(resp => {
+    //     console.log(resp.data);
+    //     if (!resp.data.error) {
+    //       let ans = resp.data.isFriends;
+    //       this.setState({ isFriend: ans });
+    //     }
+    //   });
+    // axios
+    //   .get(`${BASEURL}/friendReqSent`, {
+    //     params: { user: userTo.email.replace("@", "") }
+    //   })
+    //   .then(resp => {
+    //     if (!resp.data.error) {
+    //       if (resp.data.reqSentFrom) {
+    //         this.setState({ meAddedThem: true });
+    //       } else if (resp.data.reqSentTo) {
+    //         this.setState({
+    //           addedMe: true
+    //         });
+    //       }
+    //     }
+    //   });
+  }
+  getInfo() {
     let { userTo } = this.props;
-    console.log("USER TO IN AFF FRIEND", userTo);
     axios
       .get(`${BASEURL}/checkIfFriend`, {
         params: { user: userTo.email.replace("@", "") }
@@ -26,6 +59,21 @@ export default class AddFriend extends Component {
         if (!resp.data.error) {
           let ans = resp.data.isFriends;
           this.setState({ isFriend: ans });
+        }
+      });
+    axios
+      .get(`${BASEURL}/friendReqSent`, {
+        params: { user: userTo.email.replace("@", "") }
+      })
+      .then(resp => {
+        if (!resp.data.error) {
+          if (resp.data.reqSentFrom) {
+            this.setState({ meAddedThem: true });
+          } else if (resp.data.reqSentTo) {
+            this.setState({
+              addedMe: true
+            });
+          }
         }
       });
   }
@@ -49,9 +97,11 @@ export default class AddFriend extends Component {
     return (
       <div>
         {this.state.isFriend ? (
-          <p>Already Friends</p>
-        ) : this.state.added ? (
-          <p>Added</p>
+          <p className="mutedTxt">Already Friends</p>
+        ) : this.state.added || this.state.meAddedThem ? (
+          <p className="mutedTxt">Added</p>
+        ) : this.state.addedMe ? (
+          <p className="mutedTxt">They sent you a request</p>
         ) : (
           <button onClick={this.handleFriendClick}>add friend</button>
         )}{" "}
