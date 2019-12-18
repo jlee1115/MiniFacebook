@@ -29,7 +29,7 @@ export default class SearchResultUser extends Component {
       );
     }
     return (
-      <div onClick={this.handleClick}>
+      <div className="linker" onClick={this.handleClick}>
         {user.fname} {user.lname}
       </div>
     );

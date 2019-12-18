@@ -207,6 +207,7 @@ const getAllUsersOnServer = function(req, res) {
 };
 const getUsersWithSameAff = function(req, res) {
   let aff = req.query.aff;
+  let userID = req.session.userID;
   users.scanKeys(function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -219,7 +220,10 @@ const getUsersWithSameAff = function(req, res) {
         let val = JSON.parse(data[i].value);
         // items.push(val.affiliation);
         console.log(val.affiliation);
-        if (aff.toLowerCase() === val.affiliation.toLowerCase()) {
+        if (
+          aff.toLowerCase() === val.affiliation.toLowerCase() &&
+          val.email.replace("@", "") !== userID
+        ) {
           items.push(val);
         }
       }

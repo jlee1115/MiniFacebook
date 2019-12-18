@@ -7,6 +7,7 @@ import UserProfile from "../components/UserProfile";
 import FeedPosts from "../components/FeedPosts";
 import { BASEURL } from "../constants";
 import AddFriend from "../components/AddFriend";
+import ActiveUsers from "../components/ActiveUsers";
 axios.defaults.withCredentials = true;
 
 export default class ProfilePage extends Component {
@@ -107,6 +108,9 @@ export default class ProfilePage extends Component {
               userLoggedIn={this.state.userLoggedIn}
             />
           </div>
+          {/* <div>
+            <ActiveUsers />
+          </div> */}
         </div>
       </div>
     );

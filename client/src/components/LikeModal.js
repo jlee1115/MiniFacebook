@@ -7,7 +7,10 @@ export default class LikeModal extends Component {
   render() {
     return (
       <div className="modalMain">
-        <h6>Likes</h6>
+        <span style={head}>
+          <h6>Likes</h6> <h6 onClick={this.props.handleX}>X</h6>
+        </span>
+
         {!this.props.likes.length ? (
           <p> No likes </p>
         ) : (
@@ -19,3 +22,8 @@ export default class LikeModal extends Component {
     );
   }
 }
+const head = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-around"
+};

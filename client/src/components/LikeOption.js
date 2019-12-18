@@ -18,6 +18,7 @@ export default class LikeOption extends Component {
     this.getAllLikes = this.getAllLikes.bind(this);
     this.removeLike = this.removeLike.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
   componentDidMount() {
     this.checkIfLiked();
@@ -34,33 +35,27 @@ export default class LikeOption extends Component {
         }
       })
       .then(resp => {
-        //do something
-        // console.log(resp);
         if (!resp.data.err) {
           let likedOrNot = resp.data.liked;
-          // console.log(resp.data);
           this.setState({ liked: likedOrNot });
-          //   console.log(resp.data);
         }
       });
   }
   addLike() {
-    // console.log("ADDING LIKE");
-    // let obj = {
-    //   user: this.props.userLoggedIn,
-    //   postID: this.props.post.id
-    // };
     axios
       .post(`${BASEURL}/likePost`, {
         user: this.props.userLoggedIn,
         postID: this.props.post.id
       })
       .then(resp => {
-        // console.log(resp.data);
         if (!resp.data.err) {
           this.setState({ liked: !this.state.liked });
         }
       });
+  }
+  handleCloseModal() {
+    console.log("closed");
+    this.setState({ showLikes: false });
   }
   getAllLikes() {
     axios
@@ -106,12 +101,19 @@ export default class LikeOption extends Component {
             </button>
           ) : (
             <p className="buttonostText" onClick={this.addLike}>
-              <FaThumbsUp />
+              <FaThumbsUp className="linker" />
             </p>
           )}
         </div>
-        <p onClick={this.showModal}>{this.state.allLikes.length} Like(s)</p>
-        {this.state.showLikes ? <LikeModal likes={this.state.allLikes} /> : null}
+        <p className="linker" onClick={this.showModal}>
+          {this.state.allLikes.length} Like(s)
+        </p>
+        {this.state.showLikes ? (
+          <LikeModal
+            likes={this.state.allLikes}
+            handleX={this.handleCloseModal.bind(this)}
+          />
+        ) : null}
       </div>
     );
   }

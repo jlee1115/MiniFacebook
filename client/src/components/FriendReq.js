@@ -49,7 +49,7 @@ export default class FriendReq extends Component {
       <div>
         {req}
         {this.state.takenCareOf ? (
-          <p>Responded!</p>
+          <p className="mutedTxt">Responded!</p>
         ) : (
           <div style={decision}>
             <button onClick={this.handleAccept}>Accept</button>

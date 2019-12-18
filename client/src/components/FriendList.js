@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import ActiveUser from "./ActiveUser";
 import { BASEURL } from "../constants";
 import axios from "axios";
+import Friend from "./Friend";
 axios.defaults.withCredentials = true;
+// PLEASE NOTE THIS IS ACTUALLY THEIR FRIENDS.
 
 export default class ActiveUsers extends Component {
   constructor(props) {
@@ -12,14 +14,9 @@ export default class ActiveUsers extends Component {
     };
   }
   componentDidMount() {
-    axios.get(`${BASEURL}/usersOnServer`).then(resp => {
+    axios.get(`${BASEURL}/allFriends`).then(resp => {
       this.setState({ users: resp.data.users });
-      console.log("AUUUU", resp.data);
     });
-    // axios.get(`${BASEURL}/allFriends`).then(resp => {
-    //   this.setState({ users: resp.data.users });
-    //   console.log("AUUUU", resp.data);
-    // });
   }
   render() {
     if (!this.state.users) {
@@ -31,9 +28,10 @@ export default class ActiveUsers extends Component {
     }
     return (
       <div className="userDisplay">
-        Other Active Users rn
+        <h5>Friends</h5>
         {this.state.users.map(u => {
-          return <ActiveUser user={u} />;
+          return <Friend userID={u} />;
+          //   return <ActiveUser user={u} isFriend={true} />;
         })}
       </div>
     );

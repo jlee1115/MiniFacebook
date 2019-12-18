@@ -31,6 +31,7 @@ export default class FriendRequests extends Component {
     }
     return (
       <div>
+        <h5>Friend Requests</h5>
         {this.state.requests.map(r => {
           return <FriendReq request={r} />;
         })}
