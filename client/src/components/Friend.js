@@ -49,7 +49,6 @@ export default class Friend extends Component {
         <Redirect
           to={{
             pathname: `/profile/${this.state.redirectTo}`
-            // state: { userID: this.state.redirectTo }
           }}
         />
       );
