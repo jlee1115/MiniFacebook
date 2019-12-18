@@ -31,21 +31,35 @@
 ### Julie:
 
 ### Maria:
+- Chat Server
+  - Frontend and backend
+  - Access to Chat Server from the home page
+  - Ability to chat with everyone on the server in a Community Group Chat
+  - Private Messaging between two people
+  - Group chats with three or more people
+  - Chat messages have time stamps and sender
+  - Can see your chats on a sidebar
 
 ### Files
 
 - ActiveUser.js
 - ActiverUsers.js
 - AddFriend.js
+- ChatButton.js
+- ChatContainer.js
+- ChatHeader.js
+- ChatLayout.js
 - Comment.js
 - Comments.js
 - CreatePost.js
+- Events.js
+- Functions.js
 - FeedPost.js
 - FileUpload.js
 - Friend.js
 - FriendList.js
 - FriendRecs.js
-- FreidnReq.js
+- FriendReq.js
 - FriendsDisplay.js
 - Header.js
 - LikeModal.js
@@ -57,14 +71,17 @@
 - Search.js
 - SearchResults.js
 - SearchResultUser.js
+- Sidebar.js
 - Signup.js
 - UserProfile.js
 - UsersSameAff.js
+- ChatPage.js
 - Feed.js
 - Home.js
 - ProfilePage.js
 - App.js
 - index.css
+- chat.css
 - friend.js
 - post.js
 - postComments.js
@@ -74,6 +91,7 @@
 - routes.js
 - getRecs.js
 - index.js
+- socket.js
 
 ### Declaration
 
