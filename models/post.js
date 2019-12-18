@@ -9,12 +9,14 @@ const addPost = function(req, res) {
   let toUser = post.toUser;
   let content = post.content;
   let id = post.id;
+  let public = post.public;
   let newPost = JSON.stringify({
     content,
     date,
     fromUser,
     toUser,
-    id
+    id,
+    public
   });
   //do something
   posts.put(toUser.email.replace("@", ""), newPost, function(err, data) {
@@ -37,8 +39,9 @@ const getPosts = function(req, res) {
       let items = [];
       for (let i = 0; i < data.length; i++) {
         let poster = data[i].key;
+        let val = JSON.parse(data[i].value);
         //THIS GETS POSTS BY FRIENDS ONLY
-        if (req.session.friends[poster] || poster === req.session.userID) {
+        if (req.session.friends[poster] || poster === req.session.userID || val.public) {
           items.push(JSON.parse(data[i].value));
         }
       }

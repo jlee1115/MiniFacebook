@@ -17,11 +17,6 @@ export default class ActiveUsers extends Component {
   componentDidMount() {
     this.getUsers();
     setInterval(this.getUsers, 2000);
-
-    // axios.get(`${BASEURL}/allFriends`).then(resp => {
-    //   this.setState({ users: resp.data.users });
-    //   console.log("AUUUU", resp.data);
-    // });
   }
   getUsers() {
     axios.get(`${BASEURL}/usersOnServer`).then(resp => {
@@ -29,7 +24,6 @@ export default class ActiveUsers extends Component {
         this.setState({ redirect: true });
       }
       this.setState({ users: resp.data.users });
-      console.log("AUUUU", resp.data);
     });
   }
   render() {
