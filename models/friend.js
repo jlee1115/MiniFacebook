@@ -13,7 +13,6 @@ const sendReq = function(req, res) {
   }
 
   let userTo = req.body.userTo.email.replace("@", "");
-  console.log(userTo);
   friendReqs.put(userTo, userID, function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -39,6 +38,46 @@ const getReqs = function(req, res) {
         items.push(data[i].value);
       }
       return res.send({ requests: items });
+    }
+  });
+};
+const removeFriend = function(req, res) {
+  //remove friend
+  let userTo = req.body.userTo;
+  let userID = req.session.userID;
+  let inx1 = -1;
+  let inx2 = -1;
+  friends.get(userTo, function(err, data) {
+    if (!err && data) {
+      for (const item of data) {
+        if (item.value === userID) {
+          inx1 = item.inx;
+        }
+      }
+      if (inx1 !== -1) {
+        //removes it
+        friends.remove(userTo, inx1, function(errRem, dataRem) {
+          if (!errRem) {
+            //gets the second inx
+            friends.get(userID, function(err2, data2) {
+              if (!err2 && data2) {
+                for (const item2 of data2) {
+                  if (item2.value === userTo) {
+                    inx2 = item2.inx;
+                  }
+                }
+                if (inx2 !== -1) {
+                  friends.remove(userID, inx2, function(errRem2, dataRem) {
+                    if (!errRem2) {
+                      return res.send({ success: true });
+                    }
+                  });
+                }
+              }
+            });
+          }
+        });
+      }
     }
   });
 };
@@ -75,6 +114,7 @@ const respondToReq = function(req, res) {
                   if (e2) {
                     return res.send({ error: e2.message });
                   }
+                  req.session.friends[userFrom] = true;
                   return res.send({ error: null });
                 });
               });
@@ -152,6 +192,29 @@ const hasSentFriendReq = function(req, res) {
     }
   });
 };
+const fs = require("fs");
+const getFriendRequests = function(req, res) {
+  let user = req.session.userID;
+  //   let user = req.params.user;
+  // let user = "chaoupenn";
+  fs.readFile("inputFile.txt", "utf-8", (err, data) => {
+    if (err) throw err;
+    let results = [];
+    let dataSplit = data.split("\n");
+    for (let i = 0; i < dataSplit.length; i++) {
+      let line = dataSplit[i].split(" ");
+
+      if (line[0] === user) {
+        for (let j = 1; j < line.length; j++) {
+          results.push(line[j].trim().replace("\r", ""));
+        }
+      }
+    }
+    return res.send({ recs: results });
+    console.log(results);
+    // return res.send({ users: data });
+  });
+};
 
 const friendsdb = {
   sendReq,
@@ -159,6 +222,8 @@ const friendsdb = {
   getFriends,
   respondToReq,
   isFriend,
-  hasSentFriendReq
+  hasSentFriendReq,
+  removeFriend,
+  getFriendRequests
 };
 module.exports = friendsdb;

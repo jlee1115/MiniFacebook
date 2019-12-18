@@ -33,7 +33,7 @@ export default class FileUpload extends Component {
         console.log(key[0] + ", " + key[1]);
       }
       console.log("Profile", profPic);
-      axios.post(`${BASEURL}/uploadPicProfile`, formData, config).then(resp => {
+      axios.post(`${BASEURL}/uploadPicProfile`, this.state.selectedFile).then(resp => {
         console.log(resp);
       });
     } else {
@@ -44,7 +44,7 @@ export default class FileUpload extends Component {
     return (
       <div>
         <form onSubmit={this.uploadHandler}>
-          <input type="file" onChange={this.fileChangedHandler}></input>
+          <input name="image" type="file" onChange={this.fileChangedHandler}></input>
           <button className="btn btn-secondary btn-sm" type="submit" value="Upload">
             Upload
           </button>

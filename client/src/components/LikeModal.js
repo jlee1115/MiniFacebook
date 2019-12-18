@@ -8,7 +8,10 @@ export default class LikeModal extends Component {
     return (
       <div className="modalMain">
         <span style={head}>
-          <h6>Likes</h6> <h6 onClick={this.props.handleX}>X</h6>
+          <h6>Likes</h6>{" "}
+          <h6 onClick={this.props.handleX} className="linker">
+            X
+          </h6>
         </span>
 
         {!this.props.likes.length ? (

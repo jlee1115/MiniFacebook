@@ -3,7 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router";
 import UserProfile from "../components/UserProfile";
 import Header from "../components/Header";
-import PostDisplay from "../components/PostDisplay";
+import FriendRecs from "../components/FriendRecs";
 import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
@@ -99,6 +99,7 @@ export default class Feed extends Component {
           <div>
             <FriendRequests userLoggedIn={this.state.user} />
             <UsersSameAff userLoggedIn={this.state.user} />
+            <FriendRecs />
           </div>
           <div>
             <FriendList />
