@@ -13,7 +13,7 @@ app.get('/', function(req, res) {
 
 let layer1 = new Map()
 let firstfriends = []
-let friends = ["jleeupenn", "mtuupenn"]
+let friends = req.session.friends
 
 /*
 function getFriendData(){
