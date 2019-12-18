@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import axios from "axios";
 import { BASEURL } from "../constants";
+import { FaWindowClose } from "react-icons/fa";
 axios.defaults.withCredentials = true;
 
 export default class Friend extends Component {
@@ -12,6 +13,7 @@ export default class Friend extends Component {
       user: null
     };
     this.handleClick = this.handleClick.bind(this);
+    this.removeFriend = this.removeFriend.bind(this);
   }
   componentDidMount() {
     axios
@@ -22,17 +24,23 @@ export default class Friend extends Component {
           return;
         } else {
           let user = resp.data.user;
-          // if (!user) {
-          //   this.setState({ redirectHome: true });
-          //   return;
-          // }
 
           this.setState({ user: user });
         }
       });
   }
+  removeFriend(e) {
+    e.preventDefault();
+    let { userID } = this.props;
+    console.log("USER ID", userID);
+    axios.post(`${BASEURL}/removeFriend`, { userTo: userID }).then(resp => {
+      console.log(resp.data);
+    });
+  }
+
   handleClick(e) {
     e.preventDefault();
+    console.log("REDIR", this.props.userID);
     this.setState({ redirectTo: this.props.userID });
   }
   render() {
@@ -41,7 +49,6 @@ export default class Friend extends Component {
         <Redirect
           to={{
             pathname: `/profile/${this.state.redirectTo}`
-            // state: { userID: this.state.redirectTo }
           }}
         />
       );
@@ -50,8 +57,16 @@ export default class Friend extends Component {
     }
     let { user } = this.state;
     return (
-      <div onClick={this.handleClick} className="linker">
-        {user.fname} {user.lname}
+      <div>
+        {this.props.isRec ? null : (
+          <span>
+            <FaWindowClose className="linker" onClick={this.removeFriend} />{" "}
+          </span>
+        )}
+
+        <span onClick={this.handleClick} className="linker">
+          {user.fname} {user.lname}
+        </span>
       </div>
     );
   }

@@ -17,8 +17,6 @@ export default class Search extends Component {
     this.setState({ input: e.target.value });
     if (this.state.input !== "") {
       axios.get(`${BASEURL}/searchUsers/${this.state.input}`).then(resp => {
-        // console.log(resp.data.users);
-        // console.log(resp.data);
         this.setState({ suggestions: resp.data.users.slice(0, 10) });
       });
     } else {
@@ -40,7 +38,7 @@ export default class Search extends Component {
             value={this.state.input}
             placeholder="Search for someone"
           />
-          <input type="submit" value="search!" />
+          {/* <input type="submit" value="search!" /> */}
         </form>
         {this.state.suggestions.length ? (
           <SearchResults style={searchStyle} users={this.state.suggestions} />

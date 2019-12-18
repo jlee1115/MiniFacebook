@@ -14,6 +14,7 @@ export default class FeedPosts extends Component {
       loading: false,
       hasMore: true,
       numItems: DEFAULTNUMPOSTS
+      // intervalID: null
     };
     this.getPosts = this.getPosts.bind(this);
     this.loadMore = this.loadMore.bind(this);
@@ -23,8 +24,11 @@ export default class FeedPosts extends Component {
     //make an api req
     this.setState({ loading: true });
     this.getPosts();
-    setInterval(this.getPosts, 3000);
+    setInterval(this.getPosts, 1000);
   }
+  // componentWillUnmount() {
+  //   // clearInterval(this.state.intervalID);
+  // }
   getPosts() {
     let user = this.props.userID;
     if (user) {

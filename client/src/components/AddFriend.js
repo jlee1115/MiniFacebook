@@ -16,10 +16,11 @@ export default class AddFriend extends Component {
     };
     this.getInfo = this.getInfo.bind(this);
     this.handleFriendClick = this.handleFriendClick.bind(this);
+    this.removeFriend = this.removeFriend.bind(this);
   }
   componentDidMount() {
     this.getInfo();
-    setInterval(this.getInfo(), 2000);
+    setInterval(this.getInfo(), 3000);
     // let { userTo } = this.props;
     // axios
     //   .get(`${BASEURL}/checkIfFriend`, {
@@ -90,6 +91,13 @@ export default class AddFriend extends Component {
       }
     });
   }
+  removeFriend(e) {
+    e.preventDefault();
+    let { userTo } = this.props;
+    axios.post(`${BASEURL}/removeFriend`, { userTo }).then(resp => {
+      console.log(resp.data);
+    });
+  }
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />;
@@ -97,7 +105,10 @@ export default class AddFriend extends Component {
     return (
       <div>
         {this.state.isFriend ? (
-          <p className="mutedTxt">Already Friends</p>
+          <span>
+            <p className="mutedTxt">Already Friends</p>
+            {/* <p onClick={this.removeFriend}>X</p> */}
+          </span>
         ) : this.state.added || this.state.meAddedThem ? (
           <p className="mutedTxt">Added</p>
         ) : this.state.addedMe ? (

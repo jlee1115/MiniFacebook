@@ -3,7 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router";
 import UserProfile from "../components/UserProfile";
 import Header from "../components/Header";
-import PostDisplay from "../components/PostDisplay";
+import FriendRecs from "../components/FriendRecs";
 import CreatePost from "../components/CreatePost";
 import { BASEURL } from "../constants";
 import FeedPosts from "../components/FeedPosts";
@@ -18,7 +18,7 @@ axios.defaults.withCredentials = true;
 export default class Feed extends Component {
   constructor(props) {
     super(props);
-    let _isMounted = false;
+
     this.state = {
       user: null,
       redirectHome: false,
@@ -29,7 +29,6 @@ export default class Feed extends Component {
     this.handleProfileClick = this.handleProfileClick.bind(this);
   }
   componentDidMount() {
-    this._isMounted = true;
     //get the user if any
     //gets user
     axios.get(`${BASEURL}/session`).then(resp => {
@@ -42,7 +41,7 @@ export default class Feed extends Component {
       }
     });
     this.getPosts();
-    setInterval(this.getPosts, 3000);
+    setInterval(this.getPosts, 1000);
   }
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
@@ -58,9 +57,9 @@ export default class Feed extends Component {
   handleProfileClick() {
     this.setState({ redirectProfile: true });
   }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  // componentWillUnmount() {
+  //   // clearInterval(this.state.intervalID);
+  // }
   render() {
     if (this.state.redirectHome) {
       return <Redirect to="/" />;
@@ -101,6 +100,7 @@ export default class Feed extends Component {
           <div>
             <FriendRequests userLoggedIn={this.state.user} />
             <UsersSameAff userLoggedIn={this.state.user} />
+            <FriendRecs />
           </div>
           <div>
             <FriendList />

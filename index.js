@@ -7,8 +7,10 @@ const app = express();
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
 const userdb = require("./models/user");
 var proxy = require('http-proxy-middleware');
+
 
 //app.use(logger("dev"));
 // app.use(bodyParser.json());
@@ -47,10 +49,6 @@ app.use(
 );
 
 app.use(routes);
-// app.post("/login", function(req, res) {
-//   console.log("in post");
-//   res.send("yay from routes");
-// });
 const port = process.env.PORT || 8000;
 const server = http.createServer(app);
 const io = require("socket.io")(server);

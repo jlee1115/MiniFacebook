@@ -12,6 +12,8 @@ export default class LikeOption extends Component {
       liked: false,
       allLikes: [],
       showLikes: false
+      // intervalOne: null,
+      // intervalTwo: null
     };
     this.checkIfLiked = this.checkIfLiked.bind(this);
     this.addLike = this.addLike.bind(this);
@@ -23,10 +25,17 @@ export default class LikeOption extends Component {
   componentDidMount() {
     this.checkIfLiked();
     this.getAllLikes();
+    // setInterval(this.getAllLikes, 1500);
+    // setInterval(this.checkIfLiked, 1500);
     setInterval(this.getAllLikes, 1500);
     setInterval(this.checkIfLiked, 1500);
   }
+  componentWillUnmount() {
+    // clearInterval(this.intervalOne);
+    // clearInterval(this.intervalTwo);
+  }
   checkIfLiked() {
+    console.log("check if liked");
     axios
       .get(`${BASEURL}/checkIfLiked`, {
         params: {
@@ -35,6 +44,7 @@ export default class LikeOption extends Component {
         }
       })
       .then(resp => {
+        console.log(resp.data);
         if (!resp.data.err) {
           let likedOrNot = resp.data.liked;
           this.setState({ liked: likedOrNot });
@@ -42,19 +52,22 @@ export default class LikeOption extends Component {
       });
   }
   addLike() {
+    console.log("add like");
     axios
       .post(`${BASEURL}/likePost`, {
         user: this.props.userLoggedIn,
         postID: this.props.post.id
       })
       .then(resp => {
+        console.log(resp.data);
         if (!resp.data.err) {
           this.setState({ liked: !this.state.liked });
         }
       });
   }
+  //handles the modal and opens/closes
   handleCloseModal() {
-    console.log("closed");
+    // console.log("closed");
     this.setState({ showLikes: false });
   }
   getAllLikes() {

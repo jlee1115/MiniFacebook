@@ -6,6 +6,7 @@ users.init(function(err, data) {});
 friendReqs.init(function(err, data) {});
 friends.init(function(err, data) {});
 
+//sends a request to a user
 const sendReq = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -13,7 +14,6 @@ const sendReq = function(req, res) {
   }
 
   let userTo = req.body.userTo.email.replace("@", "");
-  console.log(userTo);
   friendReqs.put(userTo, userID, function(err, data) {
     if (err) {
       return res.send({ error: err.message });
@@ -22,6 +22,8 @@ const sendReq = function(req, res) {
     }
   });
 };
+
+//gets all the requests to a user
 const getReqs = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -42,6 +44,49 @@ const getReqs = function(req, res) {
     }
   });
 };
+//removed a friend
+const removeFriend = function(req, res) {
+  //remove friend
+  let userTo = req.body.userTo;
+  let userID = req.session.userID;
+  let inx1 = -1;
+  let inx2 = -1;
+  friends.get(userTo, function(err, data) {
+    if (!err && data) {
+      for (const item of data) {
+        if (item.value === userID) {
+          inx1 = item.inx;
+        }
+      }
+      if (inx1 !== -1) {
+        //removes it
+        friends.remove(userTo, inx1, function(errRem, dataRem) {
+          if (!errRem) {
+            //gets the second inx
+            friends.get(userID, function(err2, data2) {
+              if (!err2 && data2) {
+                for (const item2 of data2) {
+                  if (item2.value === userTo) {
+                    inx2 = item2.inx;
+                  }
+                }
+                if (inx2 !== -1) {
+                  friends.remove(userID, inx2, function(errRem2, dataRem) {
+                    if (!errRem2) {
+                      return res.send({ success: true });
+                    }
+                  });
+                }
+              }
+            });
+          }
+        });
+      }
+    }
+  });
+};
+
+//allows a user to respond to a request
 const respondToReq = function(req, res) {
   let accept = req.body.whetherAccept;
   let userFrom = req.body.userFrom;
@@ -75,6 +120,7 @@ const respondToReq = function(req, res) {
                   if (e2) {
                     return res.send({ error: e2.message });
                   }
+                  req.session.friends[userFrom] = true;
                   return res.send({ error: null });
                 });
               });
@@ -85,6 +131,8 @@ const respondToReq = function(req, res) {
     }
   });
 };
+
+//gets all of a user's friends
 const getFriends = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -104,6 +152,8 @@ const getFriends = function(req, res) {
     }
   });
 };
+
+// Checks if a user with the specified ID is friends with the user logged in
 const isFriend = function(req, res) {
   let userID = req.session.userID;
   let otherUser = req.query.user;
@@ -122,6 +172,7 @@ const isFriend = function(req, res) {
     }
   });
 };
+//checks if a user has sent a friend request to / from the user logged in
 const hasSentFriendReq = function(req, res) {
   let userID = req.session.userID;
   let otherUser = req.query.user;
@@ -153,12 +204,39 @@ const hasSentFriendReq = function(req, res) {
   });
 };
 
+// Gets all possible recommendations to send requests
+const fs = require("fs");
+const getFriendRequests = function(req, res) {
+  let user = req.session.userID;
+  //   let user = req.params.user;
+  // let user = "chaoupenn";
+  fs.readFile("inputFile.txt", "utf-8", (err, data) => {
+    if (err) throw err;
+    let results = [];
+    let dataSplit = data.split("\n");
+    for (let i = 0; i < dataSplit.length; i++) {
+      let line = dataSplit[i].split(" ");
+
+      if (line[0] === user) {
+        for (let j = 1; j < line.length; j++) {
+          results.push(line[j].trim().replace("\r", ""));
+        }
+      }
+    }
+    return res.send({ recs: results });
+    console.log(results);
+    // return res.send({ users: data });
+  });
+};
+
 const friendsdb = {
   sendReq,
   getReqs,
   getFriends,
   respondToReq,
   isFriend,
-  hasSentFriendReq
+  hasSentFriendReq,
+  removeFriend,
+  getFriendRequests
 };
 module.exports = friendsdb;

@@ -44,11 +44,11 @@ export default class UserProfile extends Component {
             <p className="userInfo" style={{ fontWeight: "bold" }}>
               interests
             </p>
-            <p className="userInfo" style={{ fontWeight: 200 }}>
+            <div className="userInfo" style={{ fontWeight: 200 }}>
               {user.interests.map(a => (
                 <p className="userInfo">{a}</p>
               ))}
-            </p>
+            </div>
           </div>
 
           {/* <div style={friends}>FRIENDS!</div> */}

@@ -1,10 +1,24 @@
 const keyvaluestore = require("./keyvaluestore");
 const userPics = new keyvaluestore("userPics");
 userPics.init(function(err, data) {});
-// const upload = multer({
-//   storage: storage,
-//   limits: { fileSize: 1000000 }
-// }).single("myImage");
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const s3 = aws.config.loadFromPath("./config.json");
+
+const uploadHelper = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "some-bucket",
+    acl: "public-read",
+    key: function(req, file, cb) {
+      cb(null, req.session.userID);
+    }
+  })
+});
+const upload = function(req, res) {
+  uploadHelper();
+};
 const uploadProfPic = function(req, res) {
   let formData = req.body;
   console.log("FILE", req.file);
@@ -17,12 +31,9 @@ const uploadProfPic = function(req, res) {
     }
   });
 };
-// const uploadProfPic = upload(req, res, (err) => {
-//   console.log(req.file)
-//   console.log(req,body)
-// })
 
 const userPicsdb = {
-  uploadProfPic
+  uploadProfPic,
+  upload
 };
 module.exports = userPicsdb;

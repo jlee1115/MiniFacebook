@@ -8,6 +8,7 @@ const userPicsdb = require("../models/userPics");
 const router = express.Router();
 const chatdb = require("../models/chat");
 const friendsdb = require("../models/friend");
+const getRecs = require("../getRecs");
 
 //MIDDLEWARE
 // router.use(userdb.manageSession);
@@ -22,7 +23,7 @@ router.get("/session", userdb.getSession);
 //logs the user out
 router.post("/logout", userdb.logout);
 router.get("/getUser", userdb.getUserPage);
-router.post("/uploadPicProfile", userPicsdb.uploadProfPic);
+router.post("/uploadPicProfile", userPicsdb.upload);
 
 //POST functions
 router.get("/userPosts", postdb.getUserPosts);
@@ -54,6 +55,12 @@ router.post("/respondToReq", friendsdb.respondToReq);
 router.get("/searchUsers/:input", userdb.userSearchSuggestions);
 router.get("/friendReqSent", friendsdb.hasSentFriendReq);
 
+
 //chat
 router.get("/getChat", chatdb.getChat);
+
+router.post("/removeFriend", friendsdb.removeFriend);
+router.get("/friendReqs", friendsdb.getFriendRequests);
+router.get("/configHome", userdb.configHome);
+
 module.exports = router;
