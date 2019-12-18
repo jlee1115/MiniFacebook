@@ -4,7 +4,7 @@
 - Julie Lee: yuylee
 - Maria Tu: mariatu
 
-## Team member contribution:
+## Features Implemented:
 
 ### Cindy:
 
