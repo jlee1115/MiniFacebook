@@ -22,8 +22,7 @@ export default class Feed extends Component {
       user: null,
       redirectHome: false,
       posts: null,
-      redirectProfile: false,
-      intervalID: null
+      redirectProfile: false
     };
     this.getPosts = this.getPosts.bind(this);
     this.handleProfileClick = this.handleProfileClick.bind(this);
@@ -41,7 +40,7 @@ export default class Feed extends Component {
       }
     });
     this.getPosts();
-    this.state.intervalID = setInterval(this.getPosts, 1000);
+    setInterval(this.getPosts, 1000);
   }
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
@@ -57,9 +56,9 @@ export default class Feed extends Component {
   handleProfileClick() {
     this.setState({ redirectProfile: true });
   }
-  componentWillUnmount() {
-    clearInterval(this.state.intervalID);
-  }
+  // componentWillUnmount() {
+  //   // clearInterval(this.state.intervalID);
+  // }
   render() {
     if (this.state.redirectHome) {
       return <Redirect to="/" />;
