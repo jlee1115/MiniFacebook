@@ -138,7 +138,7 @@ public class RecommendationDriver{
 	  double diff = Double.MAX_VALUE;
 	  while (diff>threshold) { //run until convergence, meets threshold
 		  iter(interDir1,interDir2,reducers);//run iter
-		  if (i%3==0) //run diff only one in four iterations
+		  if (i%4==0) //run diff only one in four iterations
 			  diff = diff(interDir1,interDir2,diffDir,interDir1);//gets max diff 
 		  //Swap intermediate dirs
 		  String temp = interDir1;
