@@ -15,7 +15,7 @@ const get_session = function(req, res) {
       if (err) {
         return res.send({ error: err.message });
       } else if (!data) {
-        return res.send({ error: "Something went wrong" });
+        return res.send({ error: "Something went wrong", redirect: true });
       } else {
         let dataObj = JSON.parse(data[0].value);
         //this comes out fine
@@ -196,6 +196,9 @@ const logout = function(req, res) {
   });
 };
 const getAllUsersOnServer = function(req, res) {
+  if (!req.session.friends) {
+    return res.send({ redirect: true });
+  }
   usersOnServer.scanKeys(function(err, data) {
     if (err) {
       return res.send({ error: err.message });

@@ -91,9 +91,8 @@ export default class ProfilePage extends Component {
           <div>
             <UserProfile user={this.state.userOfPage} />
             {this.state.userIDOfLoggedIn ===
-            this.state.userOfPage.email.replace("@", "") ? (
-              <FriendRecs />
-            ) : (
+            this.state.userOfPage.email.replace("@", "") ? // <FriendRecs />
+            null : (
               // <p>me</p>
               <AddFriend userTo={this.state.userOfPage} />
             )}

@@ -8,7 +8,7 @@ export default class FriendRecs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: []
+      friends: null
     };
   }
   componentDidMount() {
@@ -20,12 +20,24 @@ export default class FriendRecs extends Component {
     });
   }
   render() {
+    if (!this.state.friends) {
+      return (
+        <div>
+          <h5>Loading users</h5>
+        </div>
+      );
+    }
     return (
-      <div>
+      <div className="userDisplay">
         <h4>Friend Recommendations</h4>
-        {this.state.friends.map(f => (
+        {!this.state.friends.length ? (
+          <p>No friends</p>
+        ) : (
+          this.state.friends.map(f => <Friend userID={f} isRec={true} />)
+        )}
+        {/* {this.state.friends.map(f => (
           <Friend userID={f} isRec={true} />
-        ))}
+        ))} */}
       </div>
     );
   }

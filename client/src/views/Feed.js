@@ -99,6 +99,7 @@ export default class Feed extends Component {
           <div>
             <FriendRequests userLoggedIn={this.state.user} />
             <UsersSameAff userLoggedIn={this.state.user} />
+            <FriendRecs />
           </div>
           <div>
             <FriendList />

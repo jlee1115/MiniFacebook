@@ -27,7 +27,7 @@ export default class UsersSameAff extends Component {
     }
     return (
       <div className="userDisplay">
-        Other users with the Affiliation: {this.props.userLoggedIn.affiliation}
+        <h5>Other users with the Affiliation: {this.props.userLoggedIn.affiliation}</h5>
         {this.state.users.map(u => {
           return <ActiveUser user={u} />;
         })}

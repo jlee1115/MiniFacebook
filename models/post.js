@@ -38,7 +38,7 @@ const getPosts = function(req, res) {
       for (let i = 0; i < data.length; i++) {
         let poster = data[i].key;
         //THIS GETS POSTS BY FRIENDS ONLY
-        if (req.session.friends[poster]) {
+        if (req.session.friends[poster] || poster === req.session.userID) {
           items.push(JSON.parse(data[i].value));
         }
       }
