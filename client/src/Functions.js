@@ -19,6 +19,16 @@ const createMessage = ({message = "", sender = ""} = { })=>(
 
 	)
 
+const loadMessage = ({message = "", sender = "", time = ""} = { })=>(
+	{
+		id:uuidv4(),
+		time,
+		message,
+		sender	
+	}
+
+)
+
 const createChat = ({messages = [], name = "Group", users = []} = {})=>(
 	{
 		id:uuidv4(),
@@ -36,5 +46,6 @@ const getTime = (date)=>{
 module.exports = {
 	createMessage,
 	createChat,
-	createUser
+	createUser,
+	loadMessage
 }

@@ -3,7 +3,7 @@ import SideBar from './Sidebar';
 import ChatHeading from './ChatHeading';
 import Messages from './Messages';
 import MessageInput from './MessageInput';
-import { GROUP_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING, PRIVATE_MESSAGE} from '../Events';
+import { GROUP_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, TYPING, PRIVATE_MESSAGE, LOAD_MESSAGE} from '../Events';
 import axios from "axios";
 import { BASEURL } from "../constants";
 axios.defaults.withCredentials = true;
@@ -19,8 +19,6 @@ export default class ChatContainer extends Component {
             activeChat:null
         };
     }
-
-
 
     componentDidMount() {
         const { socket } = this.props;
@@ -42,6 +40,18 @@ export default class ChatContainer extends Component {
               });
             }
           });
+
+        axios.get(`${BASEURL}/getChat`).then(resp => {
+            console.log("hello");
+            if (resp.data.error || !resp.data) {
+                console.log("error in here?");
+              return;
+            } else {
+              let chat = resp.data.chat;
+              console.log("chat:", chat);
+              //socket.emit(LOAD_MESSAGE, chat);
+            }
+        });
     }
 
     sendPrivateMessage = (receiver) => {

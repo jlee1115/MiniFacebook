@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client'
 import axios from "axios";
-import { USER_CONNECTED, LOGOUT } from '../Events';
+import { USER_CONNECTED, LOGOUT, LOAD_MESSAGE } from '../Events';
 import { BASEURL } from "../constants";
 import ChatContainer from './ChatContainer';
 axios.defaults.withCredentials = true;
@@ -32,6 +32,19 @@ export default class Layout extends Component {
               socket.emit(USER_CONNECTED, user);
             }
           });
+
+          axios.get(`${BASEURL}/getChat`).then(resp => {
+            console.log("hello");
+            if (resp.data.error || !resp.data) {
+                console.log("error in here?");
+              return;
+            } else {
+              let chat = resp.data.chat;
+              console.log("chat:", chat);
+              const {socket} = this.state;
+              //socket.emit(LOAD_MESSAGE, chat);
+            }
+        });
     }
 
     initSocket = () => {
