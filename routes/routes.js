@@ -21,7 +21,7 @@ router.get("/session", userdb.getSession);
 //logs the user out
 router.post("/logout", userdb.logout);
 router.get("/getUser", userdb.getUserPage);
-router.post("/uploadPicProfile", userPicsdb.uploadProfPic);
+router.post("/uploadPicProfile", userPicsdb.upload);
 
 //POST functions
 router.get("/userPosts", postdb.getUserPosts);
@@ -52,4 +52,5 @@ router.post("/respondToReq", friendsdb.respondToReq);
 //misc functionality
 router.get("/searchUsers/:input", userdb.userSearchSuggestions);
 router.get("/friendReqSent", friendsdb.hasSentFriendReq);
+router.post("/removeFriend", friendsdb.removeFriend);
 module.exports = router;

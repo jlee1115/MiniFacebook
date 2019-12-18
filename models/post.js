@@ -36,7 +36,11 @@ const getPosts = function(req, res) {
     } else {
       let items = [];
       for (let i = 0; i < data.length; i++) {
-        items.push(JSON.parse(data[i].value));
+        let poster = data[i].key;
+        //THIS GETS POSTS BY FRIENDS ONLY
+        if (req.session.friends[poster]) {
+          items.push(JSON.parse(data[i].value));
+        }
       }
 
       items.sort(function(a, b) {
@@ -59,7 +63,6 @@ const getUserPosts = function(req, res) {
       for (let i = 0; i < data.length; i++) {
         dataResult.push(JSON.parse(data[i].value));
       }
-      //   dataObjs = data.map(item => JSON.parse(item));
       dataResult.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
       });

@@ -3,13 +3,12 @@ const users = new keyvaluestore("users");
 const usersOnServer = new keyvaluestore("usersOnServer");
 const SHA3 = require("crypto-js/sha3");
 const session = require("express-session");
+const friends = new keyvaluestore("friends");
 users.init(function(err, data) {});
 usersOnServer.init(function(err, data) {});
+friends.init(function(err, data) {});
 
 const get_session = function(req, res) {
-  //   console.log("in get");
-  //   console.log(req.session.id);
-  //   console.log(req.session);
   let userID = req.session.userID;
   if (userID) {
     users.get(userID, function(err, data) {
@@ -23,9 +22,7 @@ const get_session = function(req, res) {
         return res.send({ user: dataObj, userID: userID });
       }
     });
-    // res.send({ email: req.session.userEmail });
   } else {
-    console.log("NOOOOOOOO");
     return res.send({ user: null, redirect: true });
   }
 };
@@ -66,34 +63,43 @@ const check_login = function(req, res) {
       if (!userFetched) {
         return res.send({ error: "No user found" });
       }
-      //   console.log("ID", req.session.id);
-      req.session.userID = userID;
-
-      //add it to the server
-      // putOnServer(req.session.userID.replace("@", ""), userFetched);
-      usersOnServer.exists(req.session.userID.replace("@", ""), function(
-        errExists,
-        dataExists
-      ) {
-        if (!errExists && !dataExists) {
-          usersOnServer.put(
-            req.session.userID.replace("@", ""),
-            JSON.stringify(userFetched),
-            function(err2, data2) {
-              //do something
-              if (err2) {
-                return res.send({ error: "cannot add to server" });
-                // console.log(err);
-              } else {
-                //this is just 1
-                return res.send({ error: null });
-                // console.log("DAAAAATAAAA", data);
-              }
-            }
-          );
-        } else {
-          return res.send({ error: null });
+      let friendList = {};
+      friends.get(userID, function(e, f) {
+        if (!e && f) {
+          for (let i = 0; i < f.length; i++) {
+            friendList[f[i].value] = true;
+          }
         }
+        req.session.userID = userID;
+        req.session.friends = friendList;
+        //add it to the server
+        // putOnServer(req.session.userID.replace("@", ""), userFetched);
+        usersOnServer.exists(req.session.userID.replace("@", ""), function(
+          errExists,
+          dataExists
+        ) {
+          if (!errExists && !dataExists) {
+            usersOnServer.put(
+              req.session.userID.replace("@", ""),
+              JSON.stringify(userFetched),
+              function(err2, data2) {
+                //do something
+                if (err2) {
+                  return res.send({
+                    error: "cannot add to server"
+                  });
+                  // console.log(err);
+                } else {
+                  //this is just 1
+                  return res.send({ error: null, session: req.session });
+                  // console.log("DAAAAATAAAA", data);
+                }
+              }
+            );
+          } else {
+            return res.send({ error: null, session: req.session });
+          }
+        });
       });
     }
   });
@@ -146,6 +152,7 @@ const signup = function(req, res) {
         } else {
           //successfully put shit in, update the session
           req.session.userID = userID;
+          req.session.friends = {};
 
           usersOnServer.put(userID, newUser, function(err3, data3) {
             //do something
@@ -156,12 +163,10 @@ const signup = function(req, res) {
               return res.send({ error: null });
             }
           });
-          // return res.send({ error: null });
         }
       });
     }
   });
-  //create the new user here.
 };
 const logout = function(req, res) {
   let inx = -1;
@@ -183,6 +188,7 @@ const logout = function(req, res) {
           return res.send({ error: err.message });
         } else {
           req.session.userID = null;
+          req.session.friends = null;
           return res.send({ error: null });
         }
       });
@@ -191,7 +197,6 @@ const logout = function(req, res) {
 };
 const getAllUsersOnServer = function(req, res) {
   usersOnServer.scanKeys(function(err, data) {
-    //do something
     if (err) {
       return res.send({ error: err.message });
     } else if (!data) {
@@ -199,7 +204,10 @@ const getAllUsersOnServer = function(req, res) {
     } else {
       let items = [];
       for (let i = 0; i < data.length; i++) {
-        items.push(JSON.parse(data[i].value));
+        let key = data[i].key;
+        if (req.session.friends[key]) {
+          items.push(JSON.parse(data[i].value));
+        }
       }
       return res.send({ users: items });
     }
