@@ -2,8 +2,8 @@ const keyvaluestore = require("./keyvaluestore");
 const postLikes = new keyvaluestore("postLikes");
 postLikes.init(function(err, data) {});
 
+//get the likes of a post by its id
 const getLikes = function(req, res) {
-  //   let user = req.query.user;
   let postID = req.query.postID;
   postLikes.get(postID, function(err, data) {
     if (err) {
@@ -20,6 +20,7 @@ const getLikes = function(req, res) {
     }
   });
 };
+//allows a user to like a post
 const addLike = function(req, res) {
   let user = req.body.user;
   let postID = req.body.postID;
@@ -32,6 +33,7 @@ const addLike = function(req, res) {
     }
   });
 };
+//checks whether a user has liked a post
 const checkLike = function(req, res) {
   let user = JSON.parse(req.query.user);
   let postID = req.query.postID;
@@ -51,6 +53,7 @@ const checkLike = function(req, res) {
     }
   });
 };
+//unlike a post
 const unlike = function(req, res) {
   let postID = req.body.postID;
   let user = req.body.user;

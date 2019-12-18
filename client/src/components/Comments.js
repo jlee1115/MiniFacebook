@@ -9,12 +9,16 @@ export default class Comments extends Component {
     super(props);
     this.state = {
       comments: null
+      // intervalID: null
     };
     this.getComments = this.getComments.bind(this);
   }
   componentDidMount() {
     this.getComments();
     setInterval(this.getComments, 3000);
+  }
+  componentWillUnmount() {
+    // clearInterval(this.state.intervalID);
   }
   getComments() {
     //get the comments

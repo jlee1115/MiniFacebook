@@ -24,10 +24,6 @@ export default class Friend extends Component {
           return;
         } else {
           let user = resp.data.user;
-          // if (!user) {
-          //   this.setState({ redirectHome: true });
-          //   return;
-          // }
 
           this.setState({ user: user });
         }

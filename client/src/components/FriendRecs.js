@@ -29,15 +29,12 @@ export default class FriendRecs extends Component {
     }
     return (
       <div className="userDisplay">
-        <h4>Friend Recommendations</h4>
+        <h5>Friend Recommendations</h5>
         {!this.state.friends.length ? (
           <p>No friends</p>
         ) : (
           this.state.friends.map(f => <Friend userID={f} isRec={true} />)
         )}
-        {/* {this.state.friends.map(f => (
-          <Friend userID={f} isRec={true} />
-        ))} */}
       </div>
     );
   }

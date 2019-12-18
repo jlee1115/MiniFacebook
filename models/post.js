@@ -2,6 +2,7 @@ const keyvaluestore = require("./keyvaluestore");
 const posts = new keyvaluestore("posts");
 posts.init(function(err, data) {});
 
+//adds a post with time, user to/from, id, privacy, and content
 const addPost = function(req, res) {
   let post = req.body.post;
   let date = post.date;
@@ -18,7 +19,7 @@ const addPost = function(req, res) {
     id,
     public
   });
-  //do something
+  //puts it in the table
   posts.put(toUser.email.replace("@", ""), newPost, function(err, data) {
     if (err) {
       //respond to error
@@ -28,6 +29,7 @@ const addPost = function(req, res) {
     }
   });
 };
+//gets all the posts that are from friends or are public
 const getPosts = function(req, res) {
   if (!req.session.userID) {
     return res.send({ redirect: true });
@@ -53,6 +55,7 @@ const getPosts = function(req, res) {
     }
   });
 };
+//gets all the posts to a user
 const getUserPosts = function(req, res) {
   let user = req.query.user;
   let page = req.query.page;

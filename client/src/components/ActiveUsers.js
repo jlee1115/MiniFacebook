@@ -11,13 +11,17 @@ export default class ActiveUsers extends Component {
     this.state = {
       users: null,
       redirect: false
+      // intervalID: null
     };
     this.getUsers = this.getUsers.bind(this);
   }
   componentDidMount() {
     this.getUsers();
-    setInterval(this.getUsers, 2000);
+    setInterval(this.getUsers, 1500);
   }
+  // componentWillUnmount() {
+  //   // clearInterval(this.state.intervalID);
+  // }
   getUsers() {
     axios.get(`${BASEURL}/usersOnServer`).then(resp => {
       if (resp.data.error || resp.data.redirect) {

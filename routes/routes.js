@@ -55,4 +55,5 @@ router.get("/searchUsers/:input", userdb.userSearchSuggestions);
 router.get("/friendReqSent", friendsdb.hasSentFriendReq);
 router.post("/removeFriend", friendsdb.removeFriend);
 router.get("/friendReqs", friendsdb.getFriendRequests);
+router.get("/configHome", userdb.configHome);
 module.exports = router;

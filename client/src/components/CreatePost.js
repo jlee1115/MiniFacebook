@@ -89,7 +89,7 @@ export default class CreatePost extends Component {
             <span onClick={this.handlePublicClick}>
               Public {this.state.public ? <FaToggleOn /> : <FaToggleOff />}
             </span>
-            <button class="btn btn-secondary btn-sm" type="submit" value="Login">
+            <button className="btn btn-secondary btn-sm" type="submit" value="Login">
               Post
             </button>
           </div>
