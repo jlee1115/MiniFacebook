@@ -78,3 +78,21 @@
 ### Declaration
 
 All of the content written was by us.
+
+### Instructions to run
+
+Make sure credentials are filled in in config.json file.
+Run:
+
+```
+npm install
+```
+
+to get all of the dependencies
+Run:
+
+```
+npm run dev
+```
+
+to run the server and client concurrently.
