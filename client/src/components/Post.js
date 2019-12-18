@@ -24,7 +24,6 @@ export default class Post extends Component {
     this.handleClickNameTo = this.handleClickNameTo.bind(this);
     this.addComment = this.addComment.bind(this);
     this.getComments = this.getComments.bind(this);
-    // this.checkIfLiked = this.checkIfLiked.bind(this);
   }
   componentDidMount() {
     // this.getComments();
@@ -58,6 +57,7 @@ export default class Post extends Component {
       this.setState({ comments: resp.data.comments });
     });
   }
+  //adds a comment
   addComment(e) {
     e.preventDefault();
     let postID = this.props.post.id;

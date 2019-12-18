@@ -20,7 +20,7 @@ export default class AddFriend extends Component {
   }
   componentDidMount() {
     this.getInfo();
-    setInterval(this.getInfo(), 2000);
+    setInterval(this.getInfo(), 3000);
     // let { userTo } = this.props;
     // axios
     //   .get(`${BASEURL}/checkIfFriend`, {

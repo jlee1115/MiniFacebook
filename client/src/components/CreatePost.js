@@ -3,6 +3,7 @@ import axios from "axios";
 import uuid from "uuid-random";
 import { BASEURL } from "../../src/constants";
 import { checkContent } from "../constants";
+import { FaToggleOff, FaToggleOn } from "react-icons/fa";
 axios.defaults.withCredentials = true;
 
 export default class CreatePost extends Component {
@@ -13,10 +14,12 @@ export default class CreatePost extends Component {
       to: null,
       from: null,
       date: null,
-      id: null
+      id: null,
+      public: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.submitPost = this.submitPost.bind(this);
+    this.handlePublicClick = this.handlePublicClick.bind(this);
   }
   componentDidMount() {
     let userTo = this.props.userTo;
@@ -40,7 +43,8 @@ export default class CreatePost extends Component {
       content: this.state.content,
       toUser: this.props.userTo,
       fromUser: this.props.userFrom,
-      id: uuid()
+      id: uuid(),
+      public: this.state.public
     };
     //makes the post
     axios.post(`${BASEURL}/addPost`, { post: post }).then(resp => {
@@ -52,6 +56,9 @@ export default class CreatePost extends Component {
       }
       //   console.log(resp);
     });
+  }
+  handlePublicClick() {
+    this.setState({ public: !this.state.public });
   }
   render() {
     if (!this.state.to || !this.state.from) {
@@ -79,7 +86,10 @@ export default class CreatePost extends Component {
             value={this.state.content}
           />
           <div>
-            <button class="btn btn-secondary btn-sm" type="submit" value="Login">
+            <span onClick={this.handlePublicClick}>
+              Public {this.state.public ? <FaToggleOn /> : <FaToggleOff />}
+            </span>
+            <button className="btn btn-secondary btn-sm" type="submit" value="Login">
               Post
             </button>
           </div>

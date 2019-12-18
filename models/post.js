@@ -2,6 +2,7 @@ const keyvaluestore = require("./keyvaluestore");
 const posts = new keyvaluestore("posts");
 posts.init(function(err, data) {});
 
+//adds a post with time, user to/from, id, privacy, and content
 const addPost = function(req, res) {
   let post = req.body.post;
   let date = post.date;
@@ -9,14 +10,16 @@ const addPost = function(req, res) {
   let toUser = post.toUser;
   let content = post.content;
   let id = post.id;
+  let public = post.public;
   let newPost = JSON.stringify({
     content,
     date,
     fromUser,
     toUser,
-    id
+    id,
+    public
   });
-  //do something
+  //puts it in the table
   posts.put(toUser.email.replace("@", ""), newPost, function(err, data) {
     if (err) {
       //respond to error
@@ -26,6 +29,7 @@ const addPost = function(req, res) {
     }
   });
 };
+//gets all the posts that are from friends or are public
 const getPosts = function(req, res) {
   if (!req.session.userID) {
     return res.send({ redirect: true });
@@ -37,8 +41,9 @@ const getPosts = function(req, res) {
       let items = [];
       for (let i = 0; i < data.length; i++) {
         let poster = data[i].key;
+        let val = JSON.parse(data[i].value);
         //THIS GETS POSTS BY FRIENDS ONLY
-        if (req.session.friends[poster] || poster === req.session.userID) {
+        if (req.session.friends[poster] || poster === req.session.userID || val.public) {
           items.push(JSON.parse(data[i].value));
         }
       }
@@ -50,6 +55,7 @@ const getPosts = function(req, res) {
     }
   });
 };
+//gets all the posts to a user
 const getUserPosts = function(req, res) {
   let user = req.query.user;
   let page = req.query.page;

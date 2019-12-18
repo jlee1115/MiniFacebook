@@ -17,18 +17,18 @@ axios.defaults.withCredentials = true;
 export default class Feed extends Component {
   constructor(props) {
     super(props);
-    let _isMounted = false;
+
     this.state = {
       user: null,
       redirectHome: false,
       posts: null,
-      redirectProfile: false
+      redirectProfile: false,
+      intervalID: null
     };
     this.getPosts = this.getPosts.bind(this);
     this.handleProfileClick = this.handleProfileClick.bind(this);
   }
   componentDidMount() {
-    this._isMounted = true;
     //get the user if any
     //gets user
     axios.get(`${BASEURL}/session`).then(resp => {
@@ -41,7 +41,7 @@ export default class Feed extends Component {
       }
     });
     this.getPosts();
-    setInterval(this.getPosts, 3000);
+    this.state.intervalID = setInterval(this.getPosts, 1000);
   }
   getPosts() {
     axios.get(`${BASEURL}/allPosts`).then(resp => {
@@ -58,7 +58,7 @@ export default class Feed extends Component {
     this.setState({ redirectProfile: true });
   }
   componentWillUnmount() {
-    this._isMounted = false;
+    clearInterval(this.state.intervalID);
   }
   render() {
     if (this.state.redirectHome) {

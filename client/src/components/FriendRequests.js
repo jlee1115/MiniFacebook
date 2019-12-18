@@ -30,7 +30,7 @@ export default class FriendRequests extends Component {
       return <Redirect to="/" />;
     }
     return (
-      <div>
+      <div className="userDisplay">
         <h5>Friend Requests</h5>
         {this.state.requests.map(r => {
           return <FriendReq request={r} />;

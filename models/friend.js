@@ -6,6 +6,7 @@ users.init(function(err, data) {});
 friendReqs.init(function(err, data) {});
 friends.init(function(err, data) {});
 
+//sends a request to a user
 const sendReq = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -21,6 +22,8 @@ const sendReq = function(req, res) {
     }
   });
 };
+
+//gets all the requests to a user
 const getReqs = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -41,6 +44,7 @@ const getReqs = function(req, res) {
     }
   });
 };
+//removed a friend
 const removeFriend = function(req, res) {
   //remove friend
   let userTo = req.body.userTo;
@@ -81,6 +85,8 @@ const removeFriend = function(req, res) {
     }
   });
 };
+
+//allows a user to respond to a request
 const respondToReq = function(req, res) {
   let accept = req.body.whetherAccept;
   let userFrom = req.body.userFrom;
@@ -125,6 +131,8 @@ const respondToReq = function(req, res) {
     }
   });
 };
+
+//gets all of a user's friends
 const getFriends = function(req, res) {
   let userID = req.session.userID;
   if (!userID) {
@@ -144,6 +152,8 @@ const getFriends = function(req, res) {
     }
   });
 };
+
+// Checks if a user with the specified ID is friends with the user logged in
 const isFriend = function(req, res) {
   let userID = req.session.userID;
   let otherUser = req.query.user;
@@ -162,6 +172,7 @@ const isFriend = function(req, res) {
     }
   });
 };
+//checks if a user has sent a friend request to / from the user logged in
 const hasSentFriendReq = function(req, res) {
   let userID = req.session.userID;
   let otherUser = req.query.user;
@@ -192,6 +203,8 @@ const hasSentFriendReq = function(req, res) {
     }
   });
 };
+
+// Gets all possible recommendations to send requests
 const fs = require("fs");
 const getFriendRequests = function(req, res) {
   let user = req.session.userID;

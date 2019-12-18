@@ -11,20 +11,23 @@ export default class ActiveUsers extends Component {
     super(props);
     this.state = {
       users: null
+      // intervalID: null
     };
     this.getFriends = this.getFriends.bind(this);
   }
   componentDidMount() {
     this.getFriends();
-    setInterval(this.getFriends, 3000);
+    setInterval(this.getFriends, 1000);
   }
   getFriends() {
     axios.get(`${BASEURL}/allFriends`).then(resp => {
       if (!resp.data.error) {
-        // console.log("o m");
         this.setState({ users: resp.data.users });
       }
     });
+  }
+  componentWillUnmount() {
+    // clearInterval(this.state.intervalID);
   }
   render() {
     if (!this.state.users) {

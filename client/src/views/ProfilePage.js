@@ -23,11 +23,10 @@ export default class ProfilePage extends Component {
     };
     this.handleHomeClick = this.handleHomeClick.bind(this);
   }
+  //get the user logged in and the user of the page
   componentDidMount() {
     let { userID } = this.props.match.params;
-    console.log(this.props.match);
     //user ID of page
-    console.log("USER", userID);
     this.setState({ userIDOfPage: userID });
     //get the user logged in
     axios.get(`${BASEURL}/session`).then(resp => {
@@ -35,14 +34,11 @@ export default class ProfilePage extends Component {
         this.setState({ redirectHome: true, userLoggedIn: false });
         return;
       } else {
-        console.log("PROFILE DID MOUNT", resp.data);
         let user = resp.data.user;
         if (!user) {
           this.setState({ redirectHome: true });
           return;
         }
-        console.log(user); //what do i do if this is null though
-        // let fname = user.fname;
         this.setState({ userLoggedIn: user, userIDOfLoggedIn: resp.data.userID });
       }
     });
@@ -56,14 +52,15 @@ export default class ProfilePage extends Component {
           this.setState({ redirectHome: true });
           return;
         }
-        console.log(user); //if this is null - should redirect??
-        // let fname = user.fname;
         this.setState({ userOfPage: user });
       }
     });
   }
   handleHomeClick() {
     this.setState({ redirectFeed: true });
+  }
+  componentWillUnmount() {
+    console.log("unmounted");
   }
 
   render() {
@@ -91,8 +88,7 @@ export default class ProfilePage extends Component {
           <div>
             <UserProfile user={this.state.userOfPage} />
             {this.state.userIDOfLoggedIn ===
-            this.state.userOfPage.email.replace("@", "") ? // <FriendRecs />
-            null : (
+            this.state.userOfPage.email.replace("@", "") ? null : ( // <FriendRecs />
               // <p>me</p>
               <AddFriend userTo={this.state.userOfPage} />
             )}

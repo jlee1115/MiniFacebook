@@ -4,6 +4,7 @@ import axios from "axios";
 import AddFriend from "./AddFriend";
 axios.defaults.withCredentials = true;
 
+//displays each user, a link to their profile, and friend status
 export default class ActiveUser extends Component {
   constructor(props) {
     super(props);

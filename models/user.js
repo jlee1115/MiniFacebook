@@ -8,6 +8,10 @@ users.init(function(err, data) {});
 usersOnServer.init(function(err, data) {});
 friends.init(function(err, data) {});
 
+const configHome = function(req, res) {
+  req.session.userID = null;
+  req.session.friends = null;
+};
 const get_session = function(req, res) {
   let userID = req.session.userID;
   if (userID) {
@@ -43,6 +47,8 @@ const check_login = function(req, res) {
   let userID = req.body.user.userID;
   let password = req.body.user.password;
   let userFetched = null;
+  req.session.userID = null;
+  req.session.friends = null;
   users.get(userID, function(err, data) {
     //user not found: err exists
     if (err) {
@@ -177,7 +183,9 @@ const logout = function(req, res) {
     if (err) {
       return res.send({ error: err.message });
     } else if (!data) {
-      return res.send({ error: "Something went wrong" });
+      req.session.userID = null;
+      req.session.friends = null;
+      return res.send({ error: "Something went wrong", redirect: true });
     } else {
       inx = data[0].inx;
       // if (inx === -1) {
@@ -277,6 +285,7 @@ const userdb = {
   logout,
   getAllUsersOnServer,
   getUsersWithSameAff,
-  userSearchSuggestions
+  userSearchSuggestions,
+  configHome
 };
 module.exports = userdb;
