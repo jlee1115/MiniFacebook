@@ -29,6 +29,10 @@
 - Post privacy - by default only visible to friends but can be public to everyone
 
 ### Julie:
+- Script to read in necessary data from DynamoDB tables (friends, interests, affiliations)
+  - Format accordingly for the MapReduce input file
+- Hadoop Adsorption Algorithm that will generate friend recommendations for each node in the form of a text file
+- Static friendship visualizer (see your friends)
 
 ### Maria:
 - Chat Server
